@@ -1,33 +1,54 @@
 'use client'
 
 import { useEditor, EditorContent, BubbleMenu } from '@tiptap/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import StarterKit from '@tiptap/starter-kit';
 import styles from '../styles/Editor.module.css';
 import Underline from '@tiptap/extension-underline';
 import BulletList from '@tiptap/extension-bullet-list';
 
 const Tiptap = () => {
+  const [contentLength, setContentLength] = useState(0);
+  const [title, setTitle] = useState('');
   const editor = useEditor({
     extensions: [
       StarterKit,
       Underline,
       BulletList
     ],
-    content: '<h1>This is a title</h1><p>Hello World! 🌎️</p>',
+    content: '<p>Start writing here</p>',
   })
 
   useEffect(() => {
     if (editor) {
-      const handler = () => {
-        console.log(editor.getJSON()) // Récupère le contenu sous forme de HTML à chaque changement
+      const handler = async() => {
+        const length = editor.getJSON().content.length
+        if (contentLength < length && editor.getJSON().content[length - 2].type === 'paragraph') {
+          setContentLength(length)
+          console.log(editor.getJSON())
+          // const response = await fetch('http://localhost:3000/files', {
+          //   method: 'POST',
+          //   headers: { 'Content-type': 'application/json' },
+          //   body: { title, content: editor.getJSON() },
+          //   user: 1,
+          // });
+
+          // const data = await response.json();
+
+          fetch('https://wordwarden-dev-db.vercel.app/', {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json' },
+            body: { content: editor.getJSON() },
+          })
+          console.log(title)
+        }
       }
       editor.on('update', handler)
       return () => {
         editor.off('update', handler) // Nettoie le gestionnaire d'événements lors du démontage du composant
       }
     }
-  }, [editor])
+  }, [editor, contentLength])
 
   return (
     <div className={styles.container}>
@@ -75,6 +96,7 @@ const Tiptap = () => {
           Bullet-List
         </button>
       </BubbleMenu>}
+      <input onChange={(e) => setTitle(e.target.value)} value={title} />
       <EditorContent editor={editor} className={styles.editor}/>
     </div>
   )
