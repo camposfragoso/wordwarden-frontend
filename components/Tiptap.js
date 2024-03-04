@@ -34,10 +34,9 @@ const Tiptap = () => {
   useEffect(() => {
     if (editor) {
       const handler = () => {
-        // console.log('first log of content')
-        // console.log(content)
-        // console.log(editor.getJSON().content)
-        setContent(editor.getJSON().content)
+        console.log(editor.getText())
+        setContent(editor.getText())
+        // setContent(editor.getJSON().content)
       }
       editor.on('update', handler)
       return () => {
@@ -117,8 +116,8 @@ const Tiptap = () => {
       <div className={styles.separator}>Lorem</div>
       <div className={styles.answerContainer}>
         <div className={styles.prompt}>
-          {content && <div>{content.map(item => <div>{JSON.stringify(item, null, 2)}</div>)}</div>}
-          {/* {content && <div>{JSON.stringify(content, null, 2)}</div>} */}
+          {/* {content && <div>{content.map(item => <div>{JSON.stringify(item, null, 2)}</div>)}</div>} */}
+          {content && <div>{JSON.stringify(content, null, 2)}</div>}
           <button onClick={handleSendClick}>SEND</button>
         </div>
         <div className={styles.verticalSeparator}>Lorem</div>
