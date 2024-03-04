@@ -7,9 +7,20 @@ import styles from '../styles/Editor.module.css';
 import Underline from '@tiptap/extension-underline';
 import BulletList from '@tiptap/extension-bullet-list';
 
+// create function that defines if text has changed enough to be sent - NE PAS LE FAIRE CE SOIR
+
+// ---------------------------------------------
+// TO DO
+// button to send tiptap object
+// display tiptap object sent
+// display llm answer
+// overline llm response sentence
+// ---------------------------------------------
+
 const Tiptap = () => {
-  const [contentLength, setContentLength] = useState(0);
   const [title, setTitle] = useState('');
+  const [content, setContent] = useState(null);
+  const [llmAnswer, setLlmAnswer] = useState(null);
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -19,36 +30,36 @@ const Tiptap = () => {
     content: '<p>Start writing here</p>',
   })
 
+  // HANDLE WRITING
   useEffect(() => {
     if (editor) {
-      const handler = async() => {
-        const length = editor.getJSON().content.length
-        if (contentLength < length && editor.getJSON().content[length - 2].type === 'paragraph') {
-          setContentLength(length)
-          console.log(editor.getJSON())
-          // const response = await fetch('http://localhost:3000/files', {
-          //   method: 'POST',
-          //   headers: { 'Content-type': 'application/json' },
-          //   body: { title, content: editor.getJSON() },
-          //   user: 1,
-          // });
-
-          // const data = await response.json();
-
-          fetch('https://wordwarden-dev-db.vercel.app/', {
-            method: 'POST',
-            headers: { 'Content-type': 'application/json' },
-            body: { content: editor.getJSON() },
-          })
-          console.log(title)
-        }
+      const handler = () => {
+        // console.log('first log of content')
+        // console.log(content)
+        // console.log(editor.getJSON().content)
+        setContent(editor.getJSON().content)
       }
       editor.on('update', handler)
       return () => {
         editor.off('update', handler) // Nettoie le gestionnaire d'événements lors du démontage du composant
       }
     }
-  }, [editor, contentLength])
+  }, [editor, content])
+
+  // HANDLE SEND BUTTON -- DEV
+  const handleSendClick = async() => {
+    console.log(content)
+    const response = await fetch('http://localhost:3000/mistral', {
+      method: 'POST',
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify({ answer: content }),
+      // user: 1,
+    });
+
+    const data = await response.json();
+    console.log(data)
+    setLlmAnswer(data);
+  }
 
   return (
     <div className={styles.container}>
@@ -96,8 +107,25 @@ const Tiptap = () => {
           Bullet-List
         </button>
       </BubbleMenu>}
-      <input onChange={(e) => setTitle(e.target.value)} value={title} />
+      <div className={styles.titleContainer}>
+        <label for='title'>Title (not useful for now) : </label>
+        <input onChange={(e) => setTitle(e.target.value)} value={title} name='title' />
+      </div>
+
       <EditorContent editor={editor} className={styles.editor}/>
+
+      <div className={styles.separator}>Lorem</div>
+      <div className={styles.answerContainer}>
+        <div className={styles.prompt}>
+          {content && <div>{content.map(item => <div>{JSON.stringify(item, null, 2)}</div>)}</div>}
+          {/* {content && <div>{JSON.stringify(content, null, 2)}</div>} */}
+          <button onClick={handleSendClick}>SEND</button>
+        </div>
+        <div className={styles.verticalSeparator}>Lorem</div>
+        <div className={styles.answer}>
+          {llmAnswer && <div>{JSON.stringify(llmAnswer, null, 2)}</div>}
+        </div>
+      </div>
     </div>
   )
 }

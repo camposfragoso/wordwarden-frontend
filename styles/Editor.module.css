@@ -7,3 +7,28 @@
 .editor {
   width: 90%;
 }
+.separator {
+  margin: 20px;
+  height: 1px;
+  border: 1px solid black;
+  width: 90%;
+  overflow: hidden;
+}
+.answerContainer {
+  width: 95%;
+  display: flex;
+  justify-content: space-between;
+  min-height: 100px;
+}
+.prompt {
+  width: 45%;
+}
+.verticalSeparator {
+  width: 1px;
+  height: 400px;
+  overflow: hidden;
+  border: 1px solid black;
+}
+.answer {
+  width: 45%;
+}
