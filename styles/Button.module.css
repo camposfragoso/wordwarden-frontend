@@ -1,0 +1,17 @@
+.button{
+  border-radius: 10px;
+  border: 1px solid var(--black);
+  background: none;
+  font-family: Normal;
+  padding: 10px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin: 10px 0;
+}
+
+.button:hover{
+  color: var(--darkGrey);
+  border: 1px dashed var(--darkGrey);
+  /* border-radius: 0px; */
+  transition: 0.2s;
+}
