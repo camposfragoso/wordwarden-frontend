@@ -1,7 +1,7 @@
-import { Extension } from '@tiptap/core';
+import { Extension, Mark } from '@tiptap/core';
 
-export const CustomHighlightExtension = Extension.create({
-  name: 'customHighlight',
+export const CustomHighlightExtension = Mark.create({
+  name: 'CustomHighlightExtension',
 
   addGlobalAttributes() {
     return [
