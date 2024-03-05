@@ -6,26 +6,30 @@ import StarterKit from '@tiptap/starter-kit';
 import styles from '../styles/Editor.module.css';
 import Underline from '@tiptap/extension-underline';
 import BulletList from '@tiptap/extension-bullet-list';
+import CustomHighlightExtension from './Tiptap_custom_extensions/Highlight_extension';
 
 // create function that defines if text has changed enough to be sent - NE PAS LE FAIRE CE SOIR
 
 // ---------------------------------------------
 // TO DO
-// button to send tiptap object
-// display tiptap object sent
-// display llm answer
-// overline llm response sentence
+// button to send tiptap object --DONE
+// display tiptap object sent --DONE
+// display llm answer --DONE
+// overline llm response sentence --DONE
 // ---------------------------------------------
+
 
 const Tiptap = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState(null);
   const [llmAnswer, setLlmAnswer] = useState(null);
+  
   const editor = useEditor({
     extensions: [
       StarterKit,
       Underline,
-      BulletList
+      BulletList,
+      CustomHighlightExtension,
     ],
     content: '<p>Start writing here</p>',
   })
@@ -59,6 +63,35 @@ const Tiptap = () => {
     console.log(data)
     setLlmAnswer(data);
   }
+
+  // HANDLE LLM STATES
+  useEffect(() => {
+    const highlightText = (excerpt, color, hoverTitle, hoverContent) => {
+      const searchText = excerpt;
+      editor.state.doc.descendants((node, pos) => {
+        if (node.isText && node.text.includes(searchText)) {
+          const startIndex = node.text.indexOf(searchText) + pos;
+          const endIndex = startIndex + searchText.length;
+
+          editor.chain().focus().setTextSelection({ from: startIndex, to: endIndex })
+            .setMark('customHighlight', { highlightColor: color, hoverTitle, hoverContent })
+            .run();
+        }
+      });
+    };
+
+    if (llmAnswer) {
+      for (let assistant in llmAnswer) {
+        assistant.forEach(item => {
+          highlightText(item.excerpt, 'yellow', `Devil's advocate`, item.proposition);
+      })
+    }
+  }
+
+    // llmAnswer && llmAnswer.forEach(item => {
+    //   highlightText(item.excerpt, 'yellow', `Devil's advocate`, item.proposition);
+    // });
+  }, [llmAnswer]);
 
   return (
     <div className={styles.container}>
