@@ -5,9 +5,11 @@ import Link from "next/link"
 import Input from "./Input"
 import FormItem from "./FormItem";
 import Circle from "./Circle";
+import { useRouter } from 'next/router';
 
 import { useState, useEffect } from "react"
 function Signup() {
+  const router = useRouter()
   const [formStep, setFormStep] = useState(0)
   // const [data, setData] = useState({})
   const [field, setField] = useState("")
@@ -38,7 +40,7 @@ function Signup() {
     handleClick();
     setSubstanceOrStyle(value)
     console.log(field, degree, substanceOrStyle)
-    window.location("./editor")
+    router.push("/editor")
   }
 
   const formComponents = [
@@ -67,7 +69,7 @@ function Signup() {
   return (
     <div className="standardPage">
       <TopLogo />
-      {formComponents[formStep].component}
+      {formComponents.length > formStep && formComponents[formStep].component}
       <div style={{display:"flex", position:"absolute", bottom:"30vh"}}>
         
       {formComponents.map((elem, index)=>{
