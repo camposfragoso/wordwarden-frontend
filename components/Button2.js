@@ -11,7 +11,7 @@ function Button2(props) {
     )
   } else {
     return (
-      <button style={props.full && {width:"100%"}} className={styles.button} onClick={()=>props.onClick(props.clickParameter)}>
+      <button style={props.full && {width:"100%"}} value={props.txt} className={styles.button} onClick={(e)=>props.onClick(e.target.value)}>
         {props.txt}
       </button>
     )

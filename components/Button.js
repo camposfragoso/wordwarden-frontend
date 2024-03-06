@@ -11,7 +11,7 @@ function Button(props) {
     )
   } else {
     return (
-      <button className={styles.button} onClick={()=>props.onClick(props.clickParameter)}>
+      <button className={styles.button} onClick={()=>props.onClick(props.valueToPass)}>
         {props.txt}
       </button>
     )
