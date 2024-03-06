@@ -2,7 +2,6 @@ import { useEditor, EditorContent, BubbleMenu } from '@tiptap/react';
 import { useEffect, useState } from 'react';
 import StarterKit from '@tiptap/starter-kit';
 import styles from '../styles/Editor.module.css';
-import TextStyle from '@tiptap/extension-text-style';
 import Underline from '@tiptap/extension-underline';
 import BulletList from '@tiptap/extension-bullet-list';
 import Highlight from '@tiptap/extension-highlight';
@@ -20,7 +19,6 @@ const Tiptap = () => {
   const editor = useEditor({
     extensions: [
       StarterKit,
-      TextStyle,
       Underline,
       BulletList,
       Highlight.configure({
@@ -103,7 +101,7 @@ const Tiptap = () => {
   
     if (llmAnswer && editor) {
       Object.entries(llmAnswer).forEach(([assistant, content]) => {
-        let colors = { 'devil': '#E6379F', "sum": '#40E637' }
+        let colors = { 'devil': '#E6379F', "sum": '#40E637', 'elaborator': 'lightgreen' }
         // console.log('content:', content);
         content.forEach(item => {
           item.importance >= 8 && highlightText(item.excerpt, colors[assistant], item.proposition, assistant);
