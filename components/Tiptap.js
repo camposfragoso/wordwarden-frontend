@@ -5,23 +5,9 @@ import styles from '../styles/Editor.module.css';
 import TextStyle from '@tiptap/extension-text-style';
 import Underline from '@tiptap/extension-underline';
 import BulletList from '@tiptap/extension-bullet-list';
-<<<<<<< HEAD
-import { CustomHighlight } from './Tiptap_custom_extensions/Highlight_extension';
-// create function that defines if text has changed enough to be sent - NE PAS LE FAIRE CE SOIR
-
-// ---------------------------------------------
-// TO DO
-// button to send tiptap object --DONE
-// display tiptap object sent --DONE
-// display llm answer --DONE
-// overline llm response sentence --DONE
-// ---------------------------------------------
-
-=======
 import Highlight from '@tiptap/extension-highlight';
 import AssistantMark from './Tiptap_custom_extensions/AssistantMark';
 import PropositionMark from './Tiptap_custom_extensions/PropositionMark';
->>>>>>> c6b04b1d8e25a2c3d222718e5cf1d971e1f64513
 
 const Tiptap = () => {
   const [title, setTitle] = useState('');
@@ -37,15 +23,11 @@ const Tiptap = () => {
       TextStyle,
       Underline,
       BulletList,
-<<<<<<< HEAD
-      CustomHighlight,
-=======
       Highlight.configure({
         multicolor: true,
       }),
       AssistantMark,
       PropositionMark,
->>>>>>> c6b04b1d8e25a2c3d222718e5cf1d971e1f64513
     ],
     content,
   })
@@ -100,9 +82,6 @@ const Tiptap = () => {
     })
     setLlmAnswer(data);
   }
-<<<<<<< HEAD
-  
-=======
 
   // HANDLE LLM STATES
   useEffect(() => {
@@ -132,7 +111,6 @@ const Tiptap = () => {
       });
     }
   }, [llmAnswer, editor]);
->>>>>>> c6b04b1d8e25a2c3d222718e5cf1d971e1f64513
 
   return (
     <div className={styles.container}>
