@@ -26,7 +26,7 @@ function Home() {
           <Link href="/"><span class="link">Learn More</span></Link>
         <div className={styles.container}>
 
-          <Button txt="START WRITING" link="/signup"/>
+          <Button txt="START WRITING" link="/initiate"/>
           <Link href="/"><span className="link">I already have an account</span></Link>
           <Link href="/editor"><span className="link">Dev mode : editor</span></Link>
         </div>
