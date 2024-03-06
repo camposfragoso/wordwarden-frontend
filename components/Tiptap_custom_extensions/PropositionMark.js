@@ -7,14 +7,15 @@ const PropositionMark = Mark.create({
     return {
       proposition: {
         default: null,
-        parseHTML: element => element.getAttribute('data-custom'),
+        parseHTML: element => element.getAttribute('proposition'),
         renderHTML: attributes => {
           if (!attributes.proposition) {
             return {}
           }
 
           return {
-            'data-custom': attributes.proposition,
+            'assistant': attributes.assistant,
+            'proposition': attributes.proposition,
           }
         },
       },
@@ -25,6 +26,7 @@ const PropositionMark = Mark.create({
     return [
       {
         tag: 'span[proposition]',
+        tag: 'span[assistant]'
       },
     ]
   },

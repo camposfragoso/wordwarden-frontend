@@ -7,14 +7,27 @@ const AssistantMark = Mark.create({
     return {
       assistant: {
         default: null,
-        parseHTML: element => element.getAttribute('data-custom'),
+        parseHTML: element => element.getAttribute('assistant'),
         renderHTML: attributes => {
           if (!attributes.assistant) {
             return {}
           }
 
           return {
-            'data-custom': attributes.assistant,
+            'assistant': attributes.assistant,
+          }
+        },
+      },
+      proposition: {
+        default: null,
+        parseHTML: element => element.getAttribute('proposition'),
+        renderHTML: attributes => {
+          if (!attributes.proposition) {
+            return {}
+          }
+
+          return {
+            'proposition': attributes.proposition,
           }
         },
       },
@@ -24,7 +37,7 @@ const AssistantMark = Mark.create({
   parseHTML() {
     return [
       {
-        tag: 'span[assistant]',
+        tag: 'span[assistant][proposition]',
       },
     ]
   },
