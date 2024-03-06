@@ -4,10 +4,10 @@ import { useEditor, EditorContent, BubbleMenu } from '@tiptap/react';
 import { useEffect, useState } from 'react';
 import StarterKit from '@tiptap/starter-kit';
 import styles from '../styles/Editor.module.css';
+import TextStyle from '@tiptap/extension-text-style';
 import Underline from '@tiptap/extension-underline';
 import BulletList from '@tiptap/extension-bullet-list';
-import CustomHighlightExtension from './Tiptap_custom_extensions/Highlight_extension';
-
+import { CustomHighlight } from './Tiptap_custom_extensions/Highlight_extension';
 // create function that defines if text has changed enough to be sent - NE PAS LE FAIRE CE SOIR
 
 // ---------------------------------------------
@@ -27,9 +27,10 @@ const Tiptap = () => {
   const editor = useEditor({
     extensions: [
       StarterKit,
+      TextStyle,
       Underline,
       BulletList,
-      CustomHighlightExtension,
+      CustomHighlight,
     ],
     content: '<p>Start writing here</p>',
   })
@@ -63,35 +64,7 @@ const Tiptap = () => {
     console.log(data)
     setLlmAnswer(data);
   }
-
-  // HANDLE LLM STATES
-  useEffect(() => {
-    const highlightText = (excerpt, color, hoverTitle, hoverContent) => {
-      const searchText = excerpt;
-      editor.state.doc.descendants((node, pos) => {
-        if (node.isText && node.text.includes(searchText)) {
-          const startIndex = node.text.indexOf(searchText) + pos;
-          const endIndex = startIndex + searchText.length;
-
-          editor.chain().focus().setTextSelection({ from: startIndex, to: endIndex })
-            .setMark('customHighlight', { highlightColor: color, hoverTitle, hoverContent })
-            .run();
-        }
-      });
-    };
-
-    if (llmAnswer) {
-      for (let assistant in llmAnswer) {
-        assistant.forEach(item => {
-          highlightText(item.excerpt, 'yellow', `Devil's advocate`, item.proposition);
-      })
-    }
-  }
-
-    // llmAnswer && llmAnswer.forEach(item => {
-    //   highlightText(item.excerpt, 'yellow', `Devil's advocate`, item.proposition);
-    // });
-  }, [llmAnswer]);
+  
 
   return (
     <div className={styles.container}>
@@ -155,7 +128,37 @@ const Tiptap = () => {
         </div>
         <div className={styles.verticalSeparator}>Lorem</div>
         <div className={styles.answer}>
-          {llmAnswer && <div>{JSON.stringify(llmAnswer, null, 2)}</div>}
+        {llmAnswer && (
+  <div>
+    <h2>Devil</h2>
+    {llmAnswer.devil.map((item, index) => (
+      <div key={index}>
+        <p><strong>Excerpt:</strong> {item.excerpt}</p>
+        <p><strong>Proposition:</strong> {item.proposition}</p>
+        <p><strong>Importance:</strong> <span style={{color: item.importance > 8 ? 'green' : 'red'}}>{item.importance}</span></p>
+      </div>
+    ))}
+
+    <h2>Sum</h2>
+    {llmAnswer.sum.map((item, index) => (
+      <div key={index}>
+        <p><strong>Excerpt:</strong> {item.excerpt}</p>
+        <p><strong>Proposition:</strong> {item.proposition}</p>
+        <p><strong>Importance:</strong> <span style={{color: item.importance > 8 ? 'green' : 'red'}}>{item.importance}</span></p>
+      </div>
+    ))}
+
+  <h2>Elaborator</h2>
+    {llmAnswer.elaborator.map((item, index) => (
+      <div key={index}>
+        <p><strong>Excerpt:</strong> {item.excerpt}</p>
+        <p><strong>Proposition:</strong> {item.proposition}</p>
+        <p><strong>Importance:</strong> <span style={{color: item.importance > 8 ? 'green' : 'red'}}>{item.importance}</span></p>
+      </div>
+    ))}
+  </div>
+)}
+
         </div>
       </div>
     </div>
