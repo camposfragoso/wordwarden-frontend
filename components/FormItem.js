@@ -2,6 +2,8 @@ import Input from "./Input"
 import Button from "./Button"
 import Button2 from "./Button2"
 
+import styles from "../styles/FormItem.module.css"
+
 import {useState} from "react"
 
 function FormItem(props) {
@@ -11,9 +13,9 @@ function FormItem(props) {
     setValueToPass(value)
     console.log(value)
   }
-
+  //formitem with textinput
   if (!props.select) {
-    return (<div style={{ display: "flex" }} >
+    return (<div className={styles.questionContainer} >
       <div style={{ backgroundColor: "var(--black)", width: "80px", height: "80px", borderRadius: "50%", display: "flex", color: "var(--white)", alignItems: "center", justifyContent: "center", padding: "10px", marginRight: "15px" }}>
         <p style={{ fontSize: "3rem" }}>
           {romanNumerals[props.position - 1]}
@@ -21,8 +23,15 @@ function FormItem(props) {
       </div>
       <div className="questionContainer">
         <h2>{props.question}</h2>
-        <Input placeholder={props.placeholder} value={valueToPass} onChange={(e)=>handleChange(e.target.value)}/>
+        <input placeholder={props.placeholder} value={valueToPass} onChange={(e)=>handleChange(e.target.value)} type={props.type}/>
+        <div style={{display:"flex", alignItems:"center", fontSize:"1.5rem", color:"var(--red)"}}>
+
         <Button txt="OK" onClick={props.onClick} valueToPass={valueToPass}/>
+        {props.error &&(
+
+        <p>{props.errorMessage}</p>
+        )}
+        </div>
       </div>
 
     </div>)
@@ -34,10 +43,10 @@ function FormItem(props) {
       )
     })
     return (
-      <div style={{ display: "flex" }} >
+      <div className={styles.questionContainer} >
       <div style={{ backgroundColor: "var(--black)", width: "80px", height: "80px", borderRadius: "50%", display: "flex", color: "var(--white)", alignItems: "center", justifyContent: "center", padding: "10px", marginRight: "15px" }}>
         <p style={{ fontSize: "3rem" }}>
-          {romanNumerals[props.position - 1]}
+          {romanNumerals[props.position]}
         </p>
       </div>
       <div className="questionContainer">

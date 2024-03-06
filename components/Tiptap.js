@@ -199,13 +199,13 @@ const Tiptap = () => {
     ))}
 
   <h2>Elaborator</h2>
-    {llmAnswer.elaborator.map((item, index) => (
+    {/* {llmAnswer.elaborator.map((item, index) => (
       <div key={index}>
         <p><strong>Excerpt:</strong> {item.excerpt}</p>
         <p><strong>Proposition:</strong> {item.proposition}</p>
         <p><strong>Importance:</strong> <span style={{color: item.importance > 8 ? 'green' : 'red'}}>{item.importance}</span></p>
       </div>
-    ))}
+    ))} */}
   </div>
 )}
 
