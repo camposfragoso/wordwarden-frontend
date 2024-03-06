@@ -16,11 +16,11 @@ function Home() {
           <h2>YOUR PERSONAL TEAM OF WRITING ASSISTANTS</h2>
           <div className={styles.colorContainer}>
 
-            <Circle size="40" color="1" />
-            <Circle size="40" color="2" />
-            <Circle size="40" color="3" />
-            <Circle size="40" color="4" />
-            <Circle size="40" color="5" />
+            <Circle size="40" color="color1" />
+            <Circle size="40" color="color2" />
+            <Circle size="40" color="color3" />
+            <Circle size="40" color="color4" />
+            <Circle size="40" color="color5" />
           </div>
         </div>
           <Link href="/"><span class="link">Learn More</span></Link>
