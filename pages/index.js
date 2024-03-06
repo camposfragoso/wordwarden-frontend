@@ -4,7 +4,7 @@ import Tiptap from '../components/Tiptap';
 function Index() {
   return <div>
       <Home />
-      <Tiptap />
+      {/* <Tiptap /> */}
     </div>
 }
 

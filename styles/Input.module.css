@@ -1,0 +1,19 @@
+.input{
+  border: none;
+  border-bottom: 1px solid var(--darkGrey);
+  font-family: Normal;
+  color: var(--darkGrey);
+  font-size: 3rem;
+  padding: 15px 0;
+  margin: 10px 0;
+  
+}
+
+.input:focus{
+  outline: none;
+}
+
+.input::placeholder{
+  color: var(--darkGrey);
+
+}
