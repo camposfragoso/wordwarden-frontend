@@ -6,7 +6,6 @@ import Underline from '@tiptap/extension-underline';
 import BulletList from '@tiptap/extension-bullet-list';
 import Highlight from '@tiptap/extension-highlight';
 import AssistantMark from './Tiptap_custom_extensions/AssistantMark';
-import PropositionMark from './Tiptap_custom_extensions/PropositionMark';
 import { HoverExtension } from './Tiptap_custom_extensions/AddHoverEvent';
 
 const Tiptap = () => {
@@ -27,7 +26,6 @@ const Tiptap = () => {
         multicolor: true,
       }),
       AssistantMark,
-      PropositionMark,
       HoverExtension,
     ],
     content,
