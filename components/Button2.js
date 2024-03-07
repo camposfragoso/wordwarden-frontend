@@ -3,7 +3,7 @@ import Link from "next/link"
 function Button2(props) {
   if (props.link) {
     return (
-      <Link href={props.link} style={props.full && {width:"100%"}}>
+      <Link href={props.link} style={props.full && {width:"90%"}}>
         <button className={styles.button} >
           {props.txt}
         </button>
@@ -11,7 +11,7 @@ function Button2(props) {
     )
   } else {
     return (
-      <button style={props.full && {width:"100%"}} value={props.txt} className={styles.button} onClick={(e)=>props.onClick(e.target.value)}>
+      <button style={props.full && {width:"90%"}} value={props.txt} className={styles.button} onClick={(e)=>props.onClick(e.target.value)}>
         {props.txt}
       </button>
     )
