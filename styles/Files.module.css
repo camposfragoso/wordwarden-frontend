@@ -1,0 +1,18 @@
+.filesContainer{
+  /* background-color: black; */
+  width: 90%;
+  max-width: 1400px;
+  min-height: 100vh;
+  /* border: var(--black) 1px solid; */
+}
+.path{
+  height: 10vh;
+  display: flex;
+  align-items: center;
+}
+.files{
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+  height: 90vh;
+}
