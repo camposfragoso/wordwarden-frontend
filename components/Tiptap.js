@@ -20,6 +20,14 @@ const Tiptap = () => {
   const [showHighLightMenu, setShowHighlightMenu] = useState(false)
   const [threadDiv, setThreadDiv] = useState([])
 
+  const getAllAttributes = (element) => {
+    const attributes = {};
+    for (let i = 0; i < element.attributes.length; i++) {
+      const attr = element.attributes[i];
+      attributes[attr.name] = attr.value;
+    }
+    return attributes;
+  };
 
   // Editor with events
   const editor = useEditor({
@@ -36,49 +44,49 @@ const Tiptap = () => {
       AssistantMark,
       HoverExtension.configure({
         onMouseOver: (view, event) => {
-          const assistant = event.target.getAttribute('assistant');
-          const proposition = event.target.getAttribute('proposition');
-          const excerpt = event.target.textContent
-          console.log(threadDiv)
-          setThreadDiv(prevThreadDiv => {
-            const isExisting = prevThreadDiv.some(thread => thread.proposition === proposition);
-            if (assistant && !isExisting) {
-              return [...prevThreadDiv, { assistant, excerpt, proposition, hover: true, clicked: false }];
-            }
-            return prevThreadDiv;
+          const attributes = getAllAttributes(event.target);
+          const excerpt = event.target.textContent;
+        
+          Object.entries(attributes).forEach(([assistant, proposition]) => {
+            setThreadDiv(prevThreadDiv => {
+              const index = prevThreadDiv.findIndex(thread => thread.assistant === assistant && thread.proposition === proposition);
+        
+              if (index !== -1) {
+                return prevThreadDiv;
+              } else {
+                return [...prevThreadDiv, { assistant, proposition, excerpt, hover: true, clicked: false }];
+              }
+            });
           });
         },
         onMouseOut: (view, event) => {
-          const proposition = event.target.getAttribute('proposition');
-          setThreadDiv(currentThreads =>
-            currentThreads.map(thread =>
-              thread.proposition === proposition ? { ...thread, hover: false } : thread
-            ).filter(thread => thread.clicked || thread.hover)
-          );
+ 
+          const attributes = getAllAttributes(event.target);
+          Object.entries(attributes).forEach(([assistant, proposition]) => {
+            setThreadDiv(currentThreads =>
+              currentThreads.map(thread =>
+                thread.assistant === assistant && thread.proposition === proposition
+                  ? { ...thread, hover: false }
+                  : thread
+              ).filter(thread => thread.clicked || thread.hover)
+            );
+          });
         },
         onClick: (view, event) => {
-
-          const getAllAttributes = (element) => {
-            const attributes = {};
-            for (let i = 0; i < element.attributes.length; i++) {
-              const attr = element.attributes[i];
-              attributes[attr.name] = attr.value;
-            }
-            return attributes;
-          };
-
-          // TO RESOLVE  _-------------------------------------------------------------------- TO RESOLVE
-          const assistant = getAllAttributes(event.target);
-          const proposition = event.target.getAttribute('proposition');
+          const attributes = getAllAttributes(event.target);
           const excerpt = event.target.textContent;
-          console.log(event.target)
-          
-          setThreadDiv(currentThreads =>
-            currentThreads.map(thread =>
-              thread.proposition === proposition ? { ...thread, clicked: true } : thread
-            )
-          );  
+        
+          Object.entries(attributes).forEach(([assistant, proposition]) => {
+            setThreadDiv(currentThreads =>
+              currentThreads.map(thread =>
+                thread.assistant === assistant && thread.proposition === proposition
+                  ? { ...thread, clicked: true, excerpt }
+                  : thread
+              )
+            );
+          });
         }
+        
       }),
     ],
     content,
