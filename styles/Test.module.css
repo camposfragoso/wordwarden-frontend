@@ -1,0 +1,46 @@
+.container {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(250 250 250 / 1);
+    position: relative; /* Added to establish a positioning context for absolute positioning inside */
+}
+
+.editor {
+    background-color: white;
+    width: 50%;
+    height: 50%;
+    overflow-y: scroll;
+    border-radius: 2%;
+    padding: 1%;
+    z-index: 1; /* Ensure the editor is above the threadDiv if they overlap */
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+
+}
+
+.threadDiv {
+    width: 20%;
+    height: 50%;
+    position: absolute;
+    right: 0; 
+    margin-right: 5%; 
+    margin-left: 2%; 
+    top: 50%; 
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    overflow-y: auto;
+}
+
+.threadCard {
+    height: 20%;
+    flex: 0 0 auto;
+    width: 80%;
+    background-color: white;
+    border-radius: 5%;
+    margin-bottom: 2%;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+}
