@@ -72,6 +72,29 @@ h2{
   margin: 20px 0;
 font-weight: 200;
 }
+
+input{
+  border: none;
+  border-bottom: 1px solid var(--darkGrey);
+  font-family: Normal;
+  color: var(--darkGrey);
+  font-size: 2rem;
+  padding: 15px 0;
+  margin: 10px 0;
+  width: 80%;
+  
+}
+
+input:focus{
+  outline: none;
+}
+
+input::placeholder{
+  color: var(--darkGrey);
+
+}
+
+
 .standardPage{
   height: 100vh;
   background-color: var(--white);

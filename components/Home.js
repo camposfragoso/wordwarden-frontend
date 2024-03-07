@@ -16,17 +16,17 @@ function Home() {
           <h2>YOUR PERSONAL TEAM OF WRITING ASSISTANTS</h2>
           <div className={styles.colorContainer}>
 
-            <Circle size="40" color="1" />
-            <Circle size="40" color="2" />
-            <Circle size="40" color="3" />
-            <Circle size="40" color="4" />
-            <Circle size="40" color="5" />
+            <Circle size="40" color="color1" />
+            <Circle size="40" color="color2" />
+            <Circle size="40" color="color3" />
+            <Circle size="40" color="color4" />
+            <Circle size="40" color="color5" />
           </div>
         </div>
           <Link href="/"><span class="link">Learn More</span></Link>
         <div className={styles.container}>
 
-          <Button txt="START WRITING" link="/signup"/>
+          <Button txt="START WRITING" link="/initiate"/>
           <Link href="/"><span className="link">I already have an account</span></Link>
           <Link href="/editor"><span className="link">Dev mode : editor</span></Link>
           <Link href="/test"><span className="link">Dev mode : final editor</span></Link>
