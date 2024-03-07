@@ -29,6 +29,7 @@ function Home() {
           <Button txt="START WRITING" link="/signup"/>
           <Link href="/"><span className="link">I already have an account</span></Link>
           <Link href="/editor"><span className="link">Dev mode : editor</span></Link>
+          <Link href="/test"><span className="link">Dev mode : final editor</span></Link>
         </div>
       </div>
     </div>
