@@ -8,15 +8,18 @@ import Highlight from '@tiptap/extension-highlight';
 import AssistantMark from './Tiptap_custom_extensions/AssistantMark';
 import { HoverExtension } from './Tiptap_custom_extensions/AddHoverEvent';
 
+const MIN_IMPORTANCE = 8;
+
 const Tiptap = () => {
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState('Document title');
   const [content, setContent] = useState('Our planet is getting hotter. Since the Industrial Revolution—an event that spurred the use of fossil fuels in everything from power plants to transportation—Earth has warmed by 1 degree Celsius, about 2 degrees Fahrenheit.  That may sound insignificant, but 2023 was the hottest year on record, and all 10 of the hottest years on record have occurred in the past decade.  Global warming and climate change are often used interchangeably as synonyms, but scientists prefer to use “climate change” when describing the complex shifts now affecting our planet’s weather and climate systems.  Climate change encompasses not only rising average temperatures but also natural disasters, shifting wildlife habitats, rising seas, and a range of other impacts. All of these changes are emerging as humans continue to add heat-trapping greenhouse gases, like carbon dioxide and methane, to the atmosphere.');
 
   const [llmAnswer, setLlmAnswer] = useState({ "devil": [ { "excerpt": "Since the Industrial Revolution—an event that spurred the use of fossil fuels in everything from power plants to transportation—Earth has warmed by 1 degree Celsius, about 2 degrees Fahrenheit.", "proposition": "The Industrial Revolution's reliance on fossil fuels may not be the sole cause of Earth's temperature increase, as natural climate fluctuations could also play a significant role.", "importance": "8" }, { "excerpt": "2023 was the hottest year on record, and all 10 of the hottest years on record have occurred in the past decade.", "proposition": "The recent spike in global temperatures could be a temporary fluctuation rather than a long-term trend, and other factors such as solar activity might contribute to this increase.", "importance": "7" }, { "excerpt": "Climate change encompasses not only rising average temperatures but also natural disasters, shifting wildlife habitats, rising seas, and a range of other impacts.", "proposition": "The term 'climate change' is overly broad and misleading, as it implies that all these impacts are directly caused by human-induced global warming. Some may be naturally occurring phenomena unrelated to greenhouse gas emissions.", "importance": "6" } ], "sum": [ { "excerpt": "Our planet is getting hotter.", "proposition": "The Earth's temperature is rising.", "importance": "8" }, { "excerpt": "2023 was the hottest year on record, and all 10 of the hottest years on record have occurred in the past decade.", "proposition": "The last decade had the 10 hottest years on record.", "importance": "9" }, { "excerpt": "Global warming and climate change are often used interchangeably as synonyms, but scientists prefer to use “climate change” when describing the complex shifts now affecting our planet’s weather and climate systems.", "proposition": "Scientists differentiate between global warming and climate change.", "importance": "7" }, { "excerpt": "Climate change encompasses not only rising average temperatures but also natural disasters, shifting wildlife habitats, rising seas, and a range of other impacts.", "proposition": "Climate change includes various effects like temperature rise, natural disasters, habitat shifts, and sea level rise.", "importance": "9" }, { "excerpt": "All of these changes are emerging as humans continue to add heat-trapping greenhouse gases, like carbon dioxide and methane, to the atmosphere.", "proposition": "Climate change results from human addition of greenhouse gases.", "importance": "8" } ] });
   
   const [showHighLightMenu, setShowHighlightMenu] = useState(false)
-  const [threadDiv, setThreadDiv] = useState([])
+  const [threadDiv, setThreadDiv] = useState(null)
 
+  // Editor with events
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -26,18 +29,28 @@ const Tiptap = () => {
         multicolor: true,
       }),
       AssistantMark,
-      HoverExtension,
+      HoverExtension.configure({
+        onMouseOver: (view, event) => {
+          // console.log(threadDiv)
+        },
+        onMouseOut: (view, event) => {
+          // event
+        },
+        onClick: (view, event) => {
+          const assistant = event.target.getAttribute('assistant');
+          const proposition = event.target.getAttribute('proposition');
+          const excerpt = event.target.textContent
+          console.log(excerpt)
+          setThreadDiv({ assistant, excerpt, proposition })
+        }
+      }),
     ],
     content,
-    onTransaction({editor, transaction}) {
-      // console.log(transaction)
-      // console.log(editor)
-    }
   })
 
   
 
-  // HANDLE MENU SHOWN
+  // Handle bubbleMenu with state
   useEffect(() => {
     if (!editor) return;
     const updateMenuVisibility = () => {
@@ -52,13 +65,13 @@ const Tiptap = () => {
   }, [editor]);
 
 
-  // HANDLE WRITING
+  // Handle writing to states
   useEffect(() => {
     if (editor) {
       const handler = () => {
-        console.log(editor.getHTML())
+        // console.log(editor.getHTML())
         setContent(editor.getText())
-        console.log(editor.getJSON())
+        // console.log(editor.getJSON())
         // setContent(editor.getJSON())
       }
       editor.on('update', handler)
@@ -68,6 +81,9 @@ const Tiptap = () => {
     }
   }, [editor, content])
 
+
+
+  // -------------------------------------------------------------------------
   // HANDLE SEND BUTTON -- DEV
   const handleSendClick = async() => {
     // console.log(content)
@@ -77,7 +93,7 @@ const Tiptap = () => {
       body: JSON.stringify({ answer: content }),
       // user: 1,
     });
-
+    
     const data = await response.json();
     console.log(data)
     Object.entries(data).forEach((item) => {
@@ -85,9 +101,14 @@ const Tiptap = () => {
     })
     setLlmAnswer(data);
   }
+  // -------------------------------------------------------------------------
 
-  // HANDLE LLM STATES
+
+
+  // Handle llm answer
   useEffect(() => {
+
+    // Function to highlight text
     const highlightText = (excerpt, color, proposition, assistant) => {
       const searchText = excerpt;
       editor.state.doc.descendants((node, pos) => {
@@ -103,21 +124,55 @@ const Tiptap = () => {
         }
       });
     };
-  
+    
+    // Call highlight function for text in llmAnswer
     if (llmAnswer && editor) {
       Object.entries(llmAnswer).forEach(([assistant, content]) => {
+
+        // Colors => TODO : handle with object inside highlight function
         let colors = { 'devil': '#E6379F', "sum": '#40E637', 'elaborator': 'lightgreen' }
-        // console.log('content:', content);
         content.forEach(item => {
-          item.importance >= 8 && highlightText(item.excerpt, colors[assistant], item.proposition, assistant);
+          item.importance >= MIN_IMPORTANCE && highlightText(item.excerpt, colors[assistant], item.proposition, assistant);
         });
       });
     }
   }, [llmAnswer, editor]);
 
+
+  const handleThreadClick = (assistant, excerpt, proposition, action) => {
+    // let tmp = llmAnswer
+    // tmp[threadDiv.assistant] = llmAnswer[threadDiv.assistant].filter(item => item.proposition !== threadDiv.proposition)
+    // setLlmAnswer(tmp)
+
+    const searchText = excerpt;
+      editor.state.doc.descendants((node, pos) => {
+        if (node.isText && node.text.includes(searchText)) {
+          const startIndex = node.text.indexOf(searchText) + pos;
+          const endIndex = startIndex + searchText.length;
+  
+          action === 'close' && editor.chain().setTextSelection({ from: startIndex, to: endIndex })
+          .unsetMark('assistantMark')
+          .unsetHighlight()
+          .run();
+
+          action === 'replace' && editor.chain().setTextSelection({ from: startIndex, to: endIndex })
+            .unsetMark('assistantMark')
+            // .unsetHighlight()
+            .deleteSelection()
+            .insertContent(proposition)
+            .run();
+        }
+      });
+
+    setThreadDiv(null)
+  }
+
+
   return (
     <div className={styles.container}>
-      {editor && <BubbleMenu className="bubble-menu" tippyOptions={{ duration: 100 }} editor={editor}>
+
+      {/* BubbleMenu content */}
+      {editor && <BubbleMenu className="bubble-menu" tippyOptions={{ duration: 100, position: top }} editor={editor}>
         {!showHighLightMenu ? 
         <><button
           onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
@@ -163,10 +218,11 @@ const Tiptap = () => {
         </button></>
         :
         <div style={{backgroundColor: "pink"}}>
-          <h2>{editor.getAttributes('assistantMark').assistant}</h2>
+          <h3>{editor.getAttributes('assistantMark').assistant}</h3>
           <p>{editor.getAttributes('propositionMark').proposition}</p>
         </div>}
       </BubbleMenu>}
+
       <div className={styles.titleContainer}>
         <label for='title'>Title (not useful for now) : </label>
         <input onChange={(e) => setTitle(e.target.value)} value={title} name='title' />
@@ -178,9 +234,20 @@ const Tiptap = () => {
       <div className={styles.answerContainer}>
         <div className={styles.prompt}>
           {/* {content && <div>{content.map(item => <div>{JSON.stringify(item, null, 2)}</div>)}</div>} */}
-          {content && <div>{JSON.stringify(content, null, 2)}</div>}
+
+          {threadDiv && <div>
+              <h2> {threadDiv.assistant} </h2>
+              <p><strong>Excerpt:</strong> {threadDiv.excerpt}</p>
+              <p><strong>Proposition:</strong> {threadDiv.proposition}</p>
+              <button onClick={() => handleThreadClick(threadDiv.assistant, threadDiv.excerpt, threadDiv.proposition, 'replace')}>Replace</button>
+              <button onClick={() => handleThreadClick(threadDiv.assistant, threadDiv.excerpt, threadDiv.proposition, 'close')}>Close</button>
+            </div>}
+
+          <div className={styles.separator}>Lorem</div>
+
           <button onClick={handleSendClick}>SEND</button>
-          {threadDiv && threadDiv}
+          {content && <div>{JSON.stringify(content, null, 2)}</div>}
+
         </div>
         <div className={styles.verticalSeparator}>Lorem</div>
         <div className={styles.answer}>
@@ -191,7 +258,7 @@ const Tiptap = () => {
       <div key={index}>
         <p><strong>Excerpt:</strong> {item.excerpt}</p>
         <p><strong>Proposition:</strong> {item.proposition}</p>
-        <p><strong>Importance:</strong> <span style={{color: item.importance > 8 ? 'green' : 'red'}}>{item.importance}</span></p>
+        <p><strong>Importance:</strong> <span style={{color: item.importance > MIN_IMPORTANCE ? 'green' : 'red'}}>{item.importance}</span></p>
       </div>
     ))}
 
@@ -200,7 +267,7 @@ const Tiptap = () => {
       <div key={index}>
         <p><strong>Excerpt:</strong> {item.excerpt}</p>
         <p><strong>Proposition:</strong> {item.proposition}</p>
-        <p><strong>Importance:</strong> <span style={{color: item.importance > 8 ? 'green' : 'red'}}>{item.importance}</span></p>
+        <p><strong>Importance:</strong> <span style={{color: item.importance > MIN_IMPORTANCE ? 'green' : 'red'}}>{item.importance}</span></p>
       </div>
     ))}
 
@@ -209,7 +276,7 @@ const Tiptap = () => {
       <div key={index}>
         <p><strong>Excerpt:</strong> {item.excerpt}</p>
         <p><strong>Proposition:</strong> {item.proposition}</p>
-        <p><strong>Importance:</strong> <span style={{color: item.importance > 8 ? 'green' : 'red'}}>{item.importance}</span></p>
+        <p><strong>Importance:</strong> <span style={{color: item.importance > MIN_IMPORTANCE ? 'green' : 'red'}}>{item.importance}</span></p>
       </div>
     ))}
   </div>
