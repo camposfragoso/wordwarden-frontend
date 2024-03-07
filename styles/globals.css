@@ -135,8 +135,6 @@ input::placeholder{
   width:90%;
   max-width:750px;
 }
-<<<<<<< HEAD
-=======
 
 .tiptap .is-empty::before {
   content: attr(data-placeholder);
@@ -151,4 +149,3 @@ input::placeholder{
     margin-top: 0.75em;
   }
 }
->>>>>>> fac8c30a16f595d371e59302193e2a53bdab2d1b
