@@ -1,5 +1,5 @@
 import { useEditor, EditorContent, BubbleMenu } from '@tiptap/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import StarterKit from '@tiptap/starter-kit';
 import styles from '../styles/Editor.module.css';
 import Underline from '@tiptap/extension-underline';
@@ -18,7 +18,8 @@ const Tiptap = () => {
   const [llmAnswer, setLlmAnswer] = useState({ "devil": [ { "excerpt": "Our planet is getting hotter.", "proposition": "The Earth's temperature is rising.", "importance": "8" }, { "excerpt": "Since the Industrial Revolution—an event that spurred the use of fossil fuels in everything from power plants to transportation—Earth has warmed by 1 degree Celsius, about 2 degrees Fahrenheit.", "proposition": "The Industrial Revolution's reliance on fossil fuels may not be the sole cause of Earth's temperature increase, as natural climate fluctuations could also play a significant role.", "importance": "8" }, { "excerpt": "2023 was the hottest year on record, and all 10 of the hottest years on record have occurred in the past decade.", "proposition": "The recent spike in global temperatures could be a temporary fluctuation rather than a long-term trend, and other factors such as solar activity might contribute to this increase.", "importance": "7" }, { "excerpt": "Climate change encompasses not only rising average temperatures but also natural disasters, shifting wildlife habitats, rising seas, and a range of other impacts.", "proposition": "The term 'climate change' is overly broad and misleading, as it implies that all these impacts are directly caused by human-induced global warming. Some may be naturally occurring phenomena unrelated to greenhouse gas emissions.", "importance": "6" } ], "sum": [ { "excerpt": "Our planet is getting hotter.", "proposition": "The Earth's temperature is rising.", "importance": "8" }, { "excerpt": "2023 was the hottest year on record, and all 10 of the hottest years on record have occurred in the past decade.", "proposition": "The last decade had the 10 hottest years on record.", "importance": "9" }, { "excerpt": "Global warming and climate change are often used interchangeably as synonyms, but scientists prefer to use “climate change” when describing the complex shifts now affecting our planet’s weather and climate systems.", "proposition": "Scientists differentiate between global warming and climate change.", "importance": "7" }, { "excerpt": "Climate change encompasses not only rising average temperatures but also natural disasters, shifting wildlife habitats, rising seas, and a range of other impacts.", "proposition": "Climate change includes various effects like temperature rise, natural disasters, habitat shifts, and sea level rise.", "importance": "9" }, { "excerpt": "All of these changes are emerging as humans continue to add heat-trapping greenhouse gases, like carbon dioxide and methane, to the atmosphere.", "proposition": "Climate change results from human addition of greenhouse gases.", "importance": "8" } ] });
   
   const [showHighLightMenu, setShowHighlightMenu] = useState(false)
-  const [threadDiv, setThreadDiv] = useState(null)
+  const [threadDiv, setThreadDiv] = useState([])
+
 
   // Editor with events
   const editor = useEditor({
@@ -35,10 +36,25 @@ const Tiptap = () => {
       AssistantMark,
       HoverExtension.configure({
         onMouseOver: (view, event) => {
-          // console.log(threadDiv)
+          const assistant = event.target.getAttribute('assistant');
+          const proposition = event.target.getAttribute('proposition');
+          const excerpt = event.target.textContent
+          console.log(threadDiv)
+          setThreadDiv(prevThreadDiv => {
+            const isExisting = prevThreadDiv.some(thread => thread.proposition === proposition);
+            if (assistant && !isExisting) {
+              return [...prevThreadDiv, { assistant, excerpt, proposition, hover: true, clicked: false }];
+            }
+            return prevThreadDiv;
+          });
         },
         onMouseOut: (view, event) => {
-          // event
+          const proposition = event.target.getAttribute('proposition');
+          setThreadDiv(currentThreads =>
+            currentThreads.map(thread =>
+              thread.proposition === proposition ? { ...thread, hover: false } : thread
+            ).filter(thread => thread.clicked || thread.hover)
+          );
         },
         onClick: (view, event) => {
 
@@ -51,15 +67,17 @@ const Tiptap = () => {
             return attributes;
           };
 
+          // TO RESOLVE  _-------------------------------------------------------------------- TO RESOLVE
           const assistant = getAllAttributes(event.target);
           const proposition = event.target.getAttribute('proposition');
           const excerpt = event.target.textContent;
           console.log(event.target)
-          if (!assistant || !excerpt || !proposition) {
-            setThreadDiv(null)
-            return
-          }
-          setThreadDiv({ assistant, excerpt, proposition })
+          
+          setThreadDiv(currentThreads =>
+            currentThreads.map(thread =>
+              thread.proposition === proposition ? { ...thread, clicked: true } : thread
+            )
+          );  
         }
       }),
     ],
@@ -104,18 +122,21 @@ const Tiptap = () => {
   // -------------------------------------------------------------------------
   // HANDLE SEND BUTTON -- DEV
   const handleSendClick = async() => {
-    const response = await fetch('http://localhost:3000/mistral', {
+    // console.log(content)
+    const response = await fetch('http://localhost:3000/llm/mistral', {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
-      body: JSON.stringify({ answer: content }),
+      body: JSON.stringify({ 
+        assistants: ['dev', 'sum', 'ela'],
+        input: content }),
     });
     
     const data = await response.json();
     console.log(data)
-    Object.entries(data).forEach((item) => {
+    Object.entries(data.results).forEach((item) => {
       console.log(item)
     })
-    setLlmAnswer(data);
+    setLlmAnswer(data.results);
   }
   // -------------------------------------------------------------------------
 
@@ -170,9 +191,6 @@ const Tiptap = () => {
 
 
   const handleThreadClick = (assistant, excerpt, proposition, action) => {
-    // let tmp = llmAnswer
-    // tmp[threadDiv.assistant] = llmAnswer[threadDiv.assistant].filter(item => item.proposition !== threadDiv.proposition)
-    // setLlmAnswer(tmp)
 
     const searchText = excerpt;
       editor.state.doc.descendants((node, pos) => {
@@ -265,13 +283,14 @@ const Tiptap = () => {
         <div className={styles.prompt}>
           {/* {content && <div>{content.map(item => <div>{JSON.stringify(item, null, 2)}</div>)}</div>} */}
 
-          {threadDiv && <div>
-              <h2> {threadDiv.assistant} </h2>
-              <p><strong>Excerpt:</strong> {threadDiv.excerpt}</p>
-              <p><strong>Proposition:</strong> {threadDiv.proposition}</p>
-              <button onClick={() => handleThreadClick(threadDiv.assistant, threadDiv.excerpt, threadDiv.proposition, 'replace')}>Replace</button>
-              <button onClick={() => handleThreadClick(threadDiv.assistant, threadDiv.excerpt, threadDiv.proposition, 'close')}>Close</button>
-            </div>}
+          {threadDiv && threadDiv.map(thread => {return (
+            <div>
+            <h2> {thread.assistant} </h2>
+            <p><strong>Proposition:</strong> {thread.proposition}</p>
+            <button onClick={() => handleThreadClick(thread.assistant, thread.excerpt, thread.proposition, 'replace')}>Replace</button>
+            <button onClick={() => handleThreadClick(thread.assistant, thread.excerpt, thread.proposition, 'close')}>Close</button>
+          </div>
+          )})}
 
           <div className={styles.separator}>Lorem</div>
 
@@ -284,7 +303,7 @@ const Tiptap = () => {
         {llmAnswer && (
   <div>
     <h2>Devil</h2>
-    {llmAnswer.devil.map((item, index) => (
+    {llmAnswer.dev &&llmAnswer.dev.map((item, index) => (
       <div key={index}>
         <p><strong>Excerpt:</strong> {item.excerpt}</p>
         <p><strong>Proposition:</strong> {item.proposition}</p>
@@ -293,7 +312,7 @@ const Tiptap = () => {
     ))}
 
     <h2>Sum</h2>
-    {llmAnswer.sum.map((item, index) => (
+    {llmAnswer.sum && llmAnswer.sum.map((item, index) => (
       <div key={index}>
         <p><strong>Excerpt:</strong> {item.excerpt}</p>
         <p><strong>Proposition:</strong> {item.proposition}</p>
@@ -302,7 +321,7 @@ const Tiptap = () => {
     ))}
 
   <h2>Elaborator</h2>
-    {llmAnswer.elaborator && llmAnswer.elaborator.map((item, index) => (
+    {llmAnswer.ela && llmAnswer.ela.map((item, index) => (
       <div key={index}>
         <p><strong>Excerpt:</strong> {item.excerpt}</p>
         <p><strong>Proposition:</strong> {item.proposition}</p>

@@ -18,6 +18,22 @@
   src: url("../assets/Abril/Abril_Fatface/AbrilFatface-Regular.ttf");
 }
 
+.dynamic-shadow {
+  position: relative;
+}
+
+.dynamic-shadow:after {
+  content: '';
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background: inherit;
+  top: 0.5rem;
+  filter: blur(0.4rem);
+  opacity: 0.7;
+  z-index: -1;
+}
+
 
 :root {
   --black: #262626;
@@ -49,17 +65,40 @@ body {
   box-sizing: border-box;
 }
 
-h1{
+/* h1{
   font-size: 7rem;
   font-family: Title;
   font-weight: 200;
 }
-
+ */
 h2{
   font-size: 3rem;
   margin: 20px 0;
 font-weight: 200;
 }
+
+input{
+  border: none;
+  border-bottom: 1px solid var(--darkGrey);
+  font-family: Normal;
+  color: var(--darkGrey);
+  font-size: 2rem;
+  padding: 15px 0;
+  margin: 10px 0;
+  width: 80%;
+  
+}
+
+input:focus{
+  outline: none;
+}
+
+input::placeholder{
+  color: var(--darkGrey);
+
+}
+
+
 .standardPage{
   height: 100vh;
   background-color: var(--white);
@@ -96,3 +135,20 @@ font-weight: 200;
   width:90%;
   max-width:750px;
 }
+<<<<<<< HEAD
+=======
+
+.tiptap .is-empty::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #ced4da;
+  pointer-events: none;
+  height: 50%;
+}
+
+.tiptap {
+  > * + * {
+    margin-top: 0.75em;
+  }
+}
+>>>>>>> fac8c30a16f595d371e59302193e2a53bdab2d1b

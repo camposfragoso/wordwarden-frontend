@@ -1,13 +1,17 @@
-import styles from "../styles/Signup.module.css"
 import TopLogo from "./TopLogo";
 import Button from "./Button"
 import Link from "next/link"
 import Input from "./Input"
 import FormItem from "./FormItem";
 import Circle from "./Circle";
+import { useRouter } from 'next/router';
+import { useDispatch } from "react-redux";
+import {initiateTemporaryUser} from "../reducers/users"
 
 import { useState, useEffect } from "react"
-function Signup() {
+function Initiate() {
+  const dispatch = useDispatch()
+  const router = useRouter()
   const [formStep, setFormStep] = useState(0)
   // const [data, setData] = useState({})
   const [field, setField] = useState("")
@@ -35,10 +39,16 @@ function Signup() {
   }
 
   const changeSubstance = (value) =>{
-    handleClick();
+    // handleClick();
+    console.log(value)
     setSubstanceOrStyle(value)
-    console.log(field, degree, substanceOrStyle)
-    window.location("./editor")
+    console.log(substanceOrStyle)
+    dispatch(initiateTemporaryUser({
+      fieldOfWork : field,
+      degree : degree,
+      substanceOrStyle : value
+    }))
+    router.push("/editor")
   }
 
   const formComponents = [
@@ -67,7 +77,7 @@ function Signup() {
   return (
     <div className="standardPage">
       <TopLogo />
-      {formComponents[formStep].component}
+      {formComponents.length > formStep && formComponents[formStep].component}
       <div style={{display:"flex", position:"absolute", bottom:"30vh"}}>
         
       {formComponents.map((elem, index)=>{
@@ -83,4 +93,4 @@ function Signup() {
   )
 }
 
-export default Signup;
+export default Initiate;
