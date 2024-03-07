@@ -1,8 +1,14 @@
-import { Extension } from '@tiptap/core'
-import { Plugin, PluginKey } from 'prosemirror-state'
+import { Extension } from '@tiptap/core';
+import { Plugin, PluginKey } from 'prosemirror-state';
 
 export const HoverExtension = Extension.create({
-  name: 'hover',
+  name: 'hoverExtension',
+
+  addOptions: {
+    onMouseOver: () => {},
+    onMouseOut: () => {},
+    onClick: () => {},
+  },
 
   addProseMirrorPlugins() {
     return [
@@ -10,13 +16,21 @@ export const HoverExtension = Extension.create({
         key: new PluginKey('hover'),
         props: {
           handleDOMEvents: {
-            mouseover(view, event) {
-              console.log(view)
-              console.log(event)
-            }
+            mouseover: (view, event) => {
+              this.options.onMouseOver(view, event);
+              return false
+            },
+            mouseout: (view, event) => {
+              this.options.onMouseOut(view, event);
+              return false
+            },
+            click: (view, event) => {
+              this.options.onClick(view, event);
+              return false
+            },
           }
         },
       }),
     ]
   },
-})
+});
