@@ -4,10 +4,11 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   value: {
     token: null,
-    username:null,
+    firstname:null,
     fieldOfWork:null,
     degree:null,
     substanceOrStyle:null,
+    defaultActiveAssistants:null
   },
 };
 
@@ -23,7 +24,7 @@ export const usersSlice = createSlice({
     },
     login:(state, action)=>{
       state.value.token = action.payload.token;
-      state.value.username = action.payload.username;
+      state.value.firstname = action.payload.firstname;
     }
   },
 });
