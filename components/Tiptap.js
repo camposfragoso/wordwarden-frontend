@@ -223,7 +223,9 @@ const Tiptap = () => {
         }
       });
 
-    setThreadDiv([])
+      // setThreadDiv(prevThreadDiv => prevThreadDiv.filter((thread) => {
+      //   if (thread.assistant && thread.proposition)
+      // }));
   }
 
 
