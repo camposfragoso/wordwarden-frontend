@@ -71,12 +71,18 @@ body {
   box-sizing: border-box;
 }
 
-/* h1{
+h1{
+  font-size: 4rem;
+  font-family: Normal;
+  font-weight: 200;
+}
+
+.title{
   font-size: 7rem;
   font-family: Title;
   font-weight: 200;
 }
- */
+
 h2{
   font-size: 3rem;
   margin: 20px 0;
@@ -107,6 +113,20 @@ input::placeholder{
   outline: none;
 }
 
+.errorInput{
+  border-bottom: 1px solid var(--red);
+  font-family: Normal;
+  color: var(--red);
+  font-size: 2rem;
+  padding: 15px 0;
+  margin: 10px 0;
+  width: 80%;
+}
+
+.errorInput::placeholder{
+  color: var(--red);
+}
+
 .standardPage{
   height: 100vh;
   background-color: var(--white);
@@ -132,7 +152,7 @@ input::placeholder{
   cursor: pointer;
   font-size: 1.5rem;
   transition: 0.2s;
-  margin: 20px;
+  margin: 10px;
 }
 
 .link:hover{

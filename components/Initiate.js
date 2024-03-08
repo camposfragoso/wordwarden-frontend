@@ -1,7 +1,6 @@
 import TopLogo from "./TopLogo";
 import Button from "./Button"
 import Link from "next/link"
-import Input from "./Input"
 import FormItem from "./FormItem";
 import Circle from "./Circle";
 import { useRouter } from 'next/router';
@@ -19,23 +18,26 @@ function Initiate() {
   const [substanceOrStyle, setSubstanceOrStyle] = useState("")
   // console.log(formStep)
 
-  const handleClick = (valueOfButton) =>{
+  const handleClick = () =>{
 
     setFormStep(formStep+1)
     
     
   }
 
-  const changeField = (value) =>{
+  const goBack = () => {
+    setFormStep(formStep - 1)
+  }
+//updates state
+  const updateField = (value) =>{
     
-    handleClick();
     setField(value);
 
   }
   
   const changedegree = (value) =>{
-    handleClick()
     setDegree(value);
+    handleClick();
   }
 
   const changeSubstance = (value) =>{
@@ -64,10 +66,10 @@ function Initiate() {
       )
     },
     {
-      component: <FormItem question="What is your field of work ?" placeholder="Software engineer" position={1} onClick={changeField} />
+      component: <FormItem question="What is your field of work ?" placeholder="Software engineer" position={1} onClick={handleClick} onChange={updateField}/>
     },
     {
-      component: <FormItem question="I want my  assistants to…" select={true} options={["Perform comprehensive editing","Make essentiel modifications only","Provide guided improvement tips"]} position={2} onClick={changedegree} />
+      component: <FormItem question="I want my  assistants to…" select={true} options={["Perform comprehensive editing","Make essentiel modifications only","Provide guided improvement tips"]} position={2} onClick={changedegree}/>
     },
     {
       component: <FormItem question="I want them to focus on…" select={true} options={["Both substance and style","Mainly substance","Mainly style"]} position={3} onClick={changeSubstance}/>
@@ -78,16 +80,24 @@ function Initiate() {
     <div className="standardPage">
       <TopLogo />
       {formComponents.length > formStep && formComponents[formStep].component}
-      <div style={{display:"flex", position:"absolute", bottom:"30vh"}}>
-        
-      {formComponents.map((elem, index)=>{
-        if(index !== 0){
+      <div style={{ display: "flex", flexDirection: "column", position: "absolute", top: "70vh", alignItems:"center"}}>
+        <div style={{display:"flex"}}>
 
-          return(
-            <Circle size={30} color={index > formStep ? "darkGrey" : `color${index+1}`}/>
-          )
-        }
-      })}
+          {formComponents.map((elem, index) => {
+            if(index >0){
+
+              return (
+                <Circle size={30} color={index > formStep ? "darkGrey" : `color${index + 1}`} />
+              )
+            }
+
+          })}
+        </div>
+        {formStep > 1 && (
+          <Button txt="Previous step" onClick={goBack} />
+
+
+        )}
       </div>
     </div>
   )

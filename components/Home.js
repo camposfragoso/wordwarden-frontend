@@ -8,7 +8,7 @@ function Home() {
     <div className="standardPage">
       <div className="centerContainer">
 
-        <h1>
+        <h1 className='title'>
           WordWarden
         </h1>
         <div className={styles.container}>
