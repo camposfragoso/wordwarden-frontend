@@ -14,13 +14,6 @@
   border: 1px solid black;
   padding: 6px;
   border-radius: 10px;
-  outline: none;
-}
-.tiptap:focus {
-  outline: none; 
-}
-.ProseMirror-focused:focus {
-  outline: none;
 }
 
 .separator {
