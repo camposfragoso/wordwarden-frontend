@@ -1,5 +1,8 @@
 import { useEditor, EditorContent, BubbleMenu } from '@tiptap/react';
 import { useEffect, useState, useRef } from 'react';
+import Button from './Button';
+import Button2 from './Button2';
+import TopLogo from './TopLogo';
 import StarterKit from '@tiptap/starter-kit';
 import styles from '../styles/Editor.module.css';
 import Underline from '@tiptap/extension-underline';
@@ -9,7 +12,8 @@ import AssistantMark from './Tiptap_custom_extensions/AssistantMark';
 import { HoverExtension } from './Tiptap_custom_extensions/AddHoverEvent';
 import { HighlightCustom } from './Tiptap_custom_extensions/HighlightCustomExtension';
 
-const MIN_IMPORTANCE = 1;
+const MIN_IMPORTANCE = 8;
+const ASSISTANTS = ['sum', 'dev', 'ela']
 
 const Tiptap = () => {
   const [title, setTitle] = useState('Document title');
@@ -27,7 +31,7 @@ const Tiptap = () => {
     const attributes = {};
     for (let i = 0; i < element.attributes.length; i++) {
       const attr = element.attributes[i];
-      attributes[attr.name] = attr.value;
+      if (ASSISTANTS.includes(attr.name)) attributes[attr.name] = attr.value;
     }
     return attributes;
   };
@@ -45,7 +49,10 @@ const Tiptap = () => {
         multicolor: true
       }),
       AssistantMark,
+
+      // event handle extension
       HoverExtension.configure({
+
         onMouseOver: (view, event) => {
           const attributes = getAllAttributes(event.target);
           const excerpt = event.target.textContent;
@@ -62,9 +69,11 @@ const Tiptap = () => {
             });
           });
         },
+
         onMouseOut: (view, event) => {
- 
+
           const attributes = getAllAttributes(event.target);
+
           Object.entries(attributes).forEach(([assistant, proposition]) => {
             setThreadDiv(currentThreads =>
               currentThreads.map(thread =>
@@ -75,7 +84,9 @@ const Tiptap = () => {
             );
           });
         },
+
         onClick: (view, event) => {
+
           const attributes = getAllAttributes(event.target);
           console.log(event.target)
           const excerpt = event.target.textContent;
@@ -122,7 +133,7 @@ const Tiptap = () => {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify({ 
-        assistants: ['dev'],
+        assistants: ['dev', 'sum', 'ela'],
         input: content }),
     });
     
@@ -161,7 +172,8 @@ const Tiptap = () => {
       });
     };
     
-    // Call highlight function for text in llmAnswer
+
+    // Sort llmAnswer by piece of text
     if (llmAnswer && editor) {
 
       let llmAnswerTmp = {};
@@ -176,6 +188,7 @@ const Tiptap = () => {
         })
       })
 
+      // Set highlights
       Object.entries(llmAnswerTmp).forEach(([excerpt, content]) => {
         console.log(content)
         highlightText(excerpt, content)
@@ -185,6 +198,7 @@ const Tiptap = () => {
   }, [llmAnswer, editor]);
 
 
+  // Thread buttons onClick
   const handleThreadClick = (assistant, excerpt, proposition, action) => {
 
     const searchText = excerpt;
@@ -196,17 +210,16 @@ const Tiptap = () => {
   
           action === 'close' && editor.chain().setTextSelection({ from: startIndex, to: endIndex })
             .unsetMark('assistantMark')
-            .unsetHighlight()
+            .unsetHighlightCustom()
             .run();
 
           action === 'replace' && editor.chain().setTextSelection({ from: startIndex, to: endIndex })
             .unsetMark('assistantMark')
-            .unsetHighlight()
+            .unsetHighlightCustom()
             .deleteSelection()
             .insertContent(proposition)
             .run();
           
-          const replacedStartIndex = node.text.indexOf(searchText) + pos;
         }
       });
 
@@ -216,7 +229,9 @@ const Tiptap = () => {
 
   return (
     <div className={styles.container}>
-
+      <div className={styles.navBar}>
+        <TopLogo />
+      </div>
       {/* BubbleMenu content */}
       {editor && <BubbleMenu className="bubble-menu" tippyOptions={{ duration: 100, position: top }} editor={editor}>
         <button
@@ -269,25 +284,28 @@ const Tiptap = () => {
       </div>
 
       <EditorContent editor={editor} className={styles.editor}/>
+      {threadDiv && threadDiv.map(thread => {return (
+        <div>
+        <h2> {thread.assistant} </h2>
+        <p><strong>Proposition:</strong> {thread.proposition}</p>
+        <button onClick={() => handleThreadClick(thread.assistant, thread.excerpt, thread.proposition, 'replace')}>Replace</button>
+        <button onClick={() => handleThreadClick(thread.assistant, thread.excerpt, thread.proposition, 'close')}>Close</button>
+      </div>
+      )})}
 
       <div className={styles.separator}>Lorem</div>
 
       <div className={styles.answerContainer}>
         <div className={styles.prompt}>
 
-          {threadDiv && threadDiv.map(thread => {return (
-            <div>
-            <h2> {thread.assistant} </h2>
-            <p><strong>Proposition:</strong> {thread.proposition}</p>
-            <button onClick={() => handleThreadClick(thread.assistant, thread.excerpt, thread.proposition, 'replace')}>Replace</button>
-            <button onClick={() => handleThreadClick(thread.assistant, thread.excerpt, thread.proposition, 'close')}>Close</button>
-          </div>
-          )})}
+          
 
           <div className={styles.separator}>Lorem</div>
 
           <button onClick={handleSendClick}>SEND</button>
+          <Button full={true} txt='SEND' onClick={handleSendClick} />
           {content && <div>{JSON.stringify(content, null, 2)}</div>}
+          {htmlContent && <div>{htmlContent}</div>}
 
         </div>
 
@@ -298,7 +316,9 @@ const Tiptap = () => {
         <div className={styles.answer}>
           {llmAnswer && (
           <div>
+
             <p>{llmAnswer && JSON.stringify(llmAnswer)}</p>
+
             <h2>Devil</h2>
             {llmAnswer.dev &&llmAnswer.dev.map((item, index) => (
               <div key={index}>
