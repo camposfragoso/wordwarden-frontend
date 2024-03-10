@@ -1,29 +1,31 @@
 import { useEditor, EditorContent, BubbleMenu } from '@tiptap/react';
 import { useEffect, useState, useRef } from 'react';
 import Button from './Button';
-import Button2 from './Button2';
 import TopLogo from './TopLogo';
+import AssistantsBar from './AssistantsBar';
 import StarterKit from '@tiptap/starter-kit';
 import styles from '../styles/Editor.module.css';
 import Underline from '@tiptap/extension-underline';
 import BulletList from '@tiptap/extension-bullet-list';
-import Highlight from '@tiptap/extension-highlight';
 import AssistantMark from './Tiptap_custom_extensions/AssistantMark';
 import { HoverExtension } from './Tiptap_custom_extensions/AddHoverEvent';
 import { HighlightCustom } from './Tiptap_custom_extensions/HighlightCustomExtension';
 
-const MIN_IMPORTANCE = 8;
-const ASSISTANTS = ['sum', 'dev', 'ela']
+// TODO 
+// Set activeAssistants when llm answer arrives and changes
+// Handle assistant deactivation
+
 
 const Tiptap = () => {
-  const [title, setTitle] = useState('Document title');
+  const [assistants, setAssistants] = useState(['sum', 'dev', 'ela'])
+  const [activeAssistants,setActiveAssistants] = useState([])
+  const [minImportance, setMinImportance] = useState(8)
   const [content, setContent] = useState('Social media has had a profound impact on modern society. It has transformed the way we communicate, share information, and consume media. While it has brought about many positive changes, such as the democratization of information and increased connectivity, it has also had negative effects, such as the spread of misinformation and the amplification of hate speech. In this article, we will explore the impact of social media on society and the various ways in which it has shaped our lives.\n\nOne of the most significant impacts of social media has been the way it has revolutionized communication. In the past, communication was largely one-to-one or one-to-many, with information being disseminated through traditional media channels such as newspapers and television. With social media, communication has become more interactive and immediate. People can now share their thoughts and experiences with a global audience in real-time, and receive instant feedback. This has led to a more connected world, where people can engage with one another on a scale never before possible.\n\nSocial media has also transformed the way we consume media. In the past, people relied on traditional media channels such as newspapers and television to stay informed. Today, social media has become a primary source of news and information for many people. This has led to a democratization of information, where anyone with an internet connection can become a citizen journalist and share news and information with the world. However, this also means that there is a greater potential for the spread of misinformation, as there are no gatekeepers to verify the accuracy of the information being shared.\n\nAnother impact of social media on society has been the way it has transformed marketing and advertising. Social media platforms have become a critical tool for businesses to reach their target audiences. With the ability to target specific demographics, businesses can create highly personalized marketing campaigns that are more effective than traditional advertising. This has led to a shift in the way businesses approach marketing, with social media becoming an essential component of any marketing strategy.\n\nHowever, social media has also had negative impacts on society. One of the most significant negative impacts has been the spread of misinformation. Social media platforms have become a breeding ground for fake news and conspiracy theories, which can spread rapidly and have real-world consequences. For example, misinformation about the COVID-19 vaccine has led to low vaccination rates and increased deaths from the virus.\n\nSocial media has also been criticized for its impact on mental health. Studies have shown that social media use can lead to feelings of anxiety, depression, and loneliness. This is because social media often presents a distorted view of reality, with people presenting only their best selves and creating unrealistic expectations for others. This can lead to feelings of inadequacy and low self-esteem, particularly among young people.\n\nFinally, social media has had a significant impact on politics and social issues. Social media has become a platform for political activism, with movements such as Black Lives Matter and #MeToo gaining momentum through social media campaigns. However, social media has also been criticized for its role in the spread of hate speech and the radicalization of extremist groups.\n\nIn conclusion, social media has had a profound impact on society, transforming the way we communicate, share information, and consume media. While it has brought about many positive changes, such as increased connectivity and democratization of information, it has also had negative effects, such as the spread of misinformation and the amplification of hate speech. As social media continues to evolve, it is essential to recognize both the positive and negative impacts it has on society and take steps to mitigate its negative effects.');
 
   const [htmlContent, setHtmlContent] = useState('');
 
   const [llmAnswer, setLlmAnswer] = useState({"dev":[{"excerpt":"Social media has had a profound impact on modern society. It has transformed the way we communicate, share information, and consume media.","proposition":"While social media has revolutionized communication and democratized information, it has also led to the spread of misinformation and amplification of hate speech, which can have real-world consequences.","importance":"8"},{"excerpt":"With social media, communication has become more interactive and immediate. People can now share their thoughts and experiences with a global audience in real-time, and receive instant feedback.","proposition":"While social media has made communication more interactive and immediate, it has also contributed to the spread of misinformation and the amplification of hate speech, which can have negative consequences on society.","importance":"7"},{"excerpt":"Social media has transformed the way we consume media. In the past, people relied on traditional media channels such as newspapers and television to stay informed. Today, social media has become a primary source of news and information for many people.","proposition":"While social media has democratized information by allowing anyone with an internet connection to share news and information, it has also led to the spread of misinformation without gatekeepers to verify accuracy.","importance":"9"},{"excerpt":"Social media platforms have become a critical tool for businesses to reach their target audiences. With the ability to target specific demographics, businesses can create highly personalized marketing campaigns that are more effective than traditional advertising.","proposition":"While social media has transformed marketing and advertising by allowing businesses to create highly personalized campaigns, it has also led to increased competition and the need for constant content creation, which can be challenging for small businesses.","importance":"6"},{"excerpt":"Social media has had a significant impact on politics and social issues. Social media has become a platform for political activism, with movements such as Black Lives Matter and #MeToo gaining momentum through social media campaigns.","proposition":"While social media has facilitated the growth of social movements and increased awareness of social issues, it has also been criticized for its role in the spread of hate speech and radicalization of extremist groups.","importance":"7"},{"excerpt":"Social media has also been criticized for its impact on mental health. Studies have shown that social media use can lead to feelings of anxiety, depression, and loneliness.","proposition":"While social media can contribute to feelings of anxiety, depression, and loneliness due to its distorted view of reality, it can also be a source of support and connection for individuals who may feel isolated in real life.","importance":"5"}],"sum":[{"excerpt":"Social media has had a profound impact on modern society.","proposition":"Social media greatly affects society","importance":"10"},{"excerpt":"It has transformed the way we communicate, share information, and consume media.","proposition":"Social media changed communication, info sharing, and media consumption","importance":"9"},{"excerpt":"While it has brought about many positive changes, such as the democratization of information and increased connectivity, it has also had negative effects, such as the spread of misinformation and the amplification of hate speech.","proposition":"Positive impacts: info democritization, connectivity; Negative impacts: misinfo spread, hate amplification","importance":"9"},{"excerpt":"In the past, communication was largely one-to-one or one-to-many, with information being disseminated through traditional media channels such as newspapers and television.","proposition":"Past: limited comms, one-to-one/one-to-many, traditional media","importance":"8"},{"excerpt":"With social media, communication has become more interactive and immediate. People can now share their thoughts and experiences with a global audience in real-time, and receive instant feedback.","proposition":"Social media: interactive, immediate comms, global audience, instant feedback","importance":"8"},{"excerpt":"Social media has also transformed the way we consume media.","proposition":"Social media changed media consumption","importance":"8"},{"excerpt":"Today, social media has become a primary source of news and information for many people.","proposition":"Social media: primary news source for many","importance":"7"},{"excerpt":"This has led to a democratization of information, where anyone with an internet connection can become a citizen journalist and share news and information with the world.","proposition":"Democratized info: anyone, int net, citizen journalism","importance":"7"},{"excerpt":"However, this also means that there is a greater potential for the spread of misinformation, as there are no gatekeepers to verify the accuracy of the information being shared.","proposition":"Potential misinfo spread: no gatekeepers, info verification needed","importance":"8"},{"excerpt":"Social media has also transformed marketing and advertising.","proposition":"Social media changed marketing/advertising","importance":"7"},{"excerpt":"With the ability to target specific demographics, businesses can create highly personalized marketing campaigns that are more effective than traditional advertising.","proposition":"Targeted demographics: personalized, more effective marketing","importance":"7"},{"excerpt":"Social media has had negative impacts on society.","proposition":"Negative social impacts of social media","importance":"10"},{"excerpt":"One of the most significant negative impacts has been the spread of misinformation.","proposition":"Significant neg impact: misinfo spread","importance":"9"},{"excerpt":"Social media platforms have become a breeding ground for fake news and conspiracy theories, which can spread rapidly and have real-world consequences.","proposition":"Fake news, conspiracy theories: rapid spread, real-world impact","importance":"9"},{"excerpt":"Social media has also been criticized for its impact on mental health.","proposition":"Mental health impact of social media","importance":"8"},{"excerpt":"Studies have shown that social media use can lead to feelings of anxiety, depression, and loneliness.","proposition":"Studies: social media use linked to anxiety, depression, loneliness","importance":"8"},{"excerpt":"Social media has had a significant impact on politics and social issues.","proposition":"Significant impact of social media on politics, social issues","importance":"9"},{"excerpt":"Social media has become a platform for political activism, with movements such as Black Lives Matter and #MeToo gaining momentum through social media campaigns.","proposition":"Positive impact: social media as platform for political activism (e.g., BLM, #MeToo)","importance":"8"},{"excerpt":"However, social media has also been criticized for its role in the spread of hate speech and the radicalization of extremist groups.","proposition":"Negative impact: social media's role in hate speech spread, extremist group radicalization","importance":"8"},{"excerpt":"In conclusion, social media has had a profound impact on society, transforming the way we communicate, share information, and consume media.","proposition":"Conclusion: profound impact of social media on comms, info sharing, media consumption","importance":"10"}],"ela":[{"excerpt":"Social media has had a profound impact on modern society.","proposition":"10","importance":"10"},{"excerpt":"It has transformed the way we communicate, share information, and consume media.","proposition":"Social media has revolutionized communication by making it more interactive and immediate, allowing people to share their thoughts and experiences with a global audience in real-time. It has also transformed the way we consume media, with social media becoming a primary source of news and information for many people.","importance":"9"},{"excerpt":"While it has brought about many positive changes, such as the democratization of information and increased connectivity, it has also had negative effects, such as the spread of misinformation and the amplification of hate speech.","proposition":"Social media has led to a democratization of information, where anyone with an internet connection can become a citizen journalist and share news and information with the world. However, this also means that there is a greater potential for the spread of misinformation, as there are no gatekeepers to verify the accuracy of the information being shared. Social media has also been criticized for its impact on mental health and its role in the spread of hate speech and radicalization of extremist groups.","importance":"9"},{"excerpt":"Another impact of social media on society has been the way it has transformed marketing and advertising.","proposition":"Social media platforms have become a critical tool for businesses to reach their target audiences, with the ability to target specific demographics and create highly personalized marketing campaigns that are more effective than traditional advertising.","importance":"8"}]});
   
-  const [showHighLightMenu, setShowHighlightMenu] = useState(false)
   const [threadDiv, setThreadDiv] = useState([])
 
   // Get attributes from event.target
@@ -31,7 +33,7 @@ const Tiptap = () => {
     const attributes = {};
     for (let i = 0; i < element.attributes.length; i++) {
       const attr = element.attributes[i];
-      if (ASSISTANTS.includes(attr.name)) attributes[attr.name] = attr.value;
+      if (assistants.includes(attr.name)) attributes[attr.name] = attr.value;
     }
     return attributes;
   };
@@ -42,12 +44,7 @@ const Tiptap = () => {
       StarterKit,
       Underline,
       BulletList,
-      Highlight.configure({
-        multicolor: true,
-      }),
-      HighlightCustom.configure({
-        multicolor: true
-      }),
+      HighlightCustom,
       AssistantMark,
 
       // event handle extension
@@ -107,25 +104,6 @@ const Tiptap = () => {
     content,
   })
 
-
-  // Handle writing to states
-  useEffect(() => {
-    if (editor) {
-      const handler = () => {
-        setContent(editor.getText())
-        setHtmlContent(editor.getHTML())
-      }
-      editor.on('update', handler)
-
-      return () => {
-        editor.off('update', handler)
-      }
-    }
-  }, [editor, content])
-
-
-
-  // -------------------------------------------------------------------------
   // HANDLE SEND BUTTON -- DEV
   const handleSendClick = async() => {
 
@@ -143,43 +121,197 @@ const Tiptap = () => {
     })
     setLlmAnswer(data.results);
   }
-  // -------------------------------------------------------------------------
 
+  // Handle writing to states
+  useEffect(() => {
+    if (editor) {
+      const handler = () => {
+        setContent(editor.getText())
+        setHtmlContent(editor.getHTML())
+      }
+      editor.on('update', handler)
+
+      return () => {
+        editor.off('update', handler)
+      }
+    }
+  }, [editor, content])
+
+
+  const setHighlightTextByExcerpt = (excerpt, content) => {
+    console.log(content)
+    editor.state.doc.descendants((node, pos) => {
+      if (node.isText && node.text.includes(excerpt)) {
+        const startIndex = node.text.indexOf(excerpt) + pos;
+        const endIndex = startIndex + excerpt.length;
+
+        const keys = Object.keys(content)
+        let color 
+        keys.length > 1 ? color = `var(--multipleAssistants)` : color = `var(--${keys[0]})`
+        editor.chain().focus().setTextSelection({ from: startIndex, to: endIndex })
+          .setMark('assistantMark', {
+            propositions: (JSON.stringify(content)),
+          })
+          .setHighlightCustom({ color })
+          .run();
+      }
+    });
+  };
+
+  const setHighlightTextByAssistant = (assistant) => {
+    if (!llmAnswer[assistant]) return
+    llmAnswer[assistant].forEach((intervention) => {
+      console.log(intervention)
+      if (intervention.importance >= minImportance) {
+        editor.state.doc.descendants((node, pos) => {
+          if (node.isText && node.text.includes(intervention.excerpt)) {
+            const startIndex = node.text.indexOf(intervention.excerpt) + pos;
+            const endIndex = startIndex + intervention.excerpt.length;
+            const color = `var(--${assistant})`;
+            editor.chain().setTextSelection({ from: startIndex, to: endIndex })
+              .setMark('assistantMark', {
+                propositions: (JSON.stringify({ assistant: intervention.proposition })),
+              })
+              .setHighlightCustom({ color })
+              .run();
+          }
+        })
+      }
+    })
+  };
+
+  const unsetHighlightTextByExcerpt = (excerpt) => {
+    editor.state.doc.descendants((node, pos) => {
+      if (node.isText && node.text.includes(excerpt)) {
+        const startIndex = node.text.indexOf(excerpt) + pos;
+        const endIndex = startIndex + excerpt.length;
+
+        editor.chain().setTextSelection({ from: startIndex, to: endIndex })
+          .unsetMark('assistantMark')
+          .unsetHighlightCustom()
+          .run();
+      }
+    })
+  };
+
+  const unsetHighlightTextByAssistant = (assistant) => {
+    if (!llmAnswer[assistant]) return
+    llmAnswer[assistant].forEach((intervention) => {
+      console.log(intervention)
+      if (intervention.importance >= minImportance) {
+        editor.state.doc.descendants((node, pos) => {
+          if (node.isText && node.text.includes(intervention.excerpt)) {
+            const startIndex = node.text.indexOf(intervention.excerpt) + pos;
+            const endIndex = startIndex + intervention.excerpt.length;
+  
+            editor.chain().setTextSelection({ from: startIndex, to: endIndex })
+              .unsetMark('assistantMark')
+              .unsetHighlightCustom()
+              .run();
+          }
+        })
+      }
+    })
+  };
+
+  const replaceText = (excerpt, proposition) => {
+    editor.state.doc.descendants((node, pos) => {
+      if (node.isText && node.text.includes(excerpt)) {
+        const startIndex = node.text.indexOf(excerpt) + pos;
+        const endIndex = startIndex + excerpt.length;
+
+        editor.chain().setTextSelection({ from: startIndex, to: endIndex })
+          .unsetMark('assistantMark')
+          .unsetHighlightCustom()
+          .deleteSelection()
+          .insertContent(proposition)
+          .run();
+        
+      }
+    })
+  };
+
+  const unsetAllAssistantsMarks = () => {
+    if (!editor || !editor.state) return;
+
+    // Créer une transaction pour enlever tous les marks 'assistantMark'
+    const tr = editor.state.tr;
+    let modified = false; // Pour suivre si des modifications ont été faites
+  
+    editor.state.doc.descendants((node, pos) => {
+      if (!node.isText) return;
+  
+      // Trouver tous les marks 'assistantMark' dans le noeud de texte
+      const marks = node.marks.filter(mark => mark.type.name === 'assistantMark');
+      if (marks.length > 0) {
+        // Pour chaque 'assistantMark', l'enlever
+        marks.forEach(mark => {
+          const from = pos;
+          const to = pos + node.nodeSize;
+          tr.removeMark(from, to, mark);
+          modified = true;
+        });
+      }
+    });
+  
+    // Si des modifications ont été faites, appliquer la transaction
+    if (modified) {
+      editor.view.dispatch(tr);
+    }
+  }
+
+  const unsetAllHighlights = () => {
+    if (!editor || !editor.state) return;
+
+    // Créer une transaction pour enlever tous les marks 'assistantMark'
+    const tr = editor.state.tr;
+    let modified = false; // Pour suivre si des modifications ont été faites
+  
+    editor.state.doc.descendants((node, pos) => {
+      if (!node.isText) return;
+  
+      // Trouver tous les marks 'assistantMark' dans le noeud de texte
+      const marks = node.marks.filter(mark => mark.type.name === 'highlightCustom');
+      if (marks.length > 0) {
+        // Pour chaque 'assistantMark', l'enlever
+        marks.forEach(mark => {
+          const from = pos;
+          const to = pos + node.nodeSize;
+          tr.removeMark(from, to, mark);
+          modified = true;
+        });
+      }
+    });
+  
+    // Si des modifications ont été faites, appliquer la transaction
+    if (modified) {
+      editor.view.dispatch(tr);
+    }
+  }
+
+  const setMarkByAssistant = (assistant) => {
+    // TODO
+  }
 
 
   // Handle llm answer
   useEffect(() => {
 
-    const highlightText = (excerpt, content) => {
-      console.log('highlightText function launched. content :')
-      console.log(JSON.stringify(content))
-      const searchText = excerpt;
-      editor.state.doc.descendants((node, pos) => {
-        if (node.isText && node.text.includes(searchText)) {
-          const startIndex = node.text.indexOf(searchText) + pos;
-          const endIndex = startIndex + searchText.length;
-  
-          const keys = Object.keys(content)
-          let color 
-          keys.length > 1 ? color = `var(--multipleAssistants)` : color = `var(--${keys[0]})`
-          editor.chain().focus().setTextSelection({ from: startIndex, to: endIndex })
-            .setMark('assistantMark', {
-              propositions: (JSON.stringify(content)),
-            })
-            .setHighlightCustom({ color })
-            .run();
-        }
-      });
-    };
-    
-
     // Sort llmAnswer by piece of text
     if (llmAnswer && editor) {
+      // Set active assistants (intervening on text)
+      Object.entries(llmAnswer).forEach(([assistant, content]) => setActiveAssistants(currentActiveAssistants => {
+        console.log(currentActiveAssistants)
+        if (!currentActiveAssistants.includes(assistant) && content.length > 0) {
+          return [...currentActiveAssistants, assistant]
+        }
+      }))
 
       let llmAnswerTmp = {};
       Object.entries(llmAnswer).forEach(([assistant, content]) => {
+        
         content.forEach(({excerpt, proposition, importance}) => {
-          if (importance >= MIN_IMPORTANCE) {
+          if (importance >= minImportance) {
             if (!llmAnswerTmp[excerpt]) {
               llmAnswerTmp[excerpt] = {};
             }
@@ -190,117 +322,119 @@ const Tiptap = () => {
 
       // Set highlights
       Object.entries(llmAnswerTmp).forEach(([excerpt, content]) => {
-        console.log(content)
-        highlightText(excerpt, content)
+        console.log(Object.keys(content))
+        setHighlightTextByExcerpt(excerpt, content)
       })
       
     }
   }, [llmAnswer, editor]);
 
-
   // Thread buttons onClick
   const handleThreadClick = (assistant, excerpt, proposition, action) => {
+    action === 'close' && unsetHighlightTextByExcerpt(excerpt)
+    action === 'replace' && replaceText(excerpt, proposition)
 
-    const searchText = excerpt;
-      editor.state.doc.descendants((node, pos) => {
-        if (node.isText && node.text.includes(searchText)) {
-          const startIndex = node.text.indexOf(searchText) + pos;
-          const endIndex = startIndex + searchText.length;
-          const doneColor = `var(--replacement)`;
-  
-          action === 'close' && editor.chain().setTextSelection({ from: startIndex, to: endIndex })
-            .unsetMark('assistantMark')
-            .unsetHighlightCustom()
-            .run();
+    setThreadDiv(prevThreadDiv => prevThreadDiv.filter((thread) => thread.proposition !== proposition));
 
-          action === 'replace' && editor.chain().setTextSelection({ from: startIndex, to: endIndex })
-            .unsetMark('assistantMark')
-            .unsetHighlightCustom()
-            .deleteSelection()
-            .insertContent(proposition)
-            .run();
-          
-        }
-      });
+    const removeTextFromLlmAnswer = (assistant, excerpt) => {
+      setLlmAnswer(previous => {
+        const filteredLlmAnswer = previous;
+        filteredLlmAnswer[assistant] = previous[assistant].filter((content) => content.excerpt !== excerpt);
+        return llmAnswer
+      })
+    };
 
-      // setThreadDiv(prevThreadDiv => prevThreadDiv.filter((thread) => {
-      //   if (thread.assistant && thread.proposition)
-      // }));
+    removeTextFromLlmAnswer(assistant, excerpt)
+    console.log(llmAnswer)
   }
 
+  // Handle assistants activation/deactivation from bar
+  const setAssistantsFromBar = (assistantId) => {
+    // Activate / deactivate
+    setAssistants(currentAssistants => {
+      if (currentAssistants.includes(assistantId)) {
+        unsetAllHighlights()
+        unsetAllAssistantsMarks()
+        currentAssistants.forEach((assistant) => assistant !== assistantId && setHighlightTextByAssistant(assistant))
+        return currentAssistants.filter((assistant) => assistant != assistantId)
+      } else {
+        setHighlightTextByAssistant(assistantId)
+        return [...currentAssistants, assistantId]
+      } 
+    })
+  }
 
   return (
     <div className={styles.container}>
       <div className={styles.navBar}>
         <TopLogo />
       </div>
-      {/* BubbleMenu content */}
-      {editor && <BubbleMenu className="bubble-menu" tippyOptions={{ duration: 100, position: top }} editor={editor}>
-        <button
-          onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-          className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
-        >
-          H1
-        </button>
-        <button
-          onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-          className={editor.isActive('heading', { level: 2 }) ? 'is-active' : ''}
-        >
-          H2
-        </button>
-        <button
-          onClick={() => editor.chain().focus().setParagraph().run()}
-          className={editor.isActive('paragraph') ? 'is-active' : ''}
-        >
-          p
-        </button>
-        <button
-          onClick={() => editor.chain().focus().toggleBold().run()}
-          className={editor.isActive('bold') ? 'is-active' : ''}
-        >
-          Bold
-        </button>
-        <button
-          onClick={() => editor.chain().focus().toggleItalic().run()}
-          className={editor.isActive('italic') ? 'is-active' : ''}
-        >
-          Italic
-        </button>
-        <button
-          onClick={() => editor.chain().focus().toggleUnderline().run()}
-          className={editor.isActive('underline') ? 'is-active' : ''}
-        >
-          Underline
-        </button>
-        <button
-          onClick={() => editor.chain().focus().toggleBulletList().run()}
-          className={editor.isActive('underline') ? 'is-active' : ''}
-        >
-          Bullet-List
-        </button>
-      </BubbleMenu>}
+      <div className={styles.editorContainer}>
+        <AssistantsBar assistants={assistants} activeAssistants={activeAssistants} setAssistants={setAssistantsFromBar}/>
+        {/* BubbleMenu content */}
+        {editor && <BubbleMenu className="bubble-menu" tippyOptions={{ duration: 100, position: top }} editor={editor}>
+          <button
+            onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+            className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
+          >
+            H1
+          </button>
+          <button
+            onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+            className={editor.isActive('heading', { level: 2 }) ? 'is-active' : ''}
+          >
+            H2
+          </button>
+          <button
+            onClick={() => editor.chain().focus().setParagraph().run()}
+            className={editor.isActive('paragraph') ? 'is-active' : ''}
+          >
+            p
+          </button>
+          <button
+            onClick={() => editor.chain().focus().toggleBold().run()}
+            className={editor.isActive('bold') ? 'is-active' : ''}
+          >
+            Bold
+          </button>
+          <button
+            onClick={() => editor.chain().focus().toggleItalic().run()}
+            className={editor.isActive('italic') ? 'is-active' : ''}
+          >
+            Italic
+          </button>
+          <button
+            onClick={() => editor.chain().focus().toggleUnderline().run()}
+            className={editor.isActive('underline') ? 'is-active' : ''}
+          >
+            Underline
+          </button>
+          <button
+            onClick={() => editor.chain().focus().toggleBulletList().run()}
+            className={editor.isActive('underline') ? 'is-active' : ''}
+          >
+            Bullet-List
+          </button>
+        </BubbleMenu>}
 
-      <div className={styles.titleContainer}>
-        <label for='title'>Title (not useful for now) : </label>
-        <input onChange={(e) => setTitle(e.target.value)} value={title} name='title' />
-      </div>
+        <EditorContent editor={editor} className={styles.editor}/>
 
-      <EditorContent editor={editor} className={styles.editor}/>
-      {threadDiv && threadDiv.map(thread => {return (
-        <div>
-        <h2> {thread.assistant} </h2>
-        <p><strong>Proposition:</strong> {thread.proposition}</p>
-        <button onClick={() => handleThreadClick(thread.assistant, thread.excerpt, thread.proposition, 'replace')}>Replace</button>
-        <button onClick={() => handleThreadClick(thread.assistant, thread.excerpt, thread.proposition, 'close')}>Close</button>
+        <div className={styles.threadsContainer}>
+          {threadDiv && threadDiv.map(thread => {return (
+            <div>
+              <h2> {thread.assistant} </h2>
+              <p><strong>Proposition:</strong> {thread.proposition}</p>
+              <button onClick={() => handleThreadClick(thread.assistant, thread.excerpt, thread.proposition, 'replace')}>Replace</button>
+              <button onClick={() => handleThreadClick(thread.assistant, thread.excerpt, thread.proposition, 'close')}>Close</button>
+            </div>
+          )})}
+        </div>
       </div>
-      )})}
 
       <div className={styles.separator}>Lorem</div>
 
       <div className={styles.answerContainer}>
         <div className={styles.prompt}>
-
-          
 
           <div className={styles.separator}>Lorem</div>
 
@@ -311,9 +445,7 @@ const Tiptap = () => {
 
         </div>
 
-
         <div className={styles.verticalSeparator}>Lorem</div>
-
 
         <div className={styles.answer}>
           {llmAnswer && (
@@ -326,7 +458,7 @@ const Tiptap = () => {
               <div key={index}>
                 <p><strong>Excerpt:</strong> {item.excerpt}</p>
                 <p><strong>Proposition:</strong> {item.proposition}</p>
-                <p><strong>Importance:</strong> <span style={{color: item.importance > MIN_IMPORTANCE ? 'green' : 'red'}}>{item.importance}</span></p>
+                <p><strong>Importance:</strong> <span style={{color: item.importance > minImportance ? 'green' : 'red'}}>{item.importance}</span></p>
               </div>
             ))}
 
@@ -335,7 +467,7 @@ const Tiptap = () => {
               <div key={index}>
                 <p><strong>Excerpt:</strong> {item.excerpt}</p>
                 <p><strong>Proposition:</strong> {item.proposition}</p>
-                <p><strong>Importance:</strong> <span style={{color: item.importance > MIN_IMPORTANCE ? 'green' : 'red'}}>{item.importance}</span></p>
+                <p><strong>Importance:</strong> <span style={{color: item.importance > minImportance ? 'green' : 'red'}}>{item.importance}</span></p>
               </div>
             ))}
 
@@ -344,7 +476,7 @@ const Tiptap = () => {
               <div key={index}>
                 <p><strong>Excerpt:</strong> {item.excerpt}</p>
                 <p><strong>Proposition:</strong> {item.proposition}</p>
-                <p><strong>Importance:</strong> <span style={{color: item.importance > MIN_IMPORTANCE ? 'green' : 'red'}}>{item.importance}</span></p>
+                <p><strong>Importance:</strong> <span style={{color: item.importance > minImportance ? 'green' : 'red'}}>{item.importance}</span></p>
               </div>
             ))}
           </div>
