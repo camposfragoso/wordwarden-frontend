@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import styles from '../styles/AssistantsBar.module.css';
 import { assistantsList } from '../public/assistantsList';
-import AssistantsSlider from './AssistantsBarSlider';
 
 // assistants = ['dev', 'sum', 'ela'] -- assistants present
 // setAssistantList(id) : adds or removes assistant from assistants 
 // activeAssistants= ['dev', 'sum', 'ela'] -- assistants making comments/suggestions on the text
 
-function AssistantsBar({ assistants, setAssistantsInBar, activeAssistants, setMinImportance }) {
+function AssistantsBar({ assistants, setAssistantsInBar, activeAssistants }) {
   const [isModalShown, setIsModalShown] = useState(false);
 
   return (
@@ -28,11 +27,6 @@ function AssistantsBar({ assistants, setAssistantsInBar, activeAssistants, setMi
             </div>
           )
         })}
-        <AssistantsSlider 
-          setMinImportance={setMinImportance}
-          assistants={assistants}
-          setAssistantsInSlider={setAssistantsInBar}
-        />
         <button className={styles.options} onClick={() => setIsModalShown(!isModalShown)}>...</button>
       </div>
       {/* <div className={styles.assistantsModal}>THIS IS THE MODAL</div> */}
