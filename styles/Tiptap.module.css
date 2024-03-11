@@ -26,10 +26,11 @@
     right: 0; 
     margin-right: 5%; 
     margin-left: 2%; 
-    top: calc(25vh - 2vh - 60px / 2); 
+    top: calc(25vh - 2vh - 30px); 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     overflow-y: auto;
+    padding-top: 2px;
   }
