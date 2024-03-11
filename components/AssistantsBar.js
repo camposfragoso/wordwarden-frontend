@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import styles from '../styles/AssistantsBar.module.css';
 import { assistantsList } from '../public/assistantsList';
+import AssistantsSlider from './AssistantsBarSlider';
 
 // assistants = ['dev', 'sum', 'ela'] -- assistants present
 // setAssistantList(id) : adds or removes assistant from assistants 
 // activeAssistants= ['dev', 'sum', 'ela'] -- assistants making comments/suggestions on the text
 
-function AssistantsBar({ assistants, setAssistants, activeAssistants }) {
+function AssistantsBar({ assistants, setAssistantsInBar, activeAssistants, setMinImportance }) {
   const [isModalShown, setIsModalShown] = useState(false);
 
   return (
@@ -17,7 +18,7 @@ function AssistantsBar({ assistants, setAssistants, activeAssistants }) {
             <div key={id} className={styles.assistantContainer}>
               <div className={activeAssistants.includes(id) && assistants.includes(id) ? styles.activeAssistantWrapper : styles.inactiveAssistantWrapper}>
                 <button 
-                  onClick={() => setAssistants(id)} 
+                  onClick={() => setAssistantsInBar(id)} 
                   className={styles.assistantButton}
                   style={{backgroundColor: assistants.includes(id) ? `var(--${id})` : 'var(--black)'}}
                 >
@@ -27,6 +28,11 @@ function AssistantsBar({ assistants, setAssistants, activeAssistants }) {
             </div>
           )
         })}
+        <AssistantsSlider 
+          setMinImportance={setMinImportance}
+          assistants={assistants}
+          setAssistantsInSlider={setAssistantsInBar}
+        />
         <button className={styles.options} onClick={() => setIsModalShown(!isModalShown)}>...</button>
       </div>
       {/* <div className={styles.assistantsModal}>THIS IS THE MODAL</div> */}

@@ -1,4 +1,4 @@
-const replaceText = (excerpt, proposition) => {
+const replaceText = (editor, excerpt, proposition) => {
   editor.state.doc.descendants((node, pos) => {
     if (node.isText && node.text.includes(excerpt)) {
       const startIndex = node.text.indexOf(excerpt) + pos;
@@ -47,11 +47,12 @@ const setHighlightTextByExcerpt = (editor, excerpt, content) => {
       const keys = Object.keys(content)
       let color 
       keys.length > 1 ? color = `var(--multipleAssistants)` : color = `var(--${keys[0]})`
-      editor.chain().focus().setTextSelection({ from: startIndex, to: endIndex })
+      editor.chain().setTextSelection({ from: startIndex, to: endIndex })
         .setMark('assistantMark', {
           propositions: (JSON.stringify(content)),
         })
         .setHighlightCustom({ color })
+        .blur()
         .run();
     }
   });
@@ -110,6 +111,5 @@ const unsetAllHighlights = (editor) => {
     editor.view.dispatch(trForAssistantMarks);
   }
 };
-
 
 export { replaceText, unsetAllHighlights, setHighlightTextByExcerpt, setAllHightlights }

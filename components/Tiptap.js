@@ -13,10 +13,12 @@ import { HighlightCustom } from './Tiptap_custom_extensions/HighlightCustomExten
 import { replaceText, setAllHightlights, unsetAllHighlights } from '../modules/tiptap';
 
 // TODO 
-// Export functions to other file ==> editor need to be an argument
 // Handle way to fetch llm -- see after
 // Handle llm interventions already read => Yes to highlight again after activation/deactivation
 // Handle excerpt inside another excerpt
+// When file saving, save assistants and minImportance (which is used to deactivate all assistants if set to 11)
+// SliderBar need to be configured by currentMinImportance (to be on the right position when document loaded)
+// UseEffect that sets all highlights when assistants or minImportance changes
 
 
 const Tiptap = () => {
@@ -149,12 +151,14 @@ const Tiptap = () => {
       Object.entries(llmAnswer).forEach(([assistant, content]) => setActiveAssistants(currentActiveAssistants => {
         if (!currentActiveAssistants.includes(assistant) && content.length > 0 && assistants.includes(assistant)) {
           return [...currentActiveAssistants, assistant]
+        } else {
+          return [...currentActiveAssistants]
         }
       }))
       
       setAllHightlights(editor, assistants, llmAnswer, minImportance);
     }
-  }, [llmAnswer, editor, minImportance]);
+  }, [llmAnswer, editor]);
 
   // Thread button Close
   const closeThread = (assistant, excerpt, proposition) => {
@@ -183,7 +187,7 @@ const Tiptap = () => {
       return newLlmAnswer
     })
 
-    replaceText(excerpt, proposition)
+    replaceText(editor, excerpt, proposition)
 
     setThreadDiv(prevThreadDiv => prevThreadDiv.filter((thread) => thread.proposition !== proposition));
   };
@@ -211,7 +215,13 @@ const Tiptap = () => {
         <TopLogo />
       </div>
       <div className={styles.editorContainer}>
-        <AssistantsBar assistants={assistants} activeAssistants={activeAssistants} setAssistants={setAssistantsFromBar}/>
+        <AssistantsBar 
+          assistants={assistants} 
+          activeAssistants={activeAssistants} 
+          setAssistantsInBar={setAssistantsFromBar}
+          minImportance={minImportance}
+          setMinImportance={setMinImportance}
+        />
         {/* BubbleMenu content */}
         {editor && <BubbleMenu className="bubble-menu" tippyOptions={{ duration: 100, position: top }} editor={editor}>
           <button
