@@ -230,12 +230,14 @@ const Tiptap = () => {
           />
         )})}
         </div>
-      </div>
-      <AssistantsBar 
+        
+        <AssistantsBar 
         assistants={assistants} 
         activeAssistants={activeAssistants} 
         setAssistantsInBar={setAssistantsFromBar}
+        className={styles.assistantsBar}
       />
+      </div>
     </>
   )
 }
