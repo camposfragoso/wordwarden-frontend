@@ -42,7 +42,7 @@ export default () => {
     editor.commands.focus()
   }
 
-    const callAssistants = async (content) => {
+  const callAssistants = async (content) => {
 
     let results = {}
 
@@ -162,8 +162,8 @@ export default () => {
         
       }),
     ],
-    content,
-  })
+    content
+    })
   
    useEffect(() => {
 
