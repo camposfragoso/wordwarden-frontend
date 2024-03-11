@@ -113,7 +113,6 @@ const Tiptap = () => {
     if (editor) {
       const handler = () => {
         setContent(editor.getText())
-        setHtmlContent(editor.getHTML())
       }
       editor.on('update', handler)
 
@@ -300,7 +299,7 @@ const Tiptap = () => {
       <div className={styles.answerContainer}>
         <div className={styles.prompt}>
 
-          
+          <div>{JSON.stringify(llmAnswer)}</div>
 
           <div className={styles.separator}>Lorem</div>
 

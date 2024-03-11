@@ -36,7 +36,8 @@
 }
 
 .threadCard {
-    height: 20%;
+    height: fit-content;
+    padding: 5%;
     flex: 0 0 auto;
     width: 80%;
     background-color: white;
