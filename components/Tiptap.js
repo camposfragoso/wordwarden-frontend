@@ -212,7 +212,6 @@ const Tiptap = () => {
   return (
     <>
       <div className={styles.container}>
-
         <EditorContent onClick={() => editor.commands.focus()} editor={editor} className={styles.editor}/>
         <div className={styles.threadDiv}>
         {threadDiv && threadDiv.map(thread => {return (
@@ -225,12 +224,14 @@ const Tiptap = () => {
           />
         )})}
         </div>
-      </div>
-      <AssistantsBar 
+        
+        <AssistantsBar 
         assistants={assistants} 
         activeAssistants={activeAssistants} 
         setAssistantsInBar={setAssistantsFromBar}
+        className={styles.assistantsBar}
       />
+      </div>
     </>
   )
 }

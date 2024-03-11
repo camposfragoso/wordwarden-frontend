@@ -1,6 +1,7 @@
 .container {
     height: 100vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     background-color: rgb(250 250 250 / 1);
@@ -25,8 +26,7 @@
     right: 0; 
     margin-right: 5%; 
     margin-left: 2%; 
-    top: 50%; 
-    transform: translateY(-50%);
+    top: calc(25vh - 2vh - 60px / 2); 
     display: flex;
     flex-direction: column;
     align-items: center;

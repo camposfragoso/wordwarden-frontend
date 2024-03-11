@@ -1,6 +1,7 @@
 .assistantsBar {
   display: flex;
   justify-content: center;
+  margin-top: 2%;
 }
 .assistants {
   height: 60px;
