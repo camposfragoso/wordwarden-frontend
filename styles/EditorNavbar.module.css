@@ -1,0 +1,24 @@
+.navbar {
+  width: 100%;
+  height: 100px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid black;
+}
+.logo {
+  width: 100px;
+  height: 100px;
+}
+.countContainer {
+  display: flex;
+}
+.counts {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border: 1px solid black;
+}

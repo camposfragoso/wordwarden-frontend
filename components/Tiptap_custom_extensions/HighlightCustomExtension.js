@@ -28,11 +28,11 @@ export const HighlightCustom = Mark.create({
         default: null,
         parseHTML: element => element.getAttribute('data-color') || element.style.backgroundColor,
         renderHTML: attributes => {
-          if (!attributes.color || !attributes.borderColor) {
+          if (!attributes.color) {
             return {}
           }
 
-          const style = `background-color: ${attributes.color}; color: inherit; border-bottom: 1px solid ${attributes.color};`
+          const style = `background-color: ${attributes.color.replace(')', 'Bg)')}; color: inherit; border-radius: 2px; border-bottom: 1.5px solid ${attributes.color}; cursor: pointer;`
           return {
             'data-color': attributes.color,
             style: style,
@@ -45,7 +45,7 @@ export const HighlightCustom = Mark.create({
   parseHTML() {
     return [
       {
-        tag: 'mark[color][borderColor]',
+        tag: 'mark[color][colorBg]',
       },
     ]
   },

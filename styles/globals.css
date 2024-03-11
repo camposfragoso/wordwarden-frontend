@@ -40,21 +40,29 @@
   --white: #ffffff;
   --darkGrey:#979797;
   --lightGrey : #E3E3E3;
-  --color1: #E3B505;
+  --color1:#E3B505;
   --color2:#5DD39E;
   --color3:#F0B7B3;
   --color4:#4F6367;
   --color5:#EE2E31;
   --red:var(--color5);
-  --dev: #c60a0a;
-  --sum: #6966ab;
-  --ela: #a8c4aa;
-  --multiple: #cb8100;
+
+  --dev: #EE2E31;
+  --devBg: #EE2E3140;
+  --sum: #4F6367;
+  --sumBg: #4F636740;
+  --ela: #F0B7B3;
+  --elaBg: #F0B7B340;
+  
+  --replacement: #ffed7a;
+  --multipleAssistants: #452c00;
+  --multipleAssistantsBg: #cb8100;
+
+  --active: #F600FF;
 }
 
 
 body {
-
   font-family: Normal;
   color: var(--black);
 }
@@ -106,6 +114,9 @@ input::placeholder{
   color: var(--darkGrey);
 
 }
+.ProseMirror {
+  outline: none;
+}
 
 .errorInput{
   border-bottom: 1px solid var(--red);
@@ -119,7 +130,6 @@ input::placeholder{
 
 .errorInput::placeholder{
   color: var(--red);
-
 }
 
 .standardPage{
@@ -171,4 +181,8 @@ input::placeholder{
   > * + * {
     margin-top: 0.75em;
   }
+}
+
+.proseMirror-focused:focus {
+  outline: none;
 }

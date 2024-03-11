@@ -1,0 +1,77 @@
+.assistantsBar {
+  display: flex;
+  justify-content: center;
+  margin-top: 2%;
+}
+.assistants {
+  height: 60px;
+  width: 200px;
+  border-radius: 12px;
+  background-color: var(--lightGrey);
+  display: flex;
+  padding: 5px 0;
+  justify-content: center;
+  align-items: center;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+.assistantContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  height: 58px;
+  width: 58px;
+}
+.activeAssistantWrapper {
+  border: 2px solid #F600FF;
+  border-radius: 50%;
+  animation: glow 1200ms ease-out infinite forwards;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.assistantButton {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  /* box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px; */
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+} 
+.assistantButton:hover {
+  cursor: pointer;
+}
+.options {
+  border: none;
+  background-color: transparent;
+  font-size: 30px;
+  color: var(--darkGrey);
+  text-align: center;
+  height: 30px;
+}
+.options:hover {
+  cursor: pointer;
+}
+.assistantsModal {
+  background-color: var(--lightGrey);
+}
+
+@keyframes glow {
+  0% {
+    width: 46px;
+    height: 46px;
+  }
+  33% {
+    width: 50px;
+    height: 50px;
+    border: 2px solid #f700ff40;
+  }
+  66% {
+    width: 54px;
+    height: 54px;
+  }
+  100% {
+    width: 54px;
+    height: 54px;
+    border: 8px solid #f700ff00;
+  }
+}
