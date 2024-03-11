@@ -230,7 +230,7 @@ export default () => {
 
   return (
     <div className={styles.container}>
-      <EditorContent onClick={handleFocus} editor={editor} className={styles.editor}/>
+      <EditorContent onClick={() => editor.commands.focus()} editor={editor} className={styles.editor}/>
           <div className={styles.threadDiv}>
           {threadDiv && threadDiv.map(thread => {return (
             <div className={styles.threadCard}>

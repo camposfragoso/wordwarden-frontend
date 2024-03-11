@@ -4,24 +4,24 @@ import Button from './Button';
 import TopLogo from './TopLogo';
 import AssistantsBar from './AssistantsBar';
 import StarterKit from '@tiptap/starter-kit';
-import styles from '../styles/Editor.module.css';
+import styles from '../styles/Tiptap.module.css';
 import Underline from '@tiptap/extension-underline';
 import BulletList from '@tiptap/extension-bullet-list';
 import AssistantMark from './Tiptap_custom_extensions/AssistantMark';
 import { HoverExtension } from './Tiptap_custom_extensions/AddHoverEvent';
 import { HighlightCustom } from './Tiptap_custom_extensions/HighlightCustomExtension';
 import { replaceText, setAllHightlights, unsetAllHighlights } from '../modules/tiptap';
+import ThreadCard from './ThreadCard';
 
 // TODO 
 // Handle way to fetch llm -- see after
 // Handle llm interventions already read => Yes to highlight again after activation/deactivation
-// Handle excerpt inside another excerpt
 // When file saving, save assistants and minImportance (which is used to deactivate all assistants if set to 11)
 // SliderBar need to be configured by currentMinImportance (to be on the right position when document loaded)
-// UseEffect that sets all highlights when assistants or minImportance changes
-
+// Lundi : navbar(logo, words count, login), thread cards
 
 const Tiptap = () => {
+  // const [involvedAssistants, setInvolvedAssistants] = useState(['sum', 'dev', 'ela']);
   const [assistants, setAssistants] = useState(['sum', 'dev', 'ela']);
   const [activeAssistants,setActiveAssistants] = useState([]);
   const [minImportance, setMinImportance] = useState(1);
@@ -210,132 +210,28 @@ const Tiptap = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.navBar}>
-        <TopLogo />
-      </div>
-      <div className={styles.editorContainer}>
-        <AssistantsBar 
-          assistants={assistants} 
-          activeAssistants={activeAssistants} 
-          setAssistantsInBar={setAssistantsFromBar}
-          minImportance={minImportance}
-          setMinImportance={setMinImportance}
-        />
-        {/* BubbleMenu content */}
-        {editor && <BubbleMenu className="bubble-menu" tippyOptions={{ duration: 100, position: top }} editor={editor}>
-          <button
-            onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-            className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
-          >
-            H1
-          </button>
-          <button
-            onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-            className={editor.isActive('heading', { level: 2 }) ? 'is-active' : ''}
-          >
-            H2
-          </button>
-          <button
-            onClick={() => editor.chain().focus().setParagraph().run()}
-            className={editor.isActive('paragraph') ? 'is-active' : ''}
-          >
-            p
-          </button>
-          <button
-            onClick={() => editor.chain().focus().toggleBold().run()}
-            className={editor.isActive('bold') ? 'is-active' : ''}
-          >
-            Bold
-          </button>
-          <button
-            onClick={() => editor.chain().focus().toggleItalic().run()}
-            className={editor.isActive('italic') ? 'is-active' : ''}
-          >
-            Italic
-          </button>
-          <button
-            onClick={() => editor.chain().focus().toggleUnderline().run()}
-            className={editor.isActive('underline') ? 'is-active' : ''}
-          >
-            Underline
-          </button>
-          <button
-            onClick={() => editor.chain().focus().toggleBulletList().run()}
-            className={editor.isActive('underline') ? 'is-active' : ''}
-          >
-            Bullet-List
-          </button>
-        </BubbleMenu>}
+    <>
+      <div className={styles.container}>
 
-        <EditorContent editor={editor} className={styles.editor}/>
-
-        <div className={styles.threadsContainer}>
-          {threadDiv && threadDiv.map(thread => {return (
-            <div>
-              <h2> {thread.assistant} </h2>
-              <p><strong>Proposition:</strong> {thread.proposition}</p>
-              <button onClick={() => replaceThread(thread.assistant, thread.excerpt, thread.proposition)}>Replace</button>
-              <button onClick={() => closeThread(thread.assistant, thread.excerpt, thread.proposition)}>Close</button>
-            </div>
-          )})}
+        <EditorContent onClick={() => editor.commands.focus()} editor={editor} className={styles.editor}/>
+        <div className={styles.threadDiv}>
+        {threadDiv && threadDiv.map(thread => {return (
+          <ThreadCard 
+            assistant={thread.assistant}
+            excerpt={thread.excerpt}
+            proposition={thread.proposition}
+            replaceThread={replaceThread}
+            closeThread={closeThread}
+          />
+        )})}
         </div>
       </div>
-
-      <div className={styles.separator}>Lorem</div>
-
-      <div className={styles.answerContainer}>
-        <div className={styles.prompt}>
-
-          <div className={styles.separator}>Lorem</div>
-
-          <button onClick={handleSendClick}>SEND</button>
-          <Button full={true} txt='SEND' onClick={handleSendClick} />
-          {content && <div>{JSON.stringify(content, null, 2)}</div>}
-          {htmlContent && <div>{htmlContent}</div>}
-
-        </div>
-
-        <div className={styles.verticalSeparator}>Lorem</div>
-
-        <div className={styles.answer}>
-          {llmAnswer && (
-          <div>
-
-            <p>{llmAnswer && JSON.stringify(llmAnswer)}</p>
-
-            <h2>Devil</h2>
-            {llmAnswer.dev &&llmAnswer.dev.map((item, index) => (
-              <div key={index}>
-                <p><strong>Excerpt:</strong> {item.excerpt}</p>
-                <p><strong>Proposition:</strong> {item.proposition}</p>
-                <p><strong>Importance:</strong> <span style={{color: item.importance > minImportance ? 'green' : 'red'}}>{item.importance}</span></p>
-              </div>
-            ))}
-
-            <h2>Sum</h2>
-            {llmAnswer.sum && llmAnswer.sum.map((item, index) => (
-              <div key={index}>
-                <p><strong>Excerpt:</strong> {item.excerpt}</p>
-                <p><strong>Proposition:</strong> {item.proposition}</p>
-                <p><strong>Importance:</strong> <span style={{color: item.importance > minImportance ? 'green' : 'red'}}>{item.importance}</span></p>
-              </div>
-            ))}
-
-          <h2>Elaborator</h2>
-            {llmAnswer.ela && llmAnswer.ela.map((item, index) => (
-              <div key={index}>
-                <p><strong>Excerpt:</strong> {item.excerpt}</p>
-                <p><strong>Proposition:</strong> {item.proposition}</p>
-                <p><strong>Importance:</strong> <span style={{color: item.importance > minImportance ? 'green' : 'red'}}>{item.importance}</span></p>
-              </div>
-            ))}
-          </div>
-        )}
-
-        </div>
-      </div>
-    </div>
+      <AssistantsBar 
+        assistants={assistants} 
+        activeAssistants={activeAssistants} 
+        setAssistantsInBar={setAssistantsFromBar}
+      />
+    </>
   )
 }
 
