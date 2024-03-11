@@ -53,14 +53,16 @@
   --sumBg: #4F636740;
   --ela: #F0B7B3;
   --elaBg: #F0B7B340;
+  
   --replacement: #ffed7a;
   --multipleAssistants: #452c00;
   --multipleAssistantsBg: #cb8100;
+
+  --active: #F600FF;
 }
 
 
 body {
-
   font-family: Normal;
   color: var(--black);
 }
