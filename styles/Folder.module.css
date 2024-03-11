@@ -1,0 +1,17 @@
+.folderContainer{
+  height: 50px;
+  min-width: 100px;
+  background-color: var(--darkGrey);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  padding: 10px;
+}
+
+.folderContainer:hover{
+  background-color: var(--lightGrey);
+}
