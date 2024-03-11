@@ -177,7 +177,8 @@ input::placeholder{
 .tiptap {
   > * + * {
     margin-top: 0.75em;
-  }
+  };
+  line-height: 2;
 }
 
 .proseMirror-focused:focus {
