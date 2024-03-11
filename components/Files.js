@@ -7,23 +7,26 @@ import { useSelector } from "react-redux";
 import {useEffect, useState} from "react"
 
 function Files() {
+  const user = useSelector((state)=>state.users.value);
   const [filesData, setFilesData] = useState([])
+  const [foldersData, setFoldersData] = useState([])
 
   //--define state of folder positioning
 
-  const [folderLocation, setFolderLocation] = useState("")
+  const [folderLocation, setFolderLocation] = useState(user.mainFolderId)
 
   //read user values from reducer
 
-  const user = useSelector((state)=>state.users.value);
 
-
+//this routes get the folder location, 
   const fetchFiles = async () =>{
     console.log(user.token)
-    const response = await fetch(`http://localhost:3000/files/${user.token}`)
+    const response = await fetch(`http://localhost:3000/folders/${folderLocation}/${user.token}`)
     const data = await response.json()
     console.log(data)
-    setFilesData(data.data)
+    // setFolderLocation(data.parentFolder)
+    setFoldersData(data.childrenFolders)
+    setFilesData(data.files)
 
   }
 
@@ -200,14 +203,14 @@ function Files() {
     console.log("création d’un file")
     //calling backend for new file creation
 
-
+    console.log(folderLocation)
     fetch('http://localhost:3000/files', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({token : user.token,title:"New file"})
+      body: JSON.stringify({token : user.token,title:"New file",parentFolderId:folderLocation,})
     }).then(response=>response.json()
-      .then(data=>
-        console.log(data))  
+      .then(()=>
+        fetchFiles())  
     )
 
   }

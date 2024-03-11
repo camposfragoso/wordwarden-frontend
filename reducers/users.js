@@ -25,6 +25,7 @@ export const usersSlice = createSlice({
     login:(state, action)=>{
       state.value.token = action.payload.token;
       state.value.firstName = action.payload.firstName;
+      state.value.mainFolderId = action.payload.mainFolderId
     }
   },
 });
