@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from '../styles/AssistantsBar.module.css';
-import { assistantsList } from '../public/assistantsList';
+import { assistantsList } from '../modules/assistantsList';
 
 // assistants = ['dev', 'sum', 'ela'] -- assistants present
 // setAssistantList(id) : adds or removes assistant from assistants 
@@ -21,7 +21,7 @@ function AssistantsBar({ assistants, setAssistantsInBar, activeAssistants }) {
                   className={styles.assistantButton}
                   style={{backgroundColor: assistants.includes(id) ? `var(--${id})` : 'var(--black)'}}
                 >
-                  {name}
+                  {id}
                 </button>
               </div>
             </div>
