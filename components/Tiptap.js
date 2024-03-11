@@ -8,16 +8,17 @@ import styles from '../styles/Tiptap.module.css';
 import Underline from '@tiptap/extension-underline';
 import BulletList from '@tiptap/extension-bullet-list';
 import AssistantMark from './Tiptap_custom_extensions/AssistantMark';
+import CharacterCount from '@tiptap/extension-character-count';
 import { HoverExtension } from './Tiptap_custom_extensions/AddHoverEvent';
 import { HighlightCustom } from './Tiptap_custom_extensions/HighlightCustomExtension';
 import { replaceText, setAllHightlights, unsetAllHighlights } from '../modules/tiptap';
 import ThreadCard from './ThreadCard';
+import EditorNavbar from './EditorNavbar';
 
 // TODO 
 // Handle way to fetch llm -- see after
 // Handle llm interventions already read => Yes to highlight again after activation/deactivation
 // When file saving, save assistants and minImportance (which is used to deactivate all assistants if set to 11)
-// SliderBar need to be configured by currentMinImportance (to be on the right position when document loaded)
 // Lundi : navbar(logo, words count, login), thread cards
 
 const Tiptap = () => {
@@ -51,7 +52,7 @@ const Tiptap = () => {
       BulletList,
       HighlightCustom,
       AssistantMark,
-
+      CharacterCount,
       // event handle extension
       HoverExtension.configure({
 
@@ -212,7 +213,11 @@ const Tiptap = () => {
   return (
     <>
       <div className={styles.container}>
-
+        
+        {/* <EditorNavbar 
+          wordsCount={editor?.storage.characterCount.words()}
+          charactersCount={editor?.storage.characterCount.characters()}
+        /> */}
         <EditorContent onClick={() => editor.commands.focus()} editor={editor} className={styles.editor}/>
         <div className={styles.threadDiv}>
         {threadDiv && threadDiv.map(thread => {return (

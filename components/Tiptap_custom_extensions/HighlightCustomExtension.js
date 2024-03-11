@@ -32,7 +32,7 @@ export const HighlightCustom = Mark.create({
             return {}
           }
 
-          const style = `background-color: ${attributes.color.replace(')', 'Bg)')}; color: inherit; border-radius: 2px; border-bottom: 1.5px solid ${attributes.color};`
+          const style = `background-color: ${attributes.color.replace(')', 'Bg)')}; color: inherit; border-radius: 2px; border-bottom: 1.5px solid ${attributes.color}; cursor: pointer;`
           return {
             'data-color': attributes.color,
             style: style,
