@@ -240,7 +240,7 @@ function Files() {
 
   }
   return (
-    <div className="standardPage">
+    <>
       <Navbar />
       <div className={styles.centralBox}>
 
@@ -274,7 +274,7 @@ function Files() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

@@ -319,18 +319,18 @@ const Tiptap = () => {
         />
         <EditorContent onClick={() => editor.commands.focus()} editor={editor} className={styles.editor}/>
         <div className={styles.threadDiv}>
-        {threadDiv && threadDiv.map(thread => {return (
-          <ThreadCard 
-            key={thread.proposition}
-            assistant={thread.assistant}
-            excerpt={thread.excerpt}
-            proposition={thread.proposition}
-            hover={thread.hover}
-            clicked={thread.clicked}
-            replaceThread={replaceThread}
-            closeThread={closeThread}
-          />
-        )})}
+          {threadDiv && threadDiv.map(thread => {return (
+            <ThreadCard 
+              key={thread.proposition}
+              assistant={thread.assistant}
+              excerpt={thread.excerpt}
+              proposition={thread.proposition}
+              hover={thread.hover}
+              clicked={thread.clicked}
+              replaceThread={replaceThread}
+              closeThread={closeThread}
+            />
+          )})}
         </div>
         
         <AssistantsBar 

@@ -2,7 +2,8 @@
   /* background-color: black; */
   /* width: 90%; */
   max-width: 1300px;
-  height: 100vh;
+  height: 94vh;
+  padding-top: 6vh;
   /* border: var(--black) 1px solid; */
   display: flex;
 }
@@ -12,7 +13,7 @@
   align-items: center;
 }
 .filesAndFolders{
-  height: 93vh;
+  height: 87vh;
 
   overflow-y: auto;
 }
@@ -34,7 +35,7 @@
 
 .buttonContainer{
   /* border:1px dashed var(--black); */
-  height: 100vh;
+  height: 94vh;
   min-width:70px;
   display: flex;
   flex-direction: column;
