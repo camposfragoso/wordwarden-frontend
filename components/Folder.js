@@ -8,7 +8,7 @@ function Folder(props){
     content = props.txt
   }
   return(
-    <div className={styles.folderContainer} onClick={()=>props.onClick(props.txt)}>
+    <div className={styles.folderContainer} onClick={()=>props.onClick(props.id, props.txt)}>
       <p>
       {content}
       </p>

@@ -11,9 +11,15 @@ function Files() {
   const [filesData, setFilesData] = useState([])
   const [foldersData, setFoldersData] = useState([])
 
+  //--define path of folderPositioning
+  const [path, setPath] = useState([])
+
+  
+
   //--define state of folder positioning
 
   const [folderLocation, setFolderLocation] = useState(user.mainFolderId)
+  const [currentFolderData, setCurrentFolderData] = useState(null)
 
   //read user values from reducer
 
@@ -27,20 +33,23 @@ function Files() {
     // setFolderLocation(data.parentFolder)
     setFoldersData(data.childrenFolders)
     setFilesData(data.files)
-
+    setCurrentFolderData(data)
+    setPath([...path, data])
   }
 
   useEffect(()=>{
     fetchFiles()
-  },[])
+  },[folderLocation])
 
 
   //declare functions
 
   //go to folder
-  const openFolder = (folderName) => {
-    console.log(folderName)
-    setFolderLocation(folderName)
+  const openFolder = (folderId, folderName) => {
+    console.log("voilà l’id du current folder:",folderLocation)
+    console.log(folderId, folderName)
+    setFolderLocation(folderId)
+    // setPath([...path,folderId])
   }
 
   //create newofolder
@@ -52,7 +61,10 @@ function Files() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({token : user.token, parentFolder : folderLocation})
     }).then(response=>response.json())
-      .then(data=>console.log(data))
+      .then(()=>{
+        fetchFiles()
+        console.log(foldersData)
+      })
 
   }
   //go to file
@@ -62,7 +74,7 @@ function Files() {
   
   //dummy data for dev purposes
 
-  const folders = ["Articles", "Love letters", "Novel", "C’est un trou de verdure ou chante"];
+  // const folders = ["Articles", "Love letters", "Novel", "C’est un trou de verdure ou chante"];
   // const files = [
   //   {
   //     title: "Ceci est un titre d’article",
@@ -180,9 +192,9 @@ function Files() {
   // ]
 
   //how folders display
-  const foldersDisplay = folders.map((el, index) => {
+  const foldersDisplay = foldersData.map((el, index) => {
     return (
-      <Folder txt={el} key={index} onClick={openFolder} />
+      <Folder txt={el.name} id={el._id} onClick={openFolder} />
     )
   })
 
@@ -196,6 +208,18 @@ function Files() {
       <File key={index} title={el.title} lastModified={el.lastModified} activeAssistants={el.activeAssistants} content={el.content} onClick={openFile} />
     )
 
+  })
+
+
+  //how path displays
+
+  const pathDisplay = path.map((el)=>{
+    console.log(el)
+    return(
+      <span id={el.id}>
+        > {el.name}
+      </span>
+    )
   })
   //Create New File on click on button
 
@@ -223,12 +247,14 @@ function Files() {
           <div className={styles.path}>
 
             <h1>My files</h1>
+            {/* <p>{currentFolderData&&currentFolderData.name}</p> */}
+            <p>{pathDisplay&&pathDisplay}</p>
           </div>
           <div className={styles.filesAndFolders}>
 
             <div className={styles.folders}>
               <Folder txt="Create new folder" onClick={createFolder}/>
-              {foldersDisplay}
+              {foldersDisplay.length > 0 && foldersDisplay}
             </div>
             <div className={styles.files}>
 
