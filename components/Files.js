@@ -1,4 +1,5 @@
 import TopLogo from "./TopLogo";
+import Navbar from "./Navbar";
 import styles from "../styles/Files.module.css";
 //import indiidual File component
 import File from "./File"
@@ -240,7 +241,7 @@ function Files() {
   }
   return (
     <div className="standardPage">
-      <TopLogo />
+      <Navbar />
       <div className={styles.centralBox}>
 
         <div className={styles.filesContainer}>

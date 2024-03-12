@@ -4,7 +4,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: rgb(250 250 250 / 1);
+    background-color: var(--lighterGrey);
     position: relative; /* Added to establish a positioning context for absolute positioning inside */
 }
 
@@ -33,4 +33,48 @@
     justify-content: flex-start;
     overflow-y: auto;
     padding-top: 2px;
-  }
+}
+.menu {
+    background-color: white;
+    display: flex;
+    align-items: center;
+    padding: 3px;
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.menuButton {
+    background-color: transparent;
+    border-top: none;
+    border-bottom: none;
+    border-left: none;
+    border-right: 1px solid var(--lightGrey);
+    font-size: 20px;
+    cursor: pointer;
+    width: 40px;
+    color: var(--black);
+}
+.heading1 {
+    font-family: Bold;
+    font-size: 22px;
+    border-left: none;
+}
+.heading2 {
+    font-family: Bold;
+}
+.paragraph {
+    font-family: Normal;
+}
+.bold {
+    font-family: Bold;
+}
+.italic {
+    font-family: Italic;
+}
+.underline {
+    font-family: Normal;
+    text-decoration: underline;
+}
+.bullet {
+    border-right: none;
+    width: 30px;
+}
