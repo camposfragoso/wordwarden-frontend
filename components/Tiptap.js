@@ -83,7 +83,7 @@ const Tiptap = () => {
       setAllHightlights(editor, assistants, llmAnswer, minImportance);
     }
     
-  }
+  };
 
   // Editor with events
   const editor = useEditor({  onUpdate({ editor }) {
@@ -223,10 +223,10 @@ const Tiptap = () => {
     <>
       <div className={styles.container}>
         
-        {/* <EditorNavbar 
+        <EditorNavbar 
           wordsCount={editor?.storage.characterCount.words()}
           charactersCount={editor?.storage.characterCount.characters()}
-        /> */}
+        />
         <EditorContent onClick={() => editor.commands.focus()} editor={editor} className={styles.editor}/>
         <div className={styles.threadDiv}>
         {threadDiv && threadDiv.map(thread => {return (

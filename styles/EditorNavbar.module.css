@@ -1,24 +1,83 @@
 .navbar {
   width: 100%;
-  height: 100px;
+  height: 8vh;
   position: absolute;
   top: 0;
   left: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid black;
+  border-bottom: 1px solid var(--lightGrey);
 }
 .logo {
-  width: 100px;
-  height: 100px;
+  width: 8vh;
+  margin-left: 0.5vw;
+}
+.infos {
+  height: 100%;
+  display: flex;
 }
 .countContainer {
   display: flex;
+  align-items: center;
+  height: 100%;
 }
 .counts {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  border: 1px solid black;
+  justify-content: space-between;
+  height: 60%;
+  border-right: 1px solid var(--lightGrey);
+  padding-right: 2vw;
+}
+.counter {
+  text-align: end;
+}
+.count {
+  font-weight: bold;
+}
+.verticalSeparator {
+  width: 1px;
+  
+  height: 60%;
+ 
+  overflow: hidden;
+  border-radius: 2000px;
+}
+.accountContainer {
+  display: flex;
+  align-items: center;
+  height: 100%;
+} 
+.account {
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0 2vw;
+}
+.status {
+  display: flex;
+  align-items: center;
+}
+.online {
+  height: 9px;
+  width: 9px;
+  background-color: rgb(34 197 94);
+  border-radius: 9999px;
+  display: inline-block;
+  color: transparent;
+  margin-right: 0.5vw;
+}
+.offline {
+  height: 9px;
+  width: 9px;
+  background-color: rgb(221, 56, 38);
+  border-radius: 9999px;
+  display: inline-block;
+  color: transparent;
+  margin-right: 0.5vw;
+}
+.name {
+  text-align: center;
 }
