@@ -1,5 +1,5 @@
 import { useEditor, EditorContent, BubbleMenu } from '@tiptap/react';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import AssistantsBar from './AssistantsBar';
 import StarterKit from '@tiptap/starter-kit';
 import styles from '../styles/Tiptap.module.css';
@@ -30,6 +30,23 @@ const Tiptap = () => {
   
   const [threadDiv, setThreadDiv] = useState([]);
   const previousWordCountRef = useRef(null);
+
+  useEffect(() => {
+    if (llmAnswer && editor) {
+      // Set active assistants (intervening on text)
+      Object.entries(llmAnswer).forEach(([assistant, content]) => {
+        setActiveAssistants(currentActiveAssistants => {
+          if (!currentActiveAssistants.includes(assistant) && content.length > 0 && assistants.includes(assistant)) {
+            return [...currentActiveAssistants, assistant];
+          } else {
+            return [...currentActiveAssistants];
+          }
+        });
+      });
+  
+      setAllHightlights(editor, assistants, llmAnswer, minImportance);
+    }
+  }, [llmAnswer, assistants, minImportance, editor]);
 
   // Get attributes from event.target
   const getAllAttributes = (element) => {
@@ -66,40 +83,31 @@ const Tiptap = () => {
 
     console.log('SUCCESS !!! ✅✅✅✅ HERE is the final result : ' + JSON.stringify(results))
 
-    let llmAnswerExcerpts = new Set();
+    
+    if (llmAnswer) {
+      let llmAnswerExcerpts = new Set();
 
-    Object.values(llmAnswer).forEach(categories => {
-       categories.forEach(entry => {
-       llmAnswerExcerpts.add(entry.excerpt);
-       });
-    });
-
-    let newLlmAnswer = Object.keys(llmAnswer).reduce((acc, key) => {
-      acc[key] = [...llmAnswer[key]];
-  
-      results[key]?.forEach(entry => {
-        if (!llmAnswerExcerpts.has(entry.excerpt)) {
-          acc[key].push(entry);
-        }
+      Object.values(llmAnswer).forEach(categories => {
+         categories.forEach(entry => {
+         llmAnswerExcerpts.add(entry.excerpt);
+         });
       });
   
-      return acc;
-    }, {});
-  
-    setLlmAnswer(newLlmAnswer);
-
-    if (editor && llmAnswer) {
-
-      // Set active assistants (intervening on text)
-      Object.entries(llmAnswer).forEach(([assistant, content]) => setActiveAssistants(currentActiveAssistants => {
-        if (!currentActiveAssistants.includes(assistant) && content.length > 0 && assistants.includes(assistant)) {
-          return [...currentActiveAssistants, assistant]
-        } else {
-          return [...currentActiveAssistants]
-        }
-      }))
-      
-      setAllHightlights(editor, assistants, llmAnswer, minImportance);
+      let newLlmAnswer = Object.keys(llmAnswer).reduce((acc, key) => {
+        acc[key] = [...llmAnswer[key]];
+    
+        results[key]?.forEach(entry => {
+          if (!llmAnswerExcerpts.has(entry.excerpt)) {
+            acc[key].push(entry);
+          }
+        });
+    
+        return acc;
+      }, {});
+    
+      setLlmAnswer(newLlmAnswer);
+    } else {
+      setLlmAnswer(results)
     }
     
   };
@@ -122,11 +130,18 @@ const Tiptap = () => {
   },
     onUpdate({ editor }) {
     
+    if (editor.storage.characterCount.words() === 0) {
+      setLlmAnswer(null)
+      setThreadDiv([])
+    }
+
     const newWordCount = editor.storage.characterCount.words();
 
     if (previousWordCountRef.current === null) {
       previousWordCountRef.current = newWordCount;
     }
+
+    
 
     const previousWordCount = previousWordCountRef.current;
     const wordCountChangeThreshold = 50;
