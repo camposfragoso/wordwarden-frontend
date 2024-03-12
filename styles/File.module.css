@@ -1,0 +1,39 @@
+.fileContainer{
+  height: 410px;
+  /* border: solid 1px var(--black); */
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.fileContainer:hover{
+  background-color: var(--lightGrey);
+}
+
+.preview{
+  border:solid 1px var(--black);
+  height: 297px;
+  width:210px;
+  background-color: var(--white);
+  padding: 10px;
+}
+
+.documentText{
+  width: 100%;
+}
+
+.activeAssistants{
+  display: flex;
+  
+}
+
+.title{
+  margin-left:5px;
+  margin-top:10px;
+}
+
+.content{
+  font-size: 0.4rem;
+}

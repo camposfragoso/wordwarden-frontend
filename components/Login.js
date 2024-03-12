@@ -56,7 +56,7 @@ function Login() {
       email: mail,
       password: password
     }
-
+    console.log(userInfos   )
     fetch('http://localhost:3000/users/signin', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -68,8 +68,9 @@ function Login() {
           setPasswordError(true)
           // router.push("/files")
         }else{
+          console.log(data)
           setPasswordError(false)
-          dispatch(login({token : data.token, firstname : data.firstname, defaultActiveAssistants : data.defaultActiveAssistants}))
+          dispatch(login({token : data.token, firstName : data.firstName, defaultActiveAssistants : data.defaultActiveAssistants}))
           //go to collections
           router.push("/files")
 

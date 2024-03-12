@@ -4,7 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   value: {
     token: null,
-    firstname:null,
+    firstName:null,
     fieldOfWork:null,
     degree:null,
     substanceOrStyle:null,
@@ -24,7 +24,7 @@ export const usersSlice = createSlice({
     },
     login:(state, action)=>{
       state.value.token = action.payload.token;
-      state.value.firstname = action.payload.firstname;
+      state.value.firstName = action.payload.firstName;
     }
   },
 });

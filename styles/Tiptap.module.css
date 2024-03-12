@@ -4,7 +4,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: rgb(250 250 250 / 1);
+    background-color: var(--lighterGrey);
     position: relative; /* Added to establish a positioning context for absolute positioning inside */
 }
 

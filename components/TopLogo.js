@@ -1,10 +1,13 @@
 import Styles from "../styles/TopLogo.module.css"
 import Image from "next/image"
+import Link from "next/link"
 
-function TopLogo(){
-  return(
+function TopLogo() {
+  return (
     <div className={Styles.logostyle}>
-      <Image src="/logoWW.jpeg" layout="fill"/>
+      <Link href="/">
+        <Image src="/logoWW.jpeg" layout="fill" />
+      </Link>
     </div>
   )
 }

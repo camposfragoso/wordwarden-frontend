@@ -39,7 +39,8 @@
   --black: #262626;
   --white: #ffffff;
   --darkGrey:#979797;
-  --lightGrey : #E3E3E3;
+  --lighterGrey: rgb(250 250 250 / 1);
+  --lightGrey : #f0f0f0;
   --color1:#E3B505;
   --color2:#5DD39E;
   --color3:#F0B7B3;
@@ -48,15 +49,15 @@
   --red:var(--color5);
 
   --dev: #EE2E31;
-  --devBg: #EE2E3140;
+  --devBg: #EE2E3120;
   --sum: #4F6367;
-  --sumBg: #4F636740;
+  --sumBg: #4F636720;
   --ela: #F0B7B3;
-  --elaBg: #F0B7B340;
+  --elaBg: #F0B7B320;
   
   --replacement: #ffed7a;
   --multipleAssistants: #452c00;
-  --multipleAssistantsBg: #cb8100;
+  --multipleAssistantsBg: #cb810020;
 
   --active: #F600FF;
 }
@@ -89,6 +90,9 @@ h2{
   font-size: 3rem;
   margin: 20px 0;
 font-weight: 200;
+}
+.italic{
+  font-family: Italic;
 }
 
 input{
@@ -177,7 +181,10 @@ input::placeholder{
 .tiptap {
   > * + * {
     margin-top: 0.75em;
-  }
+  };
+  line-height: 1.5;
+  text-align: justify;
+  text-justify: inter-word;
 }
 
 .proseMirror-focused:focus {
