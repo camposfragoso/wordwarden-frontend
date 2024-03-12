@@ -35,24 +35,31 @@
     padding-top: 2px;
 }
 .menu {
-    background-color: var(--lightGrey);
+    background-color: white;
     display: flex;
     align-items: center;
-    padding: 6px;
-    border: 1px solid var(--darkGrey);
-    border-radius: 2px;
+    padding: 3px;
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
-.menu-button {
+.menuButton {
     background-color: transparent;
     border-top: none;
     border-bottom: none;
-    border-left: 1px solid var(--lightGrey)
+    border-left: none;
+    border-right: 1px solid var(--lightGrey);
+    font-size: 20px;
+    cursor: pointer;
+    width: 40px;
+    color: var(--black);
 }
 .heading1 {
-    font-family: Normal;
+    font-family: Bold;
+    font-size: 22px;
+    border-left: none;
 }
 .heading2 {
-    font-family: Normal;
+    font-family: Bold;
 }
 .paragraph {
     font-family: Normal;
@@ -68,5 +75,6 @@
     text-decoration: underline;
 }
 .bullet {
-    color: var(--black)
+    border-right: none;
+    width: 30px;
 }

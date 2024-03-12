@@ -1,22 +1,22 @@
 import React from 'react';
-import styles from '../styles/EditorNavbar.module.css';
+import styles from '../styles/Navbar.module.css';
 import Link from "next/link";
 
-function EditorNavbar({ wordsCount, charactersCount, connected }) {
+function Navbar({ wordsCount, charactersCount, connected }) {
+  console.log(wordsCount)
+  console.log(charactersCount)
   return (
     <div className={styles.navbar}>
       <Link href="/files">
         <img src="/logo_nobg.png" className={styles.logo} />
       </Link>
       <div className={styles.infos}>
-        {(wordsCount && charactersCount) && 
           <div className={styles.countContainer}>
             <div className={styles.counts}>
-              <p className={styles.counter}><span className={styles.count}>{wordsCount}</span> words</p>
-              <p className={styles.counter}><span className={styles.count}>{charactersCount}</span> characters</p>
+              <p className={styles.counter}><span className={styles.count}>{wordsCount}</span>{wordsCount < 2 ? " word" : " words"}</p>
+              <p className={styles.counter}><span className={styles.count}>{charactersCount}</span>{charactersCount < 2 ? " character" : " characters"}</p>
             </div>
           </div>
-        }
         <div className={styles.accountContainer}>
           <div className={styles.account}>
             {/* {connected ? 
@@ -44,4 +44,4 @@ function EditorNavbar({ wordsCount, charactersCount, connected }) {
   )
 }
 
-export default EditorNavbar
+export default Navbar

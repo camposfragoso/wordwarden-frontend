@@ -11,7 +11,7 @@ import { HoverExtension } from './Tiptap_custom_extensions/AddHoverEvent';
 import { HighlightCustom } from './Tiptap_custom_extensions/HighlightCustomExtension';
 import { replaceText, setAllHightlights, unsetAllHighlights } from '../modules/tiptap';
 import ThreadCard from './ThreadCard';
-import EditorNavbar from './EditorNavbar';
+import Navbar from './Navbar';
 
 // TODO 
 // When file saving, save assistants and minImportance (which is used to deactivate all assistants if set to 11)
@@ -259,49 +259,49 @@ const Tiptap = () => {
           <div className={styles.menu}>
             <button
               onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-              className={`menu-button ${editor.isActive('heading1') ? 'is-active' : ''}`}
+              className={`${styles.menuButton} ${styles.heading1} ${editor.isActive('heading2') ? 'is-active' : ''}`}
             >
               H1
             </button>
             <button
               onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-              className={`menu-button ${editor.isActive('heading2') ? 'is-active' : ''}`}
+              className={`${styles.menuButton} ${styles.heading2} ${editor.isActive('heading2') ? 'is-active' : ''}`}
             >
               H2
             </button>
             <button
               onClick={() => editor.chain().focus().setParagraph().run()}
-              className={`menu-button ${editor.isActive('paragraph') ? 'is-active' : ''}`}
+              className={`${styles.menuButton} ${styles.paragraph} ${editor.isActive('heading2') ? 'is-active' : ''}`}
             >
               p
             </button>
             <button
               onClick={() => editor.chain().focus().toggleBold().run()}
-              className={`menu-button ${editor.isActive('bold') ? 'is-active' : ''}`}
+              className={`${styles.menuButton} ${styles.bold} ${editor.isActive('heading2') ? 'is-active' : ''}`}
             >
               B
             </button>
             <button
               onClick={() => editor.chain().focus().toggleItalic().run()}
-              className={`menu-button ${editor.isActive('italic') ? 'is-active' : ''}`}
+              className={`${styles.menuButton} ${styles.italic} ${editor.isActive('heading2') ? 'is-active' : ''}`}
             >
               I
             </button>
             <button
               onClick={() => editor.chain().focus().toggleUnderline().run()}
-              className={`menu-button ${editor.isActive('underline') ? 'is-active' : ''}`}
+              className={`${styles.menuButton} ${styles.underline} ${editor.isActive('heading2') ? 'is-active' : ''}`}
             >
               U
             </button>
             <button
               onClick={() => editor.chain().focus().toggleBulletList().run()}
-              className={`menu-button ${editor.isActive('bullet') ? 'is-active' : ''}`}
+              className={`${styles.menuButton} ${styles.bullet} ${editor.isActive('heading2') ? 'is-active' : ''}`}
             >
               ●
             </button>
           </div>
         </BubbleMenu>}
-        <EditorNavbar 
+        <Navbar 
           wordsCount={editor?.storage.characterCount.words()}
           charactersCount={editor?.storage.characterCount.characters()}
         />
