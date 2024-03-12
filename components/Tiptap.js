@@ -14,7 +14,6 @@ import ThreadCard from './ThreadCard';
 import EditorNavbar from './EditorNavbar';
 
 // TODO 
-// Handle llm interventions already read => Yes to highlight again after activation/deactivation
 // When file saving, save assistants and minImportance (which is used to deactivate all assistants if set to 11)
 // Bubble menu css
 
@@ -185,7 +184,6 @@ const Tiptap = () => {
         },
 
         onClick: (view, event) => {
-          console.log(event.target)
           const attributes = getAllAttributes(event.target);
           const excerpt = event.target.textContent;
         
@@ -257,7 +255,52 @@ const Tiptap = () => {
   return (
     <>
       <div className={styles.container}>
-        
+        {editor && <BubbleMenu className="bubble-menu" tippyOptions={{ duration: 100 }} editor={editor}>
+          <div className={styles.menu}>
+            <button
+              onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+              className={`menu-button ${editor.isActive('heading1') ? 'is-active' : ''}`}
+            >
+              H1
+            </button>
+            <button
+              onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+              className={`menu-button ${editor.isActive('heading2') ? 'is-active' : ''}`}
+            >
+              H2
+            </button>
+            <button
+              onClick={() => editor.chain().focus().setParagraph().run()}
+              className={`menu-button ${editor.isActive('paragraph') ? 'is-active' : ''}`}
+            >
+              p
+            </button>
+            <button
+              onClick={() => editor.chain().focus().toggleBold().run()}
+              className={`menu-button ${editor.isActive('bold') ? 'is-active' : ''}`}
+            >
+              B
+            </button>
+            <button
+              onClick={() => editor.chain().focus().toggleItalic().run()}
+              className={`menu-button ${editor.isActive('italic') ? 'is-active' : ''}`}
+            >
+              I
+            </button>
+            <button
+              onClick={() => editor.chain().focus().toggleUnderline().run()}
+              className={`menu-button ${editor.isActive('underline') ? 'is-active' : ''}`}
+            >
+              U
+            </button>
+            <button
+              onClick={() => editor.chain().focus().toggleBulletList().run()}
+              className={`menu-button ${editor.isActive('bullet') ? 'is-active' : ''}`}
+            >
+              ●
+            </button>
+          </div>
+        </BubbleMenu>}
         <EditorNavbar 
           wordsCount={editor?.storage.characterCount.words()}
           charactersCount={editor?.storage.characterCount.characters()}
@@ -266,9 +309,12 @@ const Tiptap = () => {
         <div className={styles.threadDiv}>
         {threadDiv && threadDiv.map(thread => {return (
           <ThreadCard 
+            key={thread.proposition}
             assistant={thread.assistant}
             excerpt={thread.excerpt}
             proposition={thread.proposition}
+            hover={thread.hover}
+            clicked={thread.clicked}
             replaceThread={replaceThread}
             closeThread={closeThread}
           />

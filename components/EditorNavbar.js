@@ -1,10 +1,13 @@
 import React from 'react';
 import styles from '../styles/EditorNavbar.module.css';
+import Link from "next/link";
 
 function EditorNavbar({ wordsCount, charactersCount, connected }) {
   return (
     <div className={styles.navbar}>
-      <img src="/logo_nobg.png" className={styles.logo} />
+      <Link href="/files">
+        <img src="/logo_nobg.png" className={styles.logo} />
+      </Link>
       <div className={styles.infos}>
         {(wordsCount && charactersCount) && 
           <div className={styles.countContainer}>

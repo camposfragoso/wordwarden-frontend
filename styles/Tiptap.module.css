@@ -33,4 +33,40 @@
     justify-content: flex-start;
     overflow-y: auto;
     padding-top: 2px;
-  }
+}
+.menu {
+    background-color: var(--lightGrey);
+    display: flex;
+    align-items: center;
+    padding: 6px;
+    border: 1px solid var(--darkGrey);
+    border-radius: 2px;
+}
+.menu-button {
+    background-color: transparent;
+    border-top: none;
+    border-bottom: none;
+    border-left: 1px solid var(--lightGrey)
+}
+.heading1 {
+    font-family: Normal;
+}
+.heading2 {
+    font-family: Normal;
+}
+.paragraph {
+    font-family: Normal;
+}
+.bold {
+    font-family: Bold;
+}
+.italic {
+    font-family: Italic;
+}
+.underline {
+    font-family: Normal;
+    text-decoration: underline;
+}
+.bullet {
+    color: var(--black)
+}
