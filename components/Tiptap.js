@@ -66,7 +66,7 @@ const Tiptap = () => {
     for (let assistant of assistants) {
       
       console.log('calling for : ' + assistant)
-      const url = `http://localhost:3000/llm/mistral/${assistant}`
+      const url = `http://localhost:3000/llm/openai/${assistant}`
       
       const config = {
         method: 'POST',
@@ -79,7 +79,7 @@ const Tiptap = () => {
 
       console.log(`SUCCESS !!! ✅✅✅✅ HERE IS ${assistant} : ${JSON.stringify(answer)}`)
 
-      results[assistant] = answer
+      results[assistant] = answer[assistant]
     }
 
     console.log('SUCCESS !!! ✅✅✅✅ HERE is the final result : ' + JSON.stringify(results))
