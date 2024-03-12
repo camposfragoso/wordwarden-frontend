@@ -27,8 +27,8 @@ function AssistantsBar({ assistants, setAssistantsInBar, activeAssistants }) {
             </div>
           )
         })}
-        <button className={styles.options} onClick={() => setIsModalShown(!isModalShown)}>...</button>
-      </div>
+{/*         <button className={styles.options} onClick={() => setIsModalShown(!isModalShown)}>...</button>
+ */}      </div>
       {/* <div className={styles.assistantsModal}>THIS IS THE MODAL</div> */}
     </div>
   )
