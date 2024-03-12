@@ -3,8 +3,6 @@ import styles from '../styles/Navbar.module.css';
 import Link from "next/link";
 
 function Navbar({ wordsCount, charactersCount, connected }) {
-  console.log(wordsCount)
-  console.log(charactersCount)
   return (
     <div className={styles.navbar}>
       <Link href="/files">
