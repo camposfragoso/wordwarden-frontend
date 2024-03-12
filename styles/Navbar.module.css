@@ -1,6 +1,7 @@
 .navbar {
   width: 100%;
   height: 6vh;
+  z-index: 100;
   position: absolute;
   top: 0;
   left: 0;
@@ -36,14 +37,6 @@
 }
 .count {
   font-weight: bold;
-}
-.verticalSeparator {
-  width: 1px;
-  
-  height: 60%;
- 
-  overflow: hidden;
-  border-radius: 2000px;
 }
 .accountContainer {
   display: flex;
@@ -81,4 +74,74 @@
 }
 .name {
   text-align: center;
+  cursor: pointer;
+}
+.modal {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 6vh;
+  right: 0vw;
+  width: 150px;
+  border-left: 1px solid var(--lightGrey);
+  border-bottom: 1px solid var(--lightGrey);
+}
+.modalButton {
+  width: 100%;
+  height: 42px;
+  color: var(--black);
+  font-family: Normal;
+  font-size: 16px;
+  border: none;
+  background-color: #fefefe;
+  cursor: pointer;
+}
+.logModal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--lightgrey);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modalButton:hover {
+  background-color: var(--lightGrey);
+  width: 100%;
+}
+.log {
+  z-index: 100;
+  width: 35vw;
+  min-width: 500px;
+  background-color: white;
+  border-radius: 30px;
+  height: 50vh;
+  width: 40vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.logButton {
+  width: 60%;
+  height: 42px;
+  font-family: Normal;
+  font-size: 18px;
+  margin: 16px 0;
+  color: var(--darkGrey);
+  border: 1px solid var(--darkGrey);
+  background-color: transparent;
+  border-radius: 10px;
+}
+.logButton:hover {
+  color: var(--black);
+  border: 1px solid var(--black);
+  cursor: pointer;
+}
+.hidden {
+  display: none;
 }

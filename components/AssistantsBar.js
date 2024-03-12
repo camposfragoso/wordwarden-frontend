@@ -2,7 +2,7 @@ import React from 'react';
 import styles from '../styles/AssistantsBar.module.css';
 import { assistantsList } from '../modules/assistantsList';
 
-function AssistantsBar({ assistants, setAssistantsInBar, activeAssistants }) {
+function AssistantsBar({ assistants, setAssistantsInBar, activeAssistants, loading }) {
 
   return (
     <div className={styles.assistantsBar}>

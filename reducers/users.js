@@ -25,9 +25,14 @@ export const usersSlice = createSlice({
       state.value.token = action.payload.token;
       state.value.firstName = action.payload.firstName;
       state.value.mainFolderId = action.payload.mainFolderId
+    },
+    logout: (state, action) => {
+      state.value.token = null;
+      state.value.firstName = null;
+      state.value.mainFolderId = null;
     }
   },
 });
 
-export const { initiateTemporaryUser,login } = usersSlice.actions;
+export const { initiateTemporaryUser,login, logout } = usersSlice.actions;
 export default usersSlice.reducer;

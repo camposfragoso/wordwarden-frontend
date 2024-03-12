@@ -10,8 +10,8 @@
 
 .editor {
     background-color: white;
-    width: 50%;
-    height: 50%;
+    width: 60%;
+    height: 65%;
     overflow-y: scroll;
     border-radius: 2%;
     padding: 1%;
@@ -21,12 +21,12 @@
 }
 .threadDiv {
     width: 20%;
-    height: 50%;
+    height: 65%;
     position: absolute;
     right: 0; 
-    margin-right: 5%; 
+    margin-right: 0%; 
     margin-left: 2%; 
-    top: calc(25vh - 2vh - 30px); 
+    top: calc(17.5vh - 2vh - 30px); 
     display: flex;
     flex-direction: column;
     align-items: center;
