@@ -217,6 +217,8 @@ const Tiptap = () => {
       const answer = await fetch(url, config).then(response => response.json());
 
       setFileID(answer.id)
+      console.log(answer.id)
+
     
   }
 
