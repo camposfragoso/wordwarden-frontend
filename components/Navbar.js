@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useSelector, useDispatch } from 'react-redux';
 import { logout, login } from '../reducers/users';
 
+// On files page, instead of counts, display messages from llm ?
+
 function Navbar({ wordsCount, charactersCount, page }) {
   const user = useSelector(state => state.users.value)
   const dispatch = useDispatch()
@@ -17,21 +19,16 @@ function Navbar({ wordsCount, charactersCount, page }) {
 
   return (
     <div className={styles.navbar} onMouseLeave={() => setIsModalShown(false)}>
-      <Link href={page === 'editor' ? "/files" : "/"}>
+      <Link href={page === 'editor' && user.token ? "/files" : "/"}>
         <img src="/logo_nobg.png" className={styles.logo} />
       </Link>
       <div className={styles.infos}>
           <div className={styles.countContainer}>
-            {page === 'editor' ?
+            {page === 'editor' &&
               <div className={styles.counts}>
                 <p className={styles.counter}><span className={styles.count}>{wordsCount}</span>{wordsCount < 2 ? " word" : " words"}</p>
                 <p className={styles.counter}><span className={styles.count}>{charactersCount}</span>{charactersCount < 2 ? " character" : " characters"}</p>
-              </div>
-            :
-              <div className={styles.counts}>
-                <p>FILES</p>
-              </div>
-            }
+              </div>}
           </div>
         <div className={styles.accountContainer}>
           <div className={styles.account}>
