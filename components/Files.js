@@ -29,7 +29,7 @@ function Files() {
   //this routes get the folder location, 
   const fetchFiles = async () => {
     console.log(user.token)
-    const response = await fetch(`http://localhost:3000/folders/${folderLocation}/${user.token}`)
+    const response = await fetch(`https://wordwarden-backend-pi.vercel.app/folders/${folderLocation}/${user.token}`)
     const data = await response.json()
     console.log(data)
     // setFolderLocation(data.parentFolder)
@@ -58,7 +58,7 @@ function Files() {
 
   const createFolder = () => {
     console.log("create new folder")
-    fetch('http://localhost:3000/folders', {
+    fetch('https://wordwarden-backend-pi.vercel.app/folders', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ token: user.token, parentFolder: folderLocation })
@@ -230,7 +230,7 @@ function Files() {
     //calling backend for new file creation
 
     console.log(folderLocation)
-    fetch('http://localhost:3000/files', {
+    fetch('https://wordwarden-backend-pi.vercel.app/files', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ token: user.token, title: "New file", parentFolderId: folderLocation, })

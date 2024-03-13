@@ -105,7 +105,7 @@ function Signup() {
         firstName: firstName,
         defaultActiveAssistants : user.defaultActiveAssistants
       }
-      fetch('http://localhost:3000/users/signup', {
+      fetch('https://wordwarden-backend-pi.vercel.app/users/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userInfos)

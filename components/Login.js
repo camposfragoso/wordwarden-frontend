@@ -57,7 +57,7 @@ function Login() {
       password: password
     }
     console.log(userInfos)
-    fetch('http://localhost:3000/users/signin', {
+    fetch('https://wordwarden-backend-pi.vercel.app/users/signin', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userInfos)
