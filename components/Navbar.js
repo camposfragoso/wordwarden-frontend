@@ -3,7 +3,6 @@ import styles from '../styles/Navbar.module.css';
 import Link from "next/link";
 import { useSelector, useDispatch } from 'react-redux';
 import { logout, login } from '../reducers/users';
-import Button2 from './Button2';
 
 function Navbar({ wordsCount, charactersCount, page }) {
   const user = useSelector(state => state.users.value)

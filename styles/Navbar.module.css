@@ -135,7 +135,7 @@
   color: var(--darkGrey);
   border: 1px solid var(--darkGrey);
   background-color: transparent;
-  border-radius: 10px;
+  border-radius: 15px;
 }
 .logButton:hover {
   color: var(--black);
