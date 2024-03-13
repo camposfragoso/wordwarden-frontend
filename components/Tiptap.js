@@ -98,7 +98,7 @@ const Tiptap = () => {
     for (let assistant of assistants) {
       
       console.log('calling for : ' + assistant)
-      const url = `http://localhost:3000/llm/openai/${assistant}`
+      const url = `https://wordwarden-backend.vercel.app/llm/openai/${assistant}`
       
       const config = {
         method: 'POST',
@@ -202,7 +202,7 @@ const Tiptap = () => {
       const content = input
       const title = input.content[0].content[0].text;
 
-      const url = `http://localhost:3000/files/`
+      const url = `https://wordwarden-backend.vercel.app/files/`
 
       const config = {
         method: 'POST',
@@ -217,6 +217,8 @@ const Tiptap = () => {
       const answer = await fetch(url, config).then(response => response.json());
 
       setFileID(answer.id)
+      console.log(answer.id)
+
     
   }
 
