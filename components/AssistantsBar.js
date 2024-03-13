@@ -15,13 +15,18 @@ function AssistantsBar({ assistants, setAssistantsInBar, activeAssistants, loadi
                   onClick={() => setAssistantsInBar(id)} 
                   className={styles.assistantButton}
                   style={{backgroundColor: assistants.includes(id) ? `var(--${id})` : 'var(--black)'}}
-                >
+                  >
                   {id}
                 </button>
               </div>
             </div>
           )
         })}
+        {loading &&
+        <div className={styles.loaderContainer}>
+          <span className={styles.loader}></span>
+        </div>
+        }
       </div>
     </div>
   )
