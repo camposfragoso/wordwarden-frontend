@@ -2,9 +2,10 @@
   /* background-color: black; */
   /* width: 90%; */
   max-width: 1300px;
-  height: 100vh;
+  height: 94vh;
   /* border: var(--black) 1px solid; */
   display: flex;
+  padding-top:6vh
 }
 .path{
   height: 7vh;
@@ -12,7 +13,7 @@
   align-items: center;
 }
 .filesAndFolders{
-  height: 93vh;
+  height: 87vh;
 
   overflow-y: auto;
 }
@@ -34,13 +35,14 @@
 
 .buttonContainer{
   /* border:1px dashed var(--black); */
-  height: 100vh;
+  /* height: 94vh; */
   min-width:70px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
   padding: 10px 0;
+  padding-top:6vh
 }
 .addButton{
   height: 60px;

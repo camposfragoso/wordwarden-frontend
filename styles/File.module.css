@@ -1,5 +1,5 @@
 .fileContainer{
-  height: 410px;
+  height: 270px;
   /* border: solid 1px var(--black); */
   padding: 15px;
   display: flex;
@@ -14,7 +14,7 @@
 
 .preview{
   border:solid 1px var(--black);
-  height: 297px;
+  height: 150px;
   width:210px;
   background-color: var(--white);
   padding: 10px;
