@@ -28,7 +28,7 @@ const Tiptap = () => {
   const user = useSelector(state => state.users.value)
 
   // const [involvedAssistants, setInvolvedAssistants] = useState(['sum', 'dev', 'ela']);
-  const [assistants, setAssistants] = useState(['dev', 'sum', 'ela']);
+  const [assistants, setAssistants] = useState(['dev', 'sum', 'ela', 'chi', 'sen']);
   const [activeAssistants,setActiveAssistants] = useState([]);
   const [minImportance, setMinImportance] = useState(1);
   const [content, setContent] = useState({

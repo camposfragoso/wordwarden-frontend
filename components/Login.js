@@ -19,11 +19,24 @@ function Login() {
   const [passwordError, setPasswordError] = useState(false)
 
   const dispatch = useDispatch()
-  const handleClick = (valueOfButton) => {
+  const handleKeyPress = (event) => {
+    if (event.key !== 'Enter') {
+      setMailError(false)
+      setPasswordError(false)
+      return 
+    }
+    switch (formStep) {
+      case 1:
+        validateMail()
+        return
+      case 2:
+        connect()
+        return 
+    }
+  }
 
+  const handleClick = () => {
     setFormStep(formStep + 1)
-
-
   }
 
   const goBack = () => {
@@ -46,7 +59,6 @@ function Login() {
       handleClick();
     } else {
       setMailError(true)
-      setMail("")
     }
 
   }
@@ -91,7 +103,7 @@ function Login() {
 
 
   return (
-    <div className="standardPage">
+    <div className="standardPage" onKeyDown={(e) => handleKeyPress(e)}>
       <TopLogo />
 
       {formComponents.length >= formStep && formComponents[formStep - 1].component}

@@ -24,11 +24,33 @@ function Signup() {
   //defining all functions
   const router = useRouter()
   const dispatch = useDispatch();
+
   const handleClick = () => {
-
     setFormStep(formStep + 1)
+  }
 
-
+  const handleKeyPress = (event) => {
+    if (event.key !== 'Enter') {
+      setMailError(false)
+      setPasswordError(false)
+      setFirstnameError(false)
+      setLastnameError(false)
+      return 
+    }
+    switch (formStep) {
+      case 1:
+        validateFirstname()
+        return
+      case 2:
+        validateLastname()
+        return 
+      case 3:
+        validateMail()
+        return 
+      case 4:
+        createAccount()
+        return
+    }
   }
 
   const goBack = () => {
@@ -42,7 +64,6 @@ function Signup() {
     if (firstName.length === 0) {
       setFirstnameError(true);
     } else {
-
       handleClick()
     }
   }
@@ -56,7 +77,6 @@ function Signup() {
     if (lastName.length === 0) {
       setLastnameError(true);
     } else {
-
       handleClick()
     }
   }
@@ -75,7 +95,6 @@ function Signup() {
       handleClick();
     } else {
       setMailError(true)
-      setMail("")
     }
 
   }
@@ -142,7 +161,7 @@ function Signup() {
   ]
 
   return (
-    <div className="standardPage">
+    <div className="standardPage" onKeyDown={(e) => handleKeyPress(e)}>
       <TopLogo />
       {formComponents.length >= formStep && formComponents[formStep - 1].component}
       <div style={{ display: "flex", flexDirection: "column", position: "absolute", top: "70vh", alignItems:"center"}}>
