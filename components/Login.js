@@ -72,7 +72,7 @@ function Login() {
           setPasswordError(false)
           dispatch(login({token : data.token, firstName : data.firstName, defaultActiveAssistants : data.defaultActiveAssistants, mainFolderId : data.mainFolderId}))
           //go to collections
-          router.push("/files")
+          router.push("/editor")
 
         }
       })
