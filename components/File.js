@@ -1,33 +1,29 @@
 import styles from "../styles/File.module.css"
 import Circle from "./Circle"
-
+const moment = require('moment')
 function File(props) {
   // console.log(props)
-  const assistants=props.activeAssistants.map(el=>{
-    return(
-      <Circle className={styles.circle} size={20} color={el}/>
+  const assistants = props.activeAssistants.map(el => {
+    return (
+      <Circle className={styles.circle} size={15} color={el} />
     )
   })
   console.log(props.isDragging)
   return (
-    <div className={styles.fileContainer} style={{opacity : props.isDragging ? "0.5" : "1"}}>
-      <div className={styles.preview}>
-        <p className={styles.content}>
-          {props.content}
-        </p>
-      </div>
-      <div className={styles.documentText}>
+    <div className={styles.fileContainer} style={{ opacity: props.isDragging ? "0.5" : "1" }}>
 
-        <h3 className={styles.title}>
-          {props.title}
-        </h3>
-        <div className={styles.activeAssistants}>
-          {assistants}
+        <div className={styles.documentTextTitle}>
+
+          <h3 className={styles.title}>
+            {props.title}
+          </h3>
+          <div className={styles.activeAssistants}>
+            {assistants}
+          </div>
         </div>
-        <span style={{marginLeft:"5px"}} className="italic">
-          {props.lastModified}
+        <span className={styles.date}>
+          {moment(props.lastModified).fromNow()}
         </span>
-      </div>
     </div>
   )
 }
