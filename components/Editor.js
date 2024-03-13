@@ -49,7 +49,7 @@ export default () => {
     for (let assistant of assistants) {
       
       console.log('calling for : ' + assistant)
-      const url = `https://wordwarden-backend.vercel.app/llm/mistral/${assistant}`
+      const url = `http://localhost:3000/llm/mistral/${assistant}`
       
       const config = {
         method: 'POST',
