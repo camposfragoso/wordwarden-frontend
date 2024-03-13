@@ -8,8 +8,9 @@ function File(props) {
       <Circle className={styles.circle} size={20} color={el}/>
     )
   })
+  console.log(props.isDragging)
   return (
-    <div className={styles.fileContainer}>
+    <div className={styles.fileContainer} style={{opacity : props.isDragging ? "0.5" : "1"}}>
       <div className={styles.preview}>
         <p className={styles.content}>
           {props.content}

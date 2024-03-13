@@ -56,7 +56,7 @@ function Login() {
       email: mail,
       password: password
     }
-    console.log(userInfos   )
+    console.log(userInfos)
     fetch('http://localhost:3000/users/signin', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

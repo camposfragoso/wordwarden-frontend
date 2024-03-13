@@ -5,17 +5,18 @@ import styles from "../styles/Files.module.css";
 import File from "./File"
 import Folder from "./Folder"
 import { useSelector } from "react-redux";
-import {useEffect, useState} from "react"
+import { useEffect, useState } from "react"
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 
 function Files() {
-  const user = useSelector((state)=>state.users.value);
+  const user = useSelector((state) => state.users.value);
   const [filesData, setFilesData] = useState([])
   const [foldersData, setFoldersData] = useState([])
 
   //--define path of folderPositioning
   const [path, setPath] = useState([])
 
-  
+
 
   //--define state of folder positioning
 
@@ -25,8 +26,8 @@ function Files() {
   //read user values from reducer
 
 
-//this routes get the folder location, 
-  const fetchFiles = async () =>{
+  //this routes get the folder location, 
+  const fetchFiles = async () => {
     console.log(user.token)
     const response = await fetch(`http://localhost:3000/folders/${folderLocation}/${user.token}`)
     const data = await response.json()
@@ -38,31 +39,31 @@ function Files() {
     setPath([...path, data])
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchFiles()
-  },[folderLocation])
+  }, [folderLocation])
 
 
   //declare functions
 
   //go to folder
   const openFolder = (folderId, folderName) => {
-    console.log("voilà l’id du current folder:",folderLocation)
+    console.log("voilà l’id du current folder:", folderLocation)
     console.log(folderId, folderName)
     setFolderLocation(folderId)
     // setPath([...path,folderId])
   }
 
   //create newofolder
-  
-  const createFolder = ()=>{
+
+  const createFolder = () => {
     console.log("create new folder")
-    fetch('http://localhost:3000/folders',{
+    fetch('http://localhost:3000/folders', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({token : user.token, parentFolder : folderLocation})
-    }).then(response=>response.json())
-      .then(()=>{
+      body: JSON.stringify({ token: user.token, parentFolder: folderLocation })
+    }).then(response => response.json())
+      .then(() => {
         fetchFiles()
         console.log(foldersData)
       })
@@ -72,7 +73,7 @@ function Files() {
   const openFile = (fileName) => {
     console.log("changer folder")
   }
-  
+
   //dummy data for dev purposes
 
   const folders = ["Articles", "Love letters", "Novel", "C’est un trou de verdure ou chante"];
@@ -201,22 +202,22 @@ function Files() {
 
 
   //how files display
-  
-  const filesDisplay = filesData.map((el, index) => {
 
-    // console.log(el.activeAssistants)
-    return (
-      <File key={index} title={el.title} lastModified={el.lastModified} activeAssistants={el.activeAssistants} content={el.content} onClick={openFile} />
-    )
+  // const filesDisplay = filesData.map((el, index) => {
 
-  })
+  //   // console.log(el.activeAssistants)
+  //   return (
+  //     <File {...provided.droppableProps} ref={provided.innerRef} className="files" key={index} title={el.title} lastModified={el.lastModified} activeAssistants={el.activeAssistants} content={el.content} onClick={openFile} />
+  //   )
+
+  // })
 
 
   //how path displays
 
-  const pathDisplay = path.map((el)=>{
+  const pathDisplay = path.map((el) => {
     console.log(el)
-    return(
+    return (
       <span id={el.id}>
         > {el.name}
       </span>
@@ -224,7 +225,7 @@ function Files() {
   })
   //Create New File on click on button
 
-  const createFile = () =>{
+  const createFile = () => {
     console.log("création d’un file")
     //calling backend for new file creation
 
@@ -232,15 +233,41 @@ function Files() {
     fetch('http://localhost:3000/files', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({token : user.token,title:"New file",parentFolderId:folderLocation,})
-    }).then(response=>response.json()
-      .then(()=>
-        fetchFiles())  
+      body: JSON.stringify({ token: user.token, title: "New file", parentFolderId: folderLocation, })
+    }).then(response => response.json()
+      .then(() =>
+        fetchFiles())
     )
 
   }
+
+
+  //fonction qui détermine ce qui se passe au drap and drop
+
+  const handleDragEnd = (result) => {
+    if (!result.destination) {
+      return;
+    }
+
+    const droppedOnFolder = foldersData.find(
+      (folder) => folder._id === result.destination.droppableId
+    );
+
+    if (droppedOnFolder) {
+      // Un élément a été déposé sur un dossier
+      // Vous pouvez effectuer une action ici, par exemple, déplacer l'élément dans le dossier
+      console.log(`Element dropped on folder ${droppedOnFolder.name}`);
+    } else {
+      // Un élément a été déposé ailleurs
+      // Vous pouvez effectuer une autre action ici, par exemple, réorganiser les éléments
+      console.log("Element dropped elsewhere");
+    }
+  };
+
+
   return (
-    <>
+
+    <div style={{ display: "flex", justifyContent: "center" }}>
       <Navbar />
       <div className={styles.centralBox}>
 
@@ -249,25 +276,60 @@ function Files() {
 
             <h1>My files</h1>
             {/* <p>{currentFolderData&&currentFolderData.name}</p> */}
-            <p>{pathDisplay&&pathDisplay}</p>
+            {/* <p>{pathDisplay&&pathDisplay}</p> */}
           </div>
+
           <div className={styles.filesAndFolders}>
 
-            <div className={styles.folders}>
-              <Folder txt="Create new folder" onClick={createFolder}/>
-              {foldersDisplay.length > 0 && foldersDisplay}
-            </div>
-            <div className={styles.files}>
+            <DragDropContext onDragEnd={handleDragEnd}>
 
-              {filesDisplay.length > 0 && filesDisplay}
-            </div>
-            
+              <div className={styles.folders}>
+                <Folder txt="Create new folder" onClick={createFolder} />
+                {/* {foldersDisplay.length > 0 && foldersDisplay} */}
+                {/* test d’insertion de la fonction de display des folders en drap and drop */}
+                {foldersData.map((folder) => (
+                  <Droppable droppableId={folder._id} key={folder._id}>
+                    {(provided) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                      >
+                        <Folder txt={folder.name} id={folder._id} onClick={openFolder} />
+                      </div>
+                    )}
+                  </Droppable>
+                ))}
+              </div>
+              <Droppable droppableId="files">
+                {(provided) => (
+
+                  <ul className="files" {...provided.droppableProps} ref={provided.innerRef} style={{ display: "flex", flexWrap: "wrap" }} >
+                    {filesData.map((el, index) => {
+
+                      return (
+                        <Draggable key={el._id} draggableId={el._id} index={index}>
+                          {(provided, snapshot) => (
+                            <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} >
+
+                              <File title={el.title} lastModified={el.lastModified} activeAssistants={el.activeAssistants} content={el.content} onClick={openFile} isDragging={snapshot.isDragging}/>
+                            </div>
+                          )}
+
+                        </Draggable>
+                      )
+
+                    })}
+                  </ul>
+                )}
+              </Droppable>
+
+            </DragDropContext>
           </div>
         </div>
 
         <div className={styles.buttonContainer}>
           <div>{user.firstName}</div>
-          <div onClick={()=>createFile()} className={styles.addButton}>
+          <div onClick={() => createFile()} className={styles.addButton}>
             <h1>
               +
             </h1>
