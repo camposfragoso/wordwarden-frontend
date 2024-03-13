@@ -12,6 +12,7 @@ function Navbar({ wordsCount, charactersCount, page }) {
 
   const [isModalShown, setIsModalShown] = useState(false);
   const [isLogModalShown, setIsLogModalShown] = useState(false);
+  const [isFilesModalShown, setIsFilesModalShown] = useState(false);
 
   const handleLogModalClick = (e) => {
     e.target.className.includes("logModal") && setIsLogModalShown(false);
@@ -19,10 +20,13 @@ function Navbar({ wordsCount, charactersCount, page }) {
 
   return (
     <div className={styles.navbar} onMouseLeave={() => setIsModalShown(false)}>
+
       <Link href={page === 'editor' && user.token ? "/files" : "/"}>
         <img src="/logo_nobg.png" className={styles.logo} />
       </Link>
+
       <div className={styles.infos}>
+
           <div className={styles.countContainer}>
             {page === 'editor' &&
               <div className={styles.counts}>
@@ -30,6 +34,7 @@ function Navbar({ wordsCount, charactersCount, page }) {
                 <p className={styles.counter}><span className={styles.count}>{charactersCount}</span>{charactersCount < 2 ? " character" : " characters"}</p>
               </div>}
           </div>
+
         <div className={styles.accountContainer}>
           <div className={styles.account}>
               {user.token ? 
@@ -56,7 +61,9 @@ function Navbar({ wordsCount, charactersCount, page }) {
               }
           </div>
         </div>
+
       </div>
+
         {user.token ?
         <div className={`${!isModalShown && styles.hidden} ${styles.modal}`} onMouseLeave={() => setIsModalShown(false)}>
           <div>
@@ -73,7 +80,10 @@ function Navbar({ wordsCount, charactersCount, page }) {
           </div>
         </div>
         }
-
+      <div className={`${styles.filesModal} ${!isFilesModalShown && styles.filesModalHidden}`} onMouseLeave={() => setIsFilesModalShown(false)}>
+        <div className={styles.files}></div>
+        <div className={styles.opener} onMouseEnter={() => setIsFilesModalShown(true)}>{!isFilesModalShown ? "►" : "◀︎"}</div>
+      </div>
     </div>
   )
 }
