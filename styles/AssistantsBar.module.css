@@ -1,7 +1,11 @@
+.container {
+  display: flex;
+  align-items: center;
+  margin-top: 2%;
+}
 .assistantsBar {
   display: flex;
   justify-content: center;
-  margin-top: 2%;
 }
 .assistants {
   height: 60px;
@@ -85,8 +89,8 @@
 }
 
 .loader {
-  width: 42px;
-  height: 42px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   background-color: transparent;
   animation-name: roll-and-grow;
