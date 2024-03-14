@@ -49,12 +49,12 @@ function Files() {
   //declare functions
 
   //go to folder
-  const openFolder = (folderId, folderName) => {
-    console.log("voilà l’id du current folder:", folderLocation)
-    console.log(folderId, folderName)
-    setFolderLocation(folderId)
-    // setPath([...path,folderId])
-  }
+  // const openFolder = (folderId, folderName) => {
+  //   console.log("voilà l’id du current folder:", folderLocation)
+  //   console.log(folderId, folderName)
+  //   setFolderLocation(folderId)
+  //   // setPath([...path,folderId])
+  // }
 
   //create newofolder
 
@@ -180,7 +180,7 @@ function Files() {
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                 >
-                  <Folder txt={folder.name} id={folder._id} onClick={openFolder} files={folder.files}/>
+                  <Folder txt={folder.name} id={folder._id} files={folder.files} fetchFiles={fetchFiles}/>
                 </div>
               )}
             </Droppable>

@@ -20,7 +20,7 @@ function File(props) {
 
   const deleteModal = (
     <div className={styles.deleteModal}>
-      <p>
+      <p className={styles.deleteMessage}>
         Delete {props.title} ?
         <span style={{ fontFamily: "Italic" }}>(irreversible)</span>
       </p>
