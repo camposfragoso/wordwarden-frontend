@@ -53,3 +53,21 @@
   color:var(--darkGrey);
   border: 1px solid var(--darkGrey)
 }
+
+.createFolder{
+  display: flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  /* margin: 10px; */
+  cursor: pointer;
+  /* border-radius: 5px; */
+  font-size: 1.2rem;
+  padding: 7px;
+  width: 100%;
+  font-family: Bold;
+}
+
+.createFolder:hover{
+  background-color: var(--lightGrey);
+}
