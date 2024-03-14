@@ -7,11 +7,22 @@ function Folder(props){
   }else{
     content = props.txt
   }
+
+  // console.log(props, props.files, "on",props.id)
   return(
     <div className={styles.folderContainer} onClick={()=>props.onClick(props.id, props.txt)}>
       <p>
       {content}
       </p>
+      <div>
+        {props.type!=="create"  && props.files.map((elem)=>{
+          return(
+            <div>
+              {elem.title}
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }

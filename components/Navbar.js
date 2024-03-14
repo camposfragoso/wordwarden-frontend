@@ -3,6 +3,8 @@ import styles from '../styles/Navbar.module.css';
 import Link from "next/link";
 import { useSelector, useDispatch } from 'react-redux';
 import { logout, login } from '../reducers/users';
+import Files from "./Files"
+
 
 // On files page, instead of counts, display messages from llm ?
 
@@ -80,8 +82,10 @@ function Navbar({ wordsCount, charactersCount, page }) {
           </div>
         </div>
         }
-      <div className={`${styles.filesModal} ${!isFilesModalShown && styles.filesModalHidden}`} onMouseLeave={() => setIsFilesModalShown(false)}>
-        <div className={styles.files}></div>
+      <div className={`${styles.filesModal} ${!isFilesModalShown && styles.filesModalHidden}`} >
+        <div className={styles.files}>
+          <Files />
+        </div>
         <div className={styles.opener} onMouseEnter={() => setIsFilesModalShown(true)}>{!isFilesModalShown ? "►" : "◀︎"}</div>
       </div>
     </div>
@@ -89,3 +93,5 @@ function Navbar({ wordsCount, charactersCount, page }) {
 }
 
 export default Navbar
+
+// onMouseLeave={() => setIsFilesModalShown(false)}
