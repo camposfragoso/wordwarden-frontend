@@ -20,8 +20,8 @@ function FormItem(props) {
   //formitem with textinput
   if (!props.select) {
     return (<div className={styles.questionContainer} >
-      <div style={{ backgroundColor: "var(--black)", width: "80px", height: "80px", borderRadius: "50%", display: "flex", color: "var(--white)", alignItems: "center", justifyContent: "center", padding: "10px", marginRight: "15px" }}>
-        <p style={{ fontSize: "3rem" }}>
+      <div style={{ backgroundColor: "var(--black)", width: "60px", height: "60px", borderRadius: "50%", display: "flex", color: "var(--white)", alignItems: "center", justifyContent: "center", padding: "10px", marginRight: "15px" }}>
+        <p style={{ fontSize: "2rem" }}>
           {romanNumerals[props.position - 1]}
         </p>
       </div>
