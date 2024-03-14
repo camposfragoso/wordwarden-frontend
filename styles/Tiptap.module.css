@@ -17,7 +17,9 @@
     padding: 1%;
     z-index: 1; /* Ensure the editor is above the threadDiv if they overlap */
     box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
-
+}
+.editor::-webkit-scrollbar {
+    display: none;
 }
 .threadDiv {
     width: 20%;
@@ -82,8 +84,9 @@
     height: 60px;
     width: 60px;
     /* background-color: var(--black); */
-    border: 1px solid var(--black);
-    border-radius: 20px;
+    border: 1px solid var(--darkGrey);
+    color: var(--darkGrey);
+    border-radius: 50%;
     margin: 10px;
     cursor: pointer;
     display: flex;
@@ -95,6 +98,6 @@
 
   }
   .addButton:hover{
-    color:var(--darkGrey);
-    border: 1px solid var(--darkGrey)
+    color:var(--black);
+    border: 1px solid var(--black)
   }
