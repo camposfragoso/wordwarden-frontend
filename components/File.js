@@ -4,8 +4,13 @@ const moment = require('moment')
 import { useState } from "react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleXmark } from '@fortawesome/free-regular-svg-icons'
+import { useDispatch } from 'react-redux';
+import { loadFile } from "../reducers/files";
 
 function File(props) {
+
+  const dispatch = useDispatch()
+
   // console.log(props)
   //setting state for showing the delete modal 
 
@@ -75,7 +80,7 @@ function File(props) {
   }
   // console.log(props.isDragging)
   return (
-    <div className={styles.fileContainer} style={{ opacity: props.isDragging ? "0.5" : "1" }} onMouseEnter={() => setShowDetails(true)} onMouseLeave={() => mouseLeave()}>
+    <div onClick={() => { dispatch(loadFile({id: props.id, content: props.content}))}} className={styles.fileContainer} style={{ opacity: props.isDragging ? "0.5" : "1" }} onMouseEnter={() => setShowDetails(true)} onMouseLeave={() => mouseLeave()}>
 
       <div className={styles.documentTextTitle}>
 

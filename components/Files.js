@@ -7,12 +7,17 @@ import Folder from "./Folder"
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react"
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
+import { useDispatch } from 'react-redux';
+import { loadFile } from "../reducers/files";
+
 
 function Files() {
+
+  const dispatch = useDispatch()
+
   const user = useSelector((state) => state.users.value);
   const [filesData, setFilesData] = useState([])
   const [foldersData, setFoldersData] = useState([])
-
 
 
 
@@ -192,7 +197,7 @@ function Files() {
                     {(provided, snapshot) => (
                       <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} >
 
-                        <File id={el._id} title={el.title} lastModified={el.lastModified} activeAssistants={el.activeAssistants} onClick={openFile} isDragging={snapshot.isDragging} onDelete={fetchFiles}/>
+                        <File id={el._id} title={el.title} lastModified={el.lastModified} activeAssistants={el.activeAssistants} content={el.content} isDragging={snapshot.isDragging} onDelete={fetchFiles}/>
                       </div>
                     )}
 
@@ -205,11 +210,6 @@ function Files() {
         </Droppable>
 
       </DragDropContext>
-      <div onClick={() => createFile()} className={styles.addButton}>
-        <h1>
-          +
-        </h1>
-      </div>
     </div>
 
 

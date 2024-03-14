@@ -78,3 +78,23 @@
     border-right: none;
     width: 30px;
 }
+.addButton{
+    height: 60px;
+    width: 60px;
+    /* background-color: var(--black); */
+    border: 1px solid var(--black);
+    border-radius: 20px;
+    margin: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 2vh;
+    bottom: 2vh;
+
+  }
+  .addButton:hover{
+    color:var(--darkGrey);
+    border: 1px solid var(--darkGrey)
+  }
