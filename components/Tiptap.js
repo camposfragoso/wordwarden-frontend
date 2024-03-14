@@ -200,7 +200,7 @@ const Tiptap = () => {
 
 
       const content = input
-      const title = input.content[0].content[0].text;
+      const title = input.content[0].content[0].text && input.content[0].content[0].text
 
       const url = `http://localhost:3000/files/`
 
@@ -220,6 +220,11 @@ const Tiptap = () => {
       console.log(answer.id)
 
     
+  }
+
+  const loadFile = async (content, fileid) => {
+    setContent(content)
+    setFileID(fileid)
   }
 
     // Editor with events
@@ -394,6 +399,7 @@ const Tiptap = () => {
         <Navbar 
           wordsCount={editor?.storage.characterCount.words()}
           charactersCount={editor?.storage.characterCount.characters()}
+          loadFile={loadFile}
         />
         <EditorContent onClick={() => editor.commands.focus()} editor={editor} className={styles.editor}/>
         <div className={styles.threadDiv}>

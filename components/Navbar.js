@@ -6,7 +6,7 @@ import { logout } from '../reducers/users';
 import LoginModal from './LoginModal';
 import SignupModal from './SignupModal';
 
-function Navbar({ wordsCount, charactersCount }) {
+function Navbar({ wordsCount, charactersCount, loadFile }) {
   const user = useSelector(state => state.users.value)
   const dispatch = useDispatch()
 
