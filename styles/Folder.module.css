@@ -27,10 +27,90 @@
 .txt{
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  position: relative;
 }
 
+.txtContent{
+  display: flex;
+  align-items: center;
+  width:90%
+}
+
+.iconSpace{
+  width: 20px;
+  height: 20px;
+}
 .icon{
   margin: 0 5px;
   font-size: 0.9rem;
   transition: 0.1s;
+}
+
+.iconMore{
+  margin: 0 10px;
+  font-size: 0.8rem;
+  width: 10%;
+}
+
+.iconMore:hover{
+  color:var(--darkGrey)
+}
+
+.menu {
+  position: absolute;
+  bottom: -40px; /* Le menu sera positionné juste au-dessus du bas du dossier */
+  right: 0px; /* Le menu sera collé à droite du dossier */
+  background-color: white; /* Couleur de fond du menu */
+  border: 1px solid var(--black);
+  z-index: 1; /* Le menu sera au-dessus des autres éléments */
+  width: 150px; /* Largeur du menu */
+  height: 50px;
+}
+
+.choice{
+  width: 100%;
+  font-family: Normal;
+  font-size: 0.9rem;
+  height: 49%;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  /* border-bottom: 1px solid black; */
+}
+
+.choice:hover{
+  background-color: var(--darkGrey);
+}
+
+.separator{
+  height: 2%;
+  width:100%;
+  background: var(--black);
+}
+
+.smallInput{
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  font-size: 1.2rem;
+  background:none;
+  font-family: Italic;
+}
+
+.delete{
+  height: 100%;
+  width: 100%;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--red);
+  color: var(--white);
+  font-family: Normal;
+  text-align: center;
+
 }

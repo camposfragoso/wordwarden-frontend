@@ -170,7 +170,9 @@ function Files() {
       <DragDropContext onDragEnd={handleDragEnd}>
 
         <div className={styles.folders}>
-          <Folder type="create" txt=" + Create new folder" onClick={createFolder} />
+          <div className={styles.createFolder} onClick={()=>createFolder()}>
+            <p>+ Create new folder</p>
+          </div>
           
           {/* test d’insertion de la fonction de display des folders en drap and drop */}
           {foldersData.length > 0 && foldersData.map((folder) => (
