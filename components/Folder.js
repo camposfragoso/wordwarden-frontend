@@ -20,7 +20,7 @@ function Folder(props) {
 
     filesContent = props.files.map((elem) => {
       return (
-        <File id={elem._id} title={elem.title} lastModified={elem.lastModified} activeAssistants={elem.activeAssistants} onDelete={props.fetchFiles} />
+        <File id={elem._id} title={elem.title} content={elem.content} lastModified={elem.lastModified} activeAssistants={elem.activeAssistants} onDelete={props.fetchFiles} />
       )
     })
   }

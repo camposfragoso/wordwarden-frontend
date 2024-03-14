@@ -17,6 +17,23 @@ import Navbar from './Navbar';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadFile } from '../reducers/files';
 
+function useDebounce(value, delay) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    // Set debouncedValue to value (passed in) after the specified delay
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    // Return a cleanup function that will be called on component unmount
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]); // Only re-call effect if value or delay changes
+
+  return debouncedValue;
+}
 
 const CustomDocument = Document.extend({
   content: 'heading block*',
@@ -40,17 +57,28 @@ const Tiptap = () => {
   const [loading, setLoading] = useState(false);
   const previousWordCountRef = useRef(null);
 
+  const debouncedContent = useDebounce(files.content, 500);
+
   useEffect(() => {
-    if (editor) {
-      if (files.content === undefined) {
-        // Clear the editor
-        editor.commands.setContent('');
-      } else {
-        // Set to the provided content
-        editor.commands.setContent(files.content);
+
+    if (editor && files.content === undefined) {
+      editor.commands.setContent('')
+    }
+
+    if (editor && debouncedContent !== undefined) {
+      if (debouncedContent !== editor.getJSON()) {
+
+      const currentPos = editor.state.selection.anchor;
+
+
+      editor.commands.setContent(debouncedContent);
+
+      editor.chain().focus().setTextSelection(currentPos).run();
+        
       }
     }
-  }, [files, editor]);
+  }, [debouncedContent, editor]);
+
   
 
   useEffect(() => {
@@ -158,7 +186,7 @@ const Tiptap = () => {
     setLlmAnswer(previous => {
       console.log(previous)
       const newLlmAnswer = previous
-      const assistantData = previous[assistant].filter((item) => item.excerpt !== excerpt)
+      const assistantData = previous[assistant]?.filter((item) => item.excerpt !== excerpt)
       newLlmAnswer[assistant] = assistantData;
       return newLlmAnswer
     })
@@ -218,6 +246,7 @@ const Tiptap = () => {
     // Editor with events
     const editor = useEditor({ onCreate({editor}) {
 
+      dispatch(loadFile({id: undefined, content: undefined}))
 
       if (llmAnswer) {
 
