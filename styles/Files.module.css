@@ -1,21 +1,7 @@
-.centralBox{
-  /* background-color: black; */
-  /* width: 90%; */
-  max-width: 1300px;
-  height: 94vh;
-  padding-top: 6vh;
-  /* border: var(--black) 1px solid; */
-  display: flex;
-  padding-top:6vh
-}
-.path{
-  height: 7vh;
-  display: flex;
-  align-items: center;
-}
+
+
 .filesAndFolders{
-  height: 87vh;
-  height: 87vh;
+  height:94vh;
 
   overflow-y: auto;
 }
@@ -23,14 +9,17 @@
 .folders{
   /* height: 10vh; */
   display: flex;
+  flex-direction: column;
   align-items: center;
-  flex-wrap: wrap;
+
+  /* flex-wrap: wrap; */
+  border-bottom:1px dashed var(--darkGrey)
 }
 
 
 .files{
   display: flex;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   /* height: 90vh; */
 }
 

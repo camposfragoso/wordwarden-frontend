@@ -101,3 +101,5 @@ function Navbar({ wordsCount, charactersCount, loadFile }) {
 }
 
 export default Navbar
+
+// onMouseLeave={() => setIsFilesModalShown(false)}
