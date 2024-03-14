@@ -28,7 +28,7 @@ const Tiptap = () => {
   const user = useSelector(state => state.users.value)
 
   // const [involvedAssistants, setInvolvedAssistants] = useState(['sum', 'dev', 'ela']);
-  const [assistants, setAssistants] = useState(['dev', 'sum', 'ela']);
+  const [assistants, setAssistants] = useState(['dev', 'sum', 'ela', 'chi', 'sen']);
   const [activeAssistants,setActiveAssistants] = useState([]);
   const [minImportance, setMinImportance] = useState(1);
   const [content, setContent] = useState({
@@ -217,6 +217,8 @@ const Tiptap = () => {
       const answer = await fetch(url, config).then(response => response.json());
 
       setFileID(answer.id)
+      console.log(answer.id)
+
     
   }
 
@@ -392,7 +394,6 @@ const Tiptap = () => {
         <Navbar 
           wordsCount={editor?.storage.characterCount.words()}
           charactersCount={editor?.storage.characterCount.characters()}
-          page="editor"
         />
         <EditorContent onClick={() => editor.commands.focus()} editor={editor} className={styles.editor}/>
         <div className={styles.threadDiv}>

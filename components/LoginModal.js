@@ -4,7 +4,7 @@ import Button from "./Button"
 import FormItem from "./FormItem";
 import Circle from "./Circle";
 import { login } from "../reducers/users";
-
+import styles from '../styles/Signup.module.css'
 import { useState, useEffect } from "react"
 import { useDispatch } from "react-redux";
 import { useRouter } from 'next/router';
@@ -103,12 +103,11 @@ function Login() {
 
 
   return (
-    <div className="standardPage" onKeyDown={(e) => handleKeyPress(e)}>
+    <div className={styles.container} onKeyDown={(e) => handleKeyPress(e)}>
       <TopLogo />
 
       {formComponents.length >= formStep && formComponents[formStep - 1].component}
-      <div style={{ display: "flex", flexDirection: "column", position: "absolute", top: "70vh", alignItems:"center"}}>
-        <div style={{display:"flex"}}>
+      <div className={styles.circles}>
 
           {formComponents.map((elem, index) => {
 
@@ -123,7 +122,6 @@ function Login() {
 
 
         )}
-      </div>
     </div>
   )
 }

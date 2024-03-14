@@ -17,7 +17,7 @@ function AssistantsBar({ assistants, setAssistantsInBar, activeAssistants, loadi
                     className={styles.assistantButton}
                     style={{backgroundColor: assistants.includes(id) ? `var(--${id})` : 'var(--black)'}}
                     >
-                    {id}
+                    {/* {id} */}
                   </button>
                 </div>
               </div>

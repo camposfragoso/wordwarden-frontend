@@ -3,12 +3,12 @@ import Button from "./Button"
 import FormItem from "./FormItem";
 import Circle from "./Circle";
 import { login } from "../reducers/users";
-
-import { useState, useEffect } from "react"
+import styles from '../styles/Signup.module.css'
+import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from 'next/router';
 
-function Signup() {
+function SignupModal() {
   const [formStep, setFormStep] = useState(1);
 
   const [firstName, setFirstName] = useState("")
@@ -161,28 +161,23 @@ function Signup() {
   ]
 
   return (
-    <div className="standardPage" onKeyDown={(e) => handleKeyPress(e)}>
-      <TopLogo />
+    <div className={styles.container} onKeyDown={(e) => handleKeyPress(e)}>
       {formComponents.length >= formStep && formComponents[formStep - 1].component}
-      <div style={{ display: "flex", flexDirection: "column", position: "absolute", top: "70vh", alignItems:"center"}}>
-        <div style={{display:"flex"}}>
+        <div className={styles.circles}>
 
           {formComponents.map((elem, index) => {
-
+            
             return (
-              <Circle size={30} color={index >= formStep ? "darkGrey" : `color${index + 1}`} />
-            )
-
-          })}
+              <Circle size={20} color={index >= formStep ? "darkGrey" : `color${index + 1}`} />
+              )
+              
+            })}
         </div>
         {formStep > 1 && (
           <Button txt="Previous step" onClick={goBack} />
-
-
         )}
-      </div>
     </div>
   )
 }
 
-export default Signup;
+export default SignupModal;
