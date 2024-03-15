@@ -7,6 +7,7 @@ import { faCircleXmark } from '@fortawesome/free-regular-svg-icons'
 import { useDispatch } from 'react-redux';
 import { loadFile } from "../reducers/files";
 
+
 function File(props) {
 
   const dispatch = useDispatch()
@@ -76,6 +77,7 @@ function File(props) {
       .then((data) => {
         console.log(data)
         props.onDelete()
+        dispatch(loadFile({id: undefined, content: undefined}))
       })
   }
   // console.log(props.isDragging)
