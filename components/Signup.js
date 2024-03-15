@@ -133,7 +133,8 @@ function Signup() {
         .then(data => {
           if (data.result === true) {
             console.log(data)
-            router.push("/files")
+            dispatch(login({token : data.user.token, firstName : data.user.firstName, defaultActiveAssistants : data.user.defaultActiveAssistants}))
+            router.push("/editor")
           } else {
             setUserError(true)
             console.log("could not create user")

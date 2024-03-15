@@ -206,7 +206,7 @@ function Files(props) {
           {(provided) => (
 
             <ul className="files" {...provided.droppableProps} ref={provided.innerRef} >
-              {filesData.map((el, index) => {
+              {filesData.sort((a,b)=>new Date(b.lastModified) - new Date(a.lastModified)).map((el, index) => {
 
                 return (
                   <Draggable key={el._id} draggableId={el._id} index={index}>
