@@ -16,10 +16,13 @@ const replaceText = (editor, excerpt, proposition) => {
 };
 
 const setAllHightlights = (editor, assistants, llmAnswer, minImportance) => {
+  console.log(assistants)
   // Sort by excerpt
   let llmAnswerTmp = {};
   Object.entries(llmAnswer).forEach(([assistant, content]) => {
     // Only if assistant is chosen
+    console.log(assistant)
+    console.log(assistants.includes(assistant))
     if (assistants.includes(assistant)) {
       content.forEach(({excerpt, proposition, importance}) => {
         if (importance >= minImportance) {
@@ -32,6 +35,7 @@ const setAllHightlights = (editor, assistants, llmAnswer, minImportance) => {
     }
   })
 
+  console.log(llmAnswerTmp)
   // Set highlights
   Object.entries(llmAnswerTmp).forEach(([excerpt, content]) => {
     setHighlightTextByExcerpt(editor, excerpt, content)

@@ -9,6 +9,9 @@ import { useEffect, useState } from "react"
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { useDispatch } from 'react-redux';
 import { loadFile } from "../reducers/files";
+import { useEditor } from "@tiptap/react";
+import { unsetAllHighlights } from "../modules/tiptap";
+import HighlightCustom from "./Tiptap_custom_extensions/HighlightCustomExtension";
 
 
 function Files(props) {
@@ -25,6 +28,23 @@ function Files(props) {
  
 
   //this routes get the folder location, 
+  // const fetchFiles = async () => {
+  //   console.log(user.token)
+  //   const response = await fetch(`http://localhost:3000/folders/${user.token}`)
+  //   const data = await response.json()
+  //   console.log(data)
+  //   const noHighlightFiles = data.filesData.map((file) => {
+  //     tmpEditor.setContent(file.content)
+  //     unsetAllHighlights(tmpEditor)
+  //     file.content = tmpEditor.getJSON()
+  //     return file
+  //   })
+  //   // setFolderLocation(data.parentFolder)
+  //   setFoldersData(data.folderData)
+  //   setFilesData(noHighlightFiles)
+  //   setCurrentFolderData(data)
+  // }
+
   const fetchFiles = async () => {
     console.log(user.token)
     const response = await fetch(`http://localhost:3000/folders/${user.token}`)

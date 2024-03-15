@@ -133,7 +133,7 @@ function SignupModal() {
         .then(data => {
           if (data.result === true) {
             console.log(data)
-            router.push("/files")
+            router.push("/editor")
           } else {
             setUserError(true)
             console.log("could not create user")
