@@ -39,7 +39,7 @@ const CustomDocument = Document.extend({
   content: 'heading block*',
 })
 // TODO 
-// When file saving, save assistants and minImportance (which is used to deactivate all assistants if set to 11)
+// When file saving, save assistants, llmAnswer, ThreadDiv
 
 const Tiptap = () => {
 
@@ -52,7 +52,7 @@ const Tiptap = () => {
   const [assistants, setAssistants] = useState(['dev', 'sum', 'ela', 'chi', 'sen']);
   const [activeAssistants,setActiveAssistants] = useState([]);
   const [minImportance, setMinImportance] = useState(1);
-  const [llmAnswer, setLlmAnswer] = useState({});
+  const [llmAnswer, setLlmAnswer] = useState(null);
   const [threadDiv, setThreadDiv] = useState([]);
   const [loading, setLoading] = useState(false);
   const previousWordCountRef = useRef(null);
@@ -94,6 +94,7 @@ const Tiptap = () => {
         });
       });
   
+      console.log(llmAnswer)
       setAllHightlights(editor, assistants, llmAnswer, minImportance);
     }
   }, [llmAnswer, assistants, minImportance, editor]);
@@ -133,7 +134,6 @@ const Tiptap = () => {
 
     console.log('SUCCESS !!! ✅✅✅✅ HERE is the final result : ' + JSON.stringify(results))
 
-    
     if (llmAnswer) {
       let llmAnswerExcerpts = new Set();
 
@@ -143,7 +143,7 @@ const Tiptap = () => {
          });
       });
   
-      let newLlmAnswer = Object.keys(llmAnswer).reduce((acc, key) => {
+      const newLlmAnswer = Object.keys(llmAnswer).reduce((acc, key) => {
         acc[key] = [...llmAnswer[key]];
     
         results[key]?.forEach(entry => {
@@ -186,7 +186,7 @@ const Tiptap = () => {
     setLlmAnswer(previous => {
       console.log(previous)
       const newLlmAnswer = previous
-      const assistantData = previous[assistant]?.filter((item) => item.excerpt !== excerpt)
+      const assistantData = previous[assistant].filter((item) => item.excerpt !== excerpt)
       newLlmAnswer[assistant] = assistantData;
       return newLlmAnswer
     })
@@ -203,11 +203,11 @@ const Tiptap = () => {
       if (currentAssistants.includes(assistantId)) {
         unsetAllHighlights(editor)
         const newAssistants = currentAssistants.filter((assistant) => assistant != assistantId)
-        setAllHightlights(editor, newAssistants, llmAnswer, minImportance)
+        llmAnswer && setAllHightlights(editor, newAssistants, llmAnswer, minImportance)
         return newAssistants
       } else {
         unsetAllHighlights(editor)
-        setAllHightlights(editor, [...currentAssistants, assistantId], llmAnswer, minImportance)
+        llmAnswer && setAllHightlights(editor, [...currentAssistants, assistantId], llmAnswer, minImportance)
         return [...currentAssistants, assistantId]
       } 
     })

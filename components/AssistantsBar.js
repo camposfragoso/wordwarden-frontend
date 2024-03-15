@@ -12,13 +12,12 @@ function AssistantsBar({ assistants, setAssistantsInBar, activeAssistants, loadi
             return (
               <div key={id} className={styles.assistantContainer}>
                 <div className={activeAssistants.includes(id) && assistants.includes(id) ? styles.activeAssistantWrapper : styles.inactiveAssistantWrapper}>
-                  <button 
+                  <img
+                    src={assistants.includes(id) ? `./assistants_icons/${id}.png` : `./assistants_icons/${id}_inactive.png`}
                     onClick={() => setAssistantsInBar(id)} 
                     className={styles.assistantButton}
-                    style={{backgroundColor: assistants.includes(id) ? `var(--${id})` : 'var(--black)'}}
-                    >
+                  />
                     {/* {id} */}
-                  </button>
                 </div>
               </div>
             )
