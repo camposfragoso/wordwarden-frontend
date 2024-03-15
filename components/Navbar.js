@@ -93,7 +93,7 @@ function Navbar({ wordsCount, charactersCount, loadFile }) {
         }
       {user.token &&
         <div className={`${styles.filesModal} ${!isFilesModalShown && styles.filesModalHidden}`} onMouseLeave={() => setIsFilesModalShown(false)}>
-          <div className={styles.files}><Files loadFile={loadFile}/></div>
+          <div className={styles.files}><Files isVisible={isFilesModalShown} loadFile={loadFile}/></div>
           <div className={styles.opener} onMouseEnter={() => setIsFilesModalShown(true)}>{!isFilesModalShown ? "►" : "◀︎"}</div>
         </div>
       }

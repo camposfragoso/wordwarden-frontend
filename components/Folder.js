@@ -13,10 +13,11 @@ function Folder(props) {
   const [name, setName] = useState(props.txt)
   const [askingToDelete, setAskingToDelete] = useState(false)
 
-  // useEffect(()=>{
-
-  //   setName(props.txt)
-  // },[])
+  useEffect(() => {
+    if (!props.isVisible) {
+      setIsRenaming(false);
+    }
+  }, [props.isVisible]);
 
   // console.log(props, props.files, "on",props.id)
   let filesContent;
@@ -92,7 +93,7 @@ function Folder(props) {
             )}
           </div>
 
-          {isRenaming === false ? <p>{name.length > 20 ? name.slice(0, 20).trim() + "…" : name}</p> : input}
+          {(isRenaming === true) ?  input:<p>{name.length > 20 ? name.slice(0, 20).trim() + "…" : name}</p> }
 
         </div>
         <FontAwesomeIcon icon={faEllipsis} className={styles.iconMore} onClick={() => setIsModalVisible(!isModalVisible)} />

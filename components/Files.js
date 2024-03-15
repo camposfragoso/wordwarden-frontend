@@ -11,23 +11,18 @@ import { useDispatch } from 'react-redux';
 import { loadFile } from "../reducers/files";
 
 
-function Files() {
+function Files(props) {
 
   const dispatch = useDispatch()
 
   const user = useSelector((state) => state.users.value);
   const [filesData, setFilesData] = useState([])
   const [foldersData, setFoldersData] = useState([])
+  const files = useSelector((state)=>state.files.value)
+  
+ 
 
-
-
-  //--define state of folder positioning
-
-
-  const [currentFolderData, setCurrentFolderData] = useState(null)
-
-  //read user values from reducer
-
+ 
 
   //this routes get the folder location, 
   const fetchFiles = async () => {
@@ -38,12 +33,11 @@ function Files() {
     // setFolderLocation(data.parentFolder)
     setFoldersData(data.folderData)
     setFilesData(data.filesData)
-    setCurrentFolderData(data)
   }
 
   useEffect(() => {
     fetchFiles()
-  }, [])
+  }, [files])
 
 
   //declare functions
@@ -182,7 +176,7 @@ function Files() {
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                 >
-                  <Folder txt={folder.name} id={folder._id} files={folder.files} fetchFiles={fetchFiles}/>
+                  <Folder isVisible={props.isVisible} txt={folder.name} id={folder._id} files={folder.files} fetchFiles={fetchFiles}/>
                 </div>
               )}
             </Droppable>
