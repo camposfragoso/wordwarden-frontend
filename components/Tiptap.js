@@ -274,7 +274,7 @@ const Tiptap = () => {
         setActiveAssistants([])
       }
 
-      if (user.token && (newWordCount - previousWordCount) >= 1) {
+      if (user.token && newWordCount > 0) {
         saveFile(files.id, editor.getJSON())
       }
   
