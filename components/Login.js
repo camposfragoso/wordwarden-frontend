@@ -82,7 +82,7 @@ function Login() {
         }else{
           console.log(data)
           setPasswordError(false)
-          dispatch(login({token : data.token, firstName : data.firstName, defaultActiveAssistants : data.defaultActiveAssistants, mainFolderId : data.mainFolderId}))
+          dispatch(login({token : data.token, firstName : data.firstName, defaultActiveAssistants : data.defaultActiveAssistants}))
           //go to collections
           router.push("/editor")
 

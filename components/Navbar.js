@@ -26,6 +26,11 @@ function Navbar({ wordsCount, charactersCount, loadFile }) {
     }
   }
 
+  const handleLogOut = () => {
+    dispatch(logout())
+    setIsLogModalShown(false)
+  }
+
   return (
     <div className={styles.navbar} onMouseLeave={() => setIsModalShown(false)}>
 
@@ -70,7 +75,7 @@ function Navbar({ wordsCount, charactersCount, loadFile }) {
           <div>
             <button className={styles.modalButton}>Account</button>
             <button className={styles.modalButton}>Settings</button>
-            <button className={styles.modalButton} onClick={() => dispatch(logout())}>Disconnect</button>
+            <button className={styles.modalButton} onClick={() => handleLogOut()}>Disconnect</button>
           </div>
         </div>
         :

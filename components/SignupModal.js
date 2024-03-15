@@ -124,6 +124,7 @@ function SignupModal() {
         firstName: firstName,
         defaultActiveAssistants : user.defaultActiveAssistants
       }
+      console.log(userInfos)
       fetch('http://localhost:3000/users/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -133,7 +134,8 @@ function SignupModal() {
         .then(data => {
           if (data.result === true) {
             console.log(data)
-            router.push("/editor")
+            dispatch(login({token : data.user.token, firstName : data.user.firstName, defaultActiveAssistants : data.user.defaultActiveAssistants}))
+            // router.push("/editor")
           } else {
             setUserError(true)
             console.log("could not create user")
